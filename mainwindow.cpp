@@ -13,15 +13,15 @@ MainWindow::MainWindow(QWidget *parent) :
     qDebug()<<"Salam!";
     qDebug()<<"Salam!";
 
-    for (int i=0; i<system.Get)->size(); i++)
+    for (int i=0; i<system.GetAllBlockTypes().size(); i++)
     {
         QAction* action = new QAction(this);
-        action->setObjectName();
+        action->setObjectName(QString::fromStdString(system.GetAllBlockTypes()[i]));
         QIcon icon;
-        icon.addFile(QString::fromStdString(qApp->applicationDirPath().toStdString()+"/resources/Icons/farm.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromStdString(qApp->applicationDirPath().toStdString()+system.GetMetaModel()[system.GetAllBlockTypes()[i]]->IconFileName()), QSize(), QIcon::Normal, QIcon::Off);
         action->setIcon(icon);
         ui->mainToolBar->addAction(action);
-        action->setText(QApplication::translate("MainWindow", "Text!!!!", nullptr));
+        action->setText(QString::fromStdString(system.GetAllBlockTypes()[i]));
     }
 
 }
