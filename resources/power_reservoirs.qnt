@@ -1,5 +1,6 @@
 {
 "Reservoir": {
+		"type": "block",
 		"icon": {
 			"filename": "reservoir.png" 
 		},
@@ -25,6 +26,7 @@
 		}
 	},
 "Reservoir_link": {
+		"type": "link",
 		"icon": {
 			"filename": "reservoir_link.png" 
 		},
@@ -37,6 +39,7 @@
 		}
 	},
 "User": {
+		"type": "block",
 		"icon": {
 			"filename": "farm.png" 
 		},
@@ -50,6 +53,7 @@
 		}
 	},
 "User_flow": {
+		"type": "link",
 		"icon": {
 			"filename": "farm_link.png" 
 		},

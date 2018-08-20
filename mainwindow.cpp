@@ -15,10 +15,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     for (int i=0; i<system.GetAllBlockTypes().size(); i++)
     {
+        qDebug()<<QString::fromStdString(system.GetAllBlockTypes()[i]);
         QAction* action = new QAction(this);
         action->setObjectName(QString::fromStdString(system.GetAllBlockTypes()[i]));
         QIcon icon;
-        icon.addFile(QString::fromStdString(qApp->applicationDirPath().toStdString()+system.GetMetaModel()[system.GetAllBlockTypes()[i]]->IconFileName()), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromStdString(qApp->applicationDirPath().toStdString()+"/resources/Icons/"+system.GetMetaModel()[system.GetAllBlockTypes()[i]]->IconFileName()), QSize(), QIcon::Normal, QIcon::Off);
         action->setIcon(icon);
         ui->mainToolBar->addAction(action);
         action->setText(QString::fromStdString(system.GetAllBlockTypes()[i]));
