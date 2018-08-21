@@ -22,6 +22,11 @@ public:
 private:
     Ui::MainWindow *ui;
     System system;
+
+private slots:
+    void onaddlink();
+    void onaddblock();
+
 };
 
 #endif // MAINWINDOW_H

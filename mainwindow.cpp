@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
         action->setIcon(icon);
         ui->mainToolBar->addAction(action);
         action->setText(QString::fromStdString(system.GetAllBlockTypes()[i]));
+        connect(action,SIGNAL(triggered()),this,SLOT(onaddblock()));
     }
     ui->mainToolBar->addSeparator();
     for (unsigned int i=0; i<system.GetAllLinkTypes().size(); i++)
@@ -36,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
         action->setIcon(icon);
         ui->mainToolBar->addAction(action);
         action->setText(QString::fromStdString(system.GetAllLinkTypes()[i]));
+        connect(action,SIGNAL(triggered()),this,SLOT(onaddlink()));
     }
 
     QGraphicsScene *scene = new QGraphicsScene();
@@ -51,4 +53,15 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::onaddlink()
+{
+    QObject* obj = sender();
+    qDebug()<<"link added! "<<obj->objectName();
+}
+void MainWindow::onaddblock()
+{
+    QObject* obj = sender();
+    qDebug()<<"block added! " << obj->objectName();
 }
