@@ -22,6 +22,7 @@ public:
 private:
     Ui::MainWindow *ui;
     System system;
+    QMap<QString,int> counts;
 
 private slots:
     void onaddlink();

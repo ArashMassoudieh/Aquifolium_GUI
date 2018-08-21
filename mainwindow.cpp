@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "QDebug"
 #include "QGraphicsRectItem"
+#include "aqflmblockitem.h"
 
 #define cout qDebug()
 
@@ -43,11 +44,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QGraphicsScene *scene = new QGraphicsScene();
     ui->graphicsView_2->setScene(scene);
 
-    QGraphicsRectItem* item = new QGraphicsRectItem(0,0,100,100);
-    item->setBrush(QBrush(Qt::red));
-    item->setFlags(QGraphicsItem::ItemIsMovable);
-    ui->graphicsView_2->scene()->addItem(item);
-
 }
 
 MainWindow::~MainWindow()
@@ -59,9 +55,23 @@ void MainWindow::onaddlink()
 {
     QObject* obj = sender();
     qDebug()<<"link added! "<<obj->objectName();
+
+    QGraphicsRectItem* item = new QGraphicsRectItem(0,0,100,100);
+    item->setBrush(QBrush(Qt::red));
+    item->setFlags(QGraphicsItem::ItemIsMovable);
+    ui->graphicsView_2->scene()->addItem(item);
 }
 void MainWindow::onaddblock()
 {
     QObject* obj = sender();
+    counts[obj->objectName()]=counts[obj->objectName()]+1;
     qDebug()<<"block added! " << obj->objectName();
+    QString iconfilename = qApp->applicationDirPath()+"/resources/Icons/"+QString::fromStdString(system.GetModel(obj->objectName().toStdString())->IconFileName());
+    //QGraphicsRectItem* item = new QGraphicsRectItem(0,0,100,100);
+    qDebug()<<"creating new AqflmBlockItem";
+
+    AqflmBlockItem* item = new AqflmBlockItem(obj->objectName() + QString::number(counts[obj->objectName()]));
+    item->SetPixMap(iconfilename);
+    item->setFlags(QGraphicsItem::ItemIsMovable);
+    ui->graphicsView_2->scene()->addItem(item);
 }

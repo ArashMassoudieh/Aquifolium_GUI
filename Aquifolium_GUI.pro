@@ -51,7 +51,8 @@ SOURCES += \
     ../jsoncpp/src/lib_json/json_reader.cpp \
     ../jsoncpp/src/lib_json/json_value.cpp \
     ../jsoncpp/src/lib_json/json_valueiterator.inl \
-    ../jsoncpp/src/lib_json/json_writer.cpp
+    ../jsoncpp/src/lib_json/json_writer.cpp \
+    aqflmblockitem.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -85,7 +86,8 @@ HEADERS += \
     ../jsoncpp/include/json/version.h \
     ../jsoncpp/include/json/writer.h \
     ../jsoncpp/src/lib_json/json_tool.h \
-    ../jsoncpp/src/lib_json/version.h.in
+    ../jsoncpp/src/lib_json/version.h.in \
+    aqflmblockitem.h
 
 FORMS += \
         mainwindow.ui
