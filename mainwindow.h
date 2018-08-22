@@ -5,6 +5,7 @@
 #include <QAction>
 #include <QList>
 #include "System.h"
+#include "diagramviewer.h"
 
 namespace Ui {
 class MainWindow;
@@ -23,7 +24,8 @@ private:
     Ui::MainWindow *ui;
     System system;
     QMap<QString,int> counts;
-
+    View *diagramview;
+    QGraphicsScene *scene;
 private slots:
     void onaddlink();
     void onaddblock();

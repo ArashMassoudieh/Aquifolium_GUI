@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui opengl printsupport
 CONFIG += c++14
 INCLUDEPATH += ../Aquifolium/include
 INCLUDEPATH += ../jsoncpp/include/
@@ -52,7 +52,8 @@ SOURCES += \
     ../jsoncpp/src/lib_json/json_value.cpp \
     ../jsoncpp/src/lib_json/json_valueiterator.inl \
     ../jsoncpp/src/lib_json/json_writer.cpp \
-    aqflmblockitem.cpp
+    aqflmblockitem.cpp \
+    diagramviewer.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -87,7 +88,8 @@ HEADERS += \
     ../jsoncpp/include/json/writer.h \
     ../jsoncpp/src/lib_json/json_tool.h \
     ../jsoncpp/src/lib_json/version.h.in \
-    aqflmblockitem.h
+    aqflmblockitem.h \
+    diagramviewer.h
 
 FORMS += \
         mainwindow.ui

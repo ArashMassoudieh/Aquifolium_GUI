@@ -14,7 +14,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     qDebug()<<qApp->applicationDirPath();
 
-
+    diagramview = new View("Diagram",ui->dockWidgetContents_4);
+    diagramview->setObjectName(QStringLiteral("graphicsView_2"));
+    ui->verticalLayout_3->addWidget(diagramview);
     for (unsigned int i=0; i<system.GetAllBlockTypes().size(); i++)
     {
         qDebug()<<QString::fromStdString(system.GetAllBlockTypes()[i]);
@@ -41,8 +43,8 @@ MainWindow::MainWindow(QWidget *parent) :
         connect(action,SIGNAL(triggered()),this,SLOT(onaddlink()));
     }
 
-    QGraphicsScene *scene = new QGraphicsScene();
-    ui->graphicsView_2->setScene(scene);
+    scene = new QGraphicsScene(this);
+    diagramview->view()->setScene(scene);
 
 }
 
@@ -59,7 +61,7 @@ void MainWindow::onaddlink()
     QGraphicsRectItem* item = new QGraphicsRectItem(0,0,100,100);
     item->setBrush(QBrush(Qt::red));
     item->setFlags(QGraphicsItem::ItemIsMovable);
-    ui->graphicsView_2->scene()->addItem(item);
+    //ui->graphicsView_2->scene()->addItem(item);
 }
 void MainWindow::onaddblock()
 {
@@ -73,5 +75,5 @@ void MainWindow::onaddblock()
     AqflmBlockItem* item = new AqflmBlockItem(obj->objectName() + QString::number(counts[obj->objectName()]));
     item->SetPixMap(iconfilename);
     item->setFlags(QGraphicsItem::ItemIsMovable);
-    ui->graphicsView_2->scene()->addItem(item);
+    scene->addItem(item);
 }
