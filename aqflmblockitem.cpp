@@ -33,14 +33,9 @@ void AqflmBlockItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 
     Q_UNUSED(option);
 
-    if (!pixmap.isNull()) {
-            pixmap = pixmap.scaledToWidth(this->boundingRect().width());
-            painter->scale(1.95, 1.95);
-            painter->drawPixmap(-pixmap.width() / 2*0, -pixmap.height() / 2*0, pixmap);
-        }
-
     painter->setPen(Qt::NoPen);
     painter->setBrush(QColor(0, 0, 0, 64));
+    qDebug()<<bounds.height()<<","<<bounds.width();
     painter->drawRoundRect(bounds.translated(2, 2));
 
     if (fillRect)
@@ -50,6 +45,11 @@ void AqflmBlockItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     painter->setPen(QPen(Qt::black, 1));
     painter->drawRoundRect(bounds);
 
+    if (!pixmap.isNull()) {
+            //pixmap = pixmap.scaledToWidth(bounds.width());
+            painter->scale(1.95, 1.95);
+            painter->drawPixmap(-pixmap.width() / 2*0, -pixmap.height() / 2*0, pixmap);
+        }
 
     QColor fillColor = (option->state & QStyle::State_Selected) ? color.dark(150) : color;
     if (option->state & QStyle::State_MouseOver)

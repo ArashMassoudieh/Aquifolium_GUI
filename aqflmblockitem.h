@@ -43,7 +43,7 @@ private:
     int y;
     QColor color = Qt::red;
     QVector<QPointF> stuff;
-    QRectF bounds;
+    QRectF bounds = QRectF(0,0,100,100);
     bool fillRect;
     QLinearGradient gradient;
 protected:
