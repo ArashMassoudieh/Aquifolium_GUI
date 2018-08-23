@@ -8,12 +8,15 @@
 #include <QDebug>
 #include <QString>
 
+class MainWindow;
+
 // class for customization
 class AqflmBlockItem :public QGraphicsObject
 {
 public:
     AqflmBlockItem();
     AqflmBlockItem(const QString &name) {objectname = name;}
+    AqflmBlockItem(const QString &name, MainWindow* mainwindow) {objectname = name; _parent=mainwindow;}
     AqflmBlockItem(const QString &name, int x, int y);
 
     QRectF boundingRect() const override;
@@ -44,8 +47,9 @@ private:
     QColor color = Qt::red;
     QVector<QPointF> stuff;
     QRectF bounds = QRectF(0,0,100,100);
-    bool fillRect;
+    bool fillRect=false;
     QLinearGradient gradient;
+    MainWindow *_parent;
 protected:
     // overriding mouse events
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;

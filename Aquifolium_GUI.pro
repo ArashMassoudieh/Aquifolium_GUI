@@ -53,7 +53,8 @@ SOURCES += \
     ../jsoncpp/src/lib_json/json_valueiterator.inl \
     ../jsoncpp/src/lib_json/json_writer.cpp \
     aqflmblockitem.cpp \
-    diagramviewer.cpp
+    diagramviewer.cpp \
+    aqflmedgeitem.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -89,7 +90,8 @@ HEADERS += \
     ../jsoncpp/src/lib_json/json_tool.h \
     ../jsoncpp/src/lib_json/version.h.in \
     aqflmblockitem.h \
-    diagramviewer.h
+    diagramviewer.h \
+    aqflmedgeitem.h
 
 FORMS += \
         mainwindow.ui

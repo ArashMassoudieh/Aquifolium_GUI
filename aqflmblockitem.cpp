@@ -2,6 +2,7 @@
 #include "qdebug.h"
 
 #include <QtWidgets>
+#include "mainwindow.h"
 
 AqflmBlockItem::AqflmBlockItem(const QString &name, int x, int y)
 {
@@ -13,6 +14,7 @@ AqflmBlockItem::AqflmBlockItem(const QString &name, int x, int y)
 
     setFlags(ItemIsSelectable | ItemIsMovable);
     setAcceptHoverEvents(true);
+
 }
 
 AqflmBlockItem::AqflmBlockItem()
@@ -34,37 +36,37 @@ void AqflmBlockItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     Q_UNUSED(option);
 
     painter->setPen(Qt::NoPen);
-    painter->setBrush(QColor(0, 0, 0, 64));
-    qDebug()<<bounds.height()<<","<<bounds.width();
-    painter->drawRoundRect(bounds.translated(2, 2));
+    painter->setBrush(QColor(0, 0, 0, 40));
+
+    //painter->drawRoundRect(bounds.translated(2, 2),50,50);
 
     if (fillRect)
         painter->setBrush(QApplication::palette().brush(QPalette::Window));
     else
         painter->setBrush(gradient);
     painter->setPen(QPen(Qt::black, 1));
-    painter->drawRoundRect(bounds);
+//  painter->drawRoundRect(bounds);
 
     if (!pixmap.isNull()) {
             //pixmap = pixmap.scaledToWidth(bounds.width());
-            painter->scale(1.95, 1.95);
+            painter->scale(1, 1);
             painter->drawPixmap(-pixmap.width() / 2*0, -pixmap.height() / 2*0, pixmap);
         }
-
-    QColor fillColor = (option->state & QStyle::State_Selected) ? color.dark(150) : color;
+    painter->drawText(0,0,objectname);
+/*    QColor fillColor = (option->state & QStyle::State_Selected) ? color.dark(150) : color;
     if (option->state & QStyle::State_MouseOver)
         fillColor = fillColor.light(125);
 
     const qreal lod = option->levelOfDetailFromTransform(painter->worldTransform());
     if (lod < 0.2) {
         if (lod < 0.125) {
-            painter->fillRect(QRectF(0, 0, 110, 110), fillColor);
+            painter->fillRect(QRectF(-50, -50, 50, 50), fillColor);
             return;
         }
 
         QBrush b = painter->brush();
         painter->setBrush(fillColor);
-        painter->drawRect(13, 13, 97, 57);
+        painter->drawRect(-50, -50, 50, 50);
         painter->setBrush(b);
         return;
     }
@@ -79,7 +81,7 @@ void AqflmBlockItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     QBrush b = painter->brush();
     painter->setBrush(QBrush(fillColor.dark(option->state & QStyle::State_Sunken ? 120 : 100)));
 
-    painter->drawRect(QRect(14, 14, 79, 39));
+    painter->drawRect(QRect(-50, -50, 50, 50));
     painter->setBrush(b);
 
     if (lod >= 1) {
@@ -116,7 +118,7 @@ void AqflmBlockItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
             path.lineTo(stuff.at(i));
         painter->drawPath(path);
         painter->setPen(p);
-    }
+    }*/
 }
 
 void AqflmBlockItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -129,6 +131,7 @@ void AqflmBlockItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->modifiers() & Qt::ShiftModifier) {
         stuff << event->pos();
+        _parent->additemselected(this);
         update();
         return;
     }
@@ -144,6 +147,6 @@ void AqflmBlockItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 QPainterPath AqflmBlockItem::shape() const
 {
     QPainterPath path;
-    path.addRect(14, 14, 82, 42);
+    path.addRect(bounds);
     return path;
 }
