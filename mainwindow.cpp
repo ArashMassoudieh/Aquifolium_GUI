@@ -58,7 +58,7 @@ void MainWindow::onaddlink()
     QObject* obj = sender();
     qDebug()<<"link added! "<<obj->objectName();
 
-    QGraphicsRectItem* item = new QGraphicsRectItem(0,0,100,100);
+    QGraphicsRectItem* item = new QGraphicsRectItem(5000,5000,5100,5100);
     item->setBrush(QBrush(Qt::red));
     item->setFlags(QGraphicsItem::ItemIsMovable);
     //ui->graphicsView_2->scene()->addItem(item);
