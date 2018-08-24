@@ -36,6 +36,7 @@ class CMediumSet;
 class CGWA;
 class CGWASet;
 class Results;
+class System;
 struct plotformat;
 
 
@@ -194,6 +195,10 @@ public:
 	};
 */
 	void copyProps(QString sourceExperiment, QString destExperiment);
+#ifdef Aquifolium
+    System *model;
+    vector<System> *modelSet;
+#endif
 #ifdef GIFMOD
 	CMediumSet* modelSet = 0;
 	CMedium *model = 0;

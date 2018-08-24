@@ -5,7 +5,7 @@
 #define PI 3.14159265359
 class GraphWidget;
 enum Operation_Modes{ Draw_Connector, Node1_selected, Pan, NormalMode, resizeNode };
-enum Object_Types { Void, Block, Connector, RayLine };
+enum class Object_Types { Void, Block, Connector, RayLine };
 enum mListReadStatus{fileNotValid, readSuccessfully, readBefore, errorInContents};
 enum corners{ none, topleft, topright, bottomleft, bottomright };
 enum edgesides{ noside, topside, leftside, bottomside, rightside };

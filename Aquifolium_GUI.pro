@@ -20,7 +20,7 @@ TEMPLATE = app
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += QT_DEPRECATED_WARNINGS QT_version Aquifolium
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -68,7 +68,9 @@ SOURCES += \
     PropModel.cpp \
     logwindow.cpp \
     colorScheme.cpp \
-    Command.cpp
+    Command.cpp \
+    treeitem.cpp \
+    treemodel.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -121,7 +123,9 @@ HEADERS += \
     multiValues.h \
     logwindow.h \
     colorScheme.h \
-    Command.h
+    Command.h \
+    treeitem.h \
+    treemodel.h
 
 FORMS += \
         mainwindow.ui \

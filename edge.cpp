@@ -1,5 +1,3 @@
-#pragma once
-
 #include "edge.h"
 #include "node.h"
 #include <QGraphicsScene>
