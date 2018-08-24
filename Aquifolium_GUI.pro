@@ -53,7 +53,22 @@ SOURCES += \
     ../jsoncpp/src/lib_json/json_valueiterator.inl \
     ../jsoncpp/src/lib_json/json_writer.cpp \
     aqflmblockitem.cpp \
-    diagramviewer.cpp
+    diagramviewer.cpp \
+    edge.cpp \
+    GWidget.cpp \
+    mProp.cpp \
+    mProplist.cpp \
+    node.cpp \
+    utility_funcs.cpp \
+    XString.cpp \
+    mProp.cpp \
+    mProplist.cpp \
+    PropList.cpp \
+    PropListItem.cpp \
+    PropModel.cpp \
+    logwindow.cpp \
+    colorScheme.cpp \
+    Command.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -89,10 +104,28 @@ HEADERS += \
     ../jsoncpp/src/lib_json/json_tool.h \
     ../jsoncpp/src/lib_json/version.h.in \
     aqflmblockitem.h \
-    diagramviewer.h
+    diagramviewer.h \
+    edge.h \
+    enums.h \
+    GWidget.h \
+    mProp.h \
+    mProplist.h \
+    node.h \
+    utility_funcs.h \
+    XString.h \
+    mProp.h \
+    mProplist.h \
+    PropList.h \
+    PropListItem.h \
+    PropModel.h \
+    multiValues.h \
+    logwindow.h \
+    colorScheme.h \
+    Command.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    logwindow.ui
 
 # LAPACK — Linear Algebra PACKage lib and include locations
 
