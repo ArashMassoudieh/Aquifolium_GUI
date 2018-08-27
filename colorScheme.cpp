@@ -2,9 +2,14 @@
 #include "colorScheme.h"
 #include "qgraphicsitem.h"
 #include "GWidget.h"
+#ifndef Aquifolium
 #include "Medium.h"
+#else
+#include "System.h"
+#endif
 #include "qstatusbar.h"
 #include "qmenubar.h"
+#include <QVBoxLayout>
 
 /*vector<QColor> color(vector<CBTC> data, float t, QString theme, bool logType, int numberofGroups, vector<double> factors, vector<double> shifts)
 {
@@ -72,7 +77,7 @@ colorlegend colorScheme::colorandLegend(colorlegend &colors, double t, QString t
 
 		vector <double> values(colors.data.size());
 
-		for (int i = 0; i < colors.data.size(); i++)
+        for (unsigned int i = 0; i < colors.data.size(); i++)
 		{
 			values[i] = colors.data[i].interpol(t);
 			if (factor)
@@ -81,9 +86,9 @@ colorlegend colorScheme::colorandLegend(colorlegend &colors, double t, QString t
 				values[i] += colors.shifts[i];
 		}
 		//updating min, max
-		for (int i = 0; i < colors.data.size(); i++)
+        for (unsigned int i = 0; i < colors.data.size(); i++)
 		{
-			if (values[i] < min) min = values[i];
+            if (values[i] < min) min = values[i];
 			if (values[i] > max) max = values[i];
 		}
 
@@ -122,9 +127,9 @@ QGraphicsView* colorScheme::showColorandLegend(colorlegend &legend, QString titl
 		legend.window->resize(300, 350);
 		QWidget*centralwidget = new QWidget(legend.window);
 		centralwidget->setObjectName(QStringLiteral("centralwidget"));
-		QVBoxLayout*verticalLayout_2 = new QVBoxLayout(centralwidget);
+        QVBoxLayout *verticalLayout_2 = new QVBoxLayout(centralwidget);
 		verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-		QVBoxLayout*verticalLayout = new QVBoxLayout();
+        QVBoxLayout *verticalLayout = new QVBoxLayout();
 		verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
 		if (!legend.view)
 		{
@@ -138,7 +143,11 @@ QGraphicsView* colorScheme::showColorandLegend(colorlegend &legend, QString titl
 			gwidget->legendSliderTime = new QSlider(centralwidget);
 			gwidget->legendSliderTime->setObjectName(QStringLiteral("horizontalSlider"));
 			gwidget->legendSliderTime->setOrientation(Qt::Horizontal);
-			int value = (legend.time - gwidget->model->Timemin) / gwidget->model->dt() + 0.5;
+#ifndef Aquifolium
+            int value = (legend.time - gwidget->model->Timemin) / gwidget->model->dt() + 0.5;
+#else
+            int value = int((legend.time - gwidget->model->tstart()) / gwidget->model->dt() + 0.5);
+#endif
 			gwidget->legendSliderTime->setValue(value);
 			verticalLayout->addWidget(gwidget->legendSliderTime);
 			if (legend.nodeNames.size())
@@ -193,7 +202,11 @@ QGraphicsView* colorScheme::showColorandLegend(colorlegend &legend, QString titl
 	//legend.view->show();
 //	QObject::connect(legend.view, SIGNAL(destroyed()), gwidget, SLOT(colorSchemeLegend_closed()));
 	gwidget->legendSliderTime->setMinimum(0);
-	gwidget->legendSliderTime->setMaximum((gwidget->model->Timemax - gwidget->model->Timemin) / gwidget->model->dt());
+#ifndef Aquifolium
+    gwidget->legendSliderTime->setMaximum((gwidget->model->Timemax - gwidget->model->Timemin) / gwidget->model->dt());
+#else
+    gwidget->legendSliderTime->setMaximum((gwidget->model->tend() - gwidget->model->tstart()) / gwidget->model->dt());
+#endif
 	//legend.view->setParent(legend.window);
 	//gwidget->legendSliderTime->setParent(legend.window);
 	//gwidget->legendSliderTime->show();

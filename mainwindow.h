@@ -22,6 +22,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void additemselected(AqflmBlockItem *bitm) {itemselected = bitm;}
+    QString applicationName;
+    QString &modelPathname() {return modelpathname;}
 private:
     Ui::MainWindow *ui;
     System system;
@@ -29,6 +31,7 @@ private:
     View *diagramview;
     QGraphicsScene *scene;
     AqflmBlockItem *itemselected;
+    QString modelpathname;
 private slots:
     void onaddlink();
     void onaddblock();

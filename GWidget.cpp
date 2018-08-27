@@ -32,6 +32,8 @@
 #include "colorScheme.h"
 //#include "utility_funcs.h"
 #include "qfiledialog.h"
+#include "qdesktopservices.h"
+#include "utility_funcs.h"
 #ifdef GIFMOD
 #include "Medium.h"
 #include "mainwindow.h"
@@ -43,7 +45,6 @@
 #endif
 #ifdef GWA
 #include "gwa.h"
-#include "utility_funcs.h"
 #endif
 
 
@@ -1580,7 +1581,7 @@ void GraphWidget::clearRXN()
 	tableProp->setModel(0);
 }
 
-
+#ifndef Aquifolium
 GraphWidget* GraphWidget::unCompact(QList<QMap<QString, QVariant>> &list, bool oldVersion) //, QWidget *parent)
 {
 #ifdef GIFMOD
@@ -1627,10 +1628,22 @@ GraphWidget* GraphWidget::unCompact(QList<QMap<QString, QVariant>> &list, bool o
 						if (list[i].contains(QString("%1 ANS").arg(experiment)))
 						{
 							if (newpath == "")
+#ifndef Aquifolium
                                 med.Results.ANS = CBTCSet(fullFilename(list[i].take(QString("%1 ANS").arg(experiment)).toString(), path).toStdString(), true);
+#else
+                                med.GetOutputs() = CBTCSet(fullFilename(list[i].take(QString("%1 ANS").arg(experiment)).toString(), path).toStdString(), true);
+#endif
 							else
+#ifndef Aquifolium
                                 med.Results.ANS = CBTCSet(newpath.toStdString() + list[i].take(QString("%1 ANS").arg(experiment)).toString().toStdString(),true);
+#else
+                                med.GetOutputs() = CBTCSet(newpath.toStdString() + list[i].take(QString("%1 ANS").arg(experiment)).toString().toStdString(),true);
+#endif
+#ifndef Aquifolium
                             if (!med.Results.ANS.nvars)
+#else
+                            if (!med.GetOutputs().nvars)
+#endif
 							{															
 								QMessageBox msgBox;
 								msgBox.setText("Output file was not found!");
@@ -1647,8 +1660,16 @@ GraphWidget* GraphWidget::unCompact(QList<QMap<QString, QVariant>> &list, bool o
 									QFileInfo fileInfo(fileName);
 									QString filename_only(fileInfo.fileName());
 									newpath = fileInfo.absolutePath() + "/";
+#ifndef Aquifolium
                                     med.Results.ANS = CBTCSet((newpath + filename_only).toStdString(), true);
+#else
+                                    med.GetOutputs() = CBTCSet((newpath + filename_only).toStdString(), true);
+#endif
+#ifndef Aquifolium
                                     if (!med.Results.ANS.nvars)
+#else
+                                    if (!med.GetOutputs().nvars)
+#endif
 										hasResults = false;
 								}
 								else
@@ -1685,7 +1706,10 @@ GraphWidget* GraphWidget::unCompact(QList<QMap<QString, QVariant>> &list, bool o
 						}
 						med.parent = modelSet;
 #endif
-						modelSet->Medium.push_back(med);
+#ifndef Aquifolium
+                        modelSet->Medium.push_back(med);
+#endif
+
 					}
 				}
 			if (list[i].contains("ANS_obs") && hasResults)
@@ -2133,6 +2157,7 @@ GraphWidget* GraphWidget::unCompact10(QList<QMap<QString, QVariant>> list) //, Q
 
 	return this;
 }
+#endif
 void GraphWidget::expandNode(const QModelIndex &parentIndex, bool expand)
 {
 	projectExplorer->setExpanded(parentIndex, expand);
@@ -2325,7 +2350,11 @@ void GraphWidget::nodeContextMenuRequested(Node* n, QPointF pos, QMenu *menu)
 		}
 	}
 	if (modelSet != NULL)
-		model = (experimentID() == 0 || modelSet->Medium.size() == 0) ? 0 : &(modelSet->Medium[experimentID() - 1]);
+#ifndef Aquifolium
+        model = (experimentID() == 0 || modelSet->Medium.size() == 0) ? 0 : &(modelSet->Medium[experimentID() - 1]);
+#else
+        model = (experimentID() == 0 || modelSet->size() == 0) ? 0 : &((*modelSet)[experimentID() - 1]);
+#endif
 	else
 		model = 0; 
 
@@ -3106,7 +3135,8 @@ void GraphWidget::nodeContextMenuRequested(Node* n, QPointF pos, QMenu *menu)
 		}
 
 #endif
-		if (selectedAction->text() == "Plot Atmospheric Concentration Record")
+#ifdef GWA
+        if (selectedAction->text() == "Plot Atmospheric Concentration Record")
 		{
 			plotWindow *plot = new plotWindow(this, QString("%1: %2").arg(experimentName()).arg(selectedAction->text().remove("Plot ")));
 			format.xAxisLabel.append("Time (day)");
@@ -3115,7 +3145,7 @@ void GraphWidget::nodeContextMenuRequested(Node* n, QPointF pos, QMenu *menu)
 			plot->addScatterPlot(record, n->Name(), plotformat());
 			plot->show();
 		}
-#ifdef GWA
+
 		if (selectedAction->text() == "Plot Young Age Distribution")
 		{
 			plotWindow *plot = new plotWindow(this);

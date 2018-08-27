@@ -10,11 +10,11 @@
 TreeModel::TreeModel(GraphWidget *parent) : QAbstractItemModel(parent)
 {
 		Parent = parent;
+        rootItem = new TreeItem("Root", parent, TreeItem::Type::Root);// , 0);
 #ifdef GIFMOD
 		if (parent->applicationShortName == "GIFMod")
 		{
-			rootItem = new TreeItem("Root", parent, TreeItem::Type::Root);// , 0);
-			settings = new TreeItem("Settings", parent, TreeItem::Type::SettingsBranch);//, rootItem);
+            settings = new TreeItem("Settings", parent, TreeItem::Type::SettingsBranch);//, rootItem);
 			projectSettings = new TreeItem("Project settings", parent, TreeItem::Type::Item);//, settings);
 			climateSettings = new TreeItem("Climate settings", parent, TreeItem::Type::Item);//, settings);
 			solverSettings = new TreeItem("Solver settings", parent, TreeItem::Type::Item);//, settings);
@@ -195,7 +195,8 @@ void TreeModel::addChildFromMenu(const QString name, QModelIndex *parentIndex)
 	if (name == "Objective function")
 		parent = this->objectiveFunction;
 #endif
-	if (name == "Constituent")
+#ifdef GIFMod
+    if (name == "Constituent")
 		parent = this->constituent;
 	if (name == "Particle")
 		parent = this->particle;
@@ -216,6 +217,7 @@ void TreeModel::addChildFromMenu(const QString name, QModelIndex *parentIndex)
 	if (name == "Tracers")
 		parent = this->tracers;
 	if (parent == 0) return;
+#endif
 	Entity* newEntity = new Entity(name, "No Name", parent->gWidget);
 //	parent->addChild(new TreeItem(newEntity));
 	beginInsertRows(*parentIndex, 0,1);
@@ -470,6 +472,7 @@ void TreeModel::add(Node *node)
 #endif
 
 }
+#ifdef GWA
 void TreeModel::addWell(Node *node)
 {
 	Parent->log("Adding one well to tree view.");
@@ -492,7 +495,7 @@ void TreeModel::addTracer(Node *node)
 	reset;
 	//emit dataChanged(createIndex(row, 0, blocks), createIndex(row + 1, 0, blocks));
 }
-
+#endif
 void TreeModel::add(Edge *edge)
 {
 	connectors->addChild(new TreeItem(edge));
@@ -508,7 +511,7 @@ TreeItem * TreeModel::entityParentItemfromType(QString type) const
 	if (type == "Controller")
 		parent = this->controller;
 #endif
-
+#ifdef GIFMod
 	if (type == "Constituent")
 		parent = this->constituent;
 	if (type == "Particle")
@@ -529,6 +532,7 @@ TreeItem * TreeModel::entityParentItemfromType(QString type) const
 		parent = this->wells;
 	if (type == "Tracers")
 		parent = this->tracers;
+#endif
 	return parent;
 }
 void TreeModel::add(Entity *entity)

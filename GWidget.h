@@ -159,7 +159,7 @@ public:
 	mPropList *mList;
 	QTableView *tableProp;
 //	PropModel *propModel;
-	QAbstractItemModel *propModel() const { return tableProp->model(); };
+    QAbstractItemModel *propModel() const { return tableProp->model(); }
 	//PropModel *propModel() const { return static_cast<PropModel*>(tableProp->model()); };
 	//	QList<modelConfig> undo_list;
 	QList<QList<QMap<QString, QVariant>>> undolist;
@@ -198,7 +198,12 @@ public:
 #ifdef Aquifolium
     System *model;
     vector<System> *modelSet;
+    vector<Results *> resultsSet;
+    bool wizard(QList<command>&commands);
+    QVariant runCommand(CCommand command); //runs the commands submitted into script window
+    QList<QVariant> runCommands(QList<CCommand> &command); //run commands sequentially
 #endif
+
 #ifdef GIFMOD
 	CMediumSet* modelSet = 0;
 	CMedium *model = 0;
