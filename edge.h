@@ -27,7 +27,7 @@ public:
 	bool bold = false;
 	void setBold(const bool _Bold = true);
 	enum { Type = UserType + 2 };
-	int type() const Q_DECL_OVERRIDE{ return Type; };
+    int type() const Q_DECL_OVERRIDE{ return Type; }
 	void setName(const QString& Name){ name = Name; }
 //	void setID(const QString& ID){ id = ID; };
 	mPropList *mList() const;
@@ -43,9 +43,9 @@ public:
 	Object_Types itemType;
 //	mPropList propList;
 	GraphWidget *parent;
-	mProp ObjectType() const { return objectType; };
+    mProp ObjectType() const { return objectType; }
 	QString Name() const { 
-		return name; };
+        return name; }
 //	QString ID() const { return id; };
 	QPointF sourcePoint;
 	QPointF destPoint;

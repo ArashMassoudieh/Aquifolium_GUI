@@ -1611,6 +1611,10 @@ GraphWidget* GraphWidget::unCompact(QList<QMap<QString, QVariant>> &list, bool o
 					experiments->addItem(experiment);
 					if (experiment.toLower() != "all experiments")
 					{
+#ifdef Aquifolium
+                        System med;
+                        med.SetName(experiment.toStdString());
+#endif
 #ifdef GIFMOD
 						CMedium med;
 						med.name = experiment.toStdString();

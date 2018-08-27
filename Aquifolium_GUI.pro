@@ -70,7 +70,16 @@ SOURCES += \
     colorScheme.cpp \
     Command.cpp \
     treeitem.cpp \
-    treemodel.cpp
+    treemodel.cpp \
+    ray.cpp \
+    entity.cpp \
+    plotWindow.cpp \
+    process.cpp \
+    gridWindow.cpp \
+    results.cpp \
+    helpWindow.cpp \
+    CustomPlotZoom.cpp \
+    qcustomplot.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -125,11 +134,25 @@ HEADERS += \
     colorScheme.h \
     Command.h \
     treeitem.h \
-    treemodel.h
+    treemodel.h \
+    ray.h \
+    entity.h \
+    plotWindow.h \
+    process.h \
+    gridWindow.h \
+    results.h \
+    helpWindow.h \
+    CustomPlotZoom.h \
+    qcustomplot.h \
+    navigationList.h \
+    variant.h
 
 FORMS += \
         mainwindow.ui \
-    logwindow.ui
+    logwindow.ui \
+    plotwindow.ui \
+    gridWindow.ui \
+    helpWindow.ui
 
 # LAPACK — Linear Algebra PACKage lib and include locations
 
