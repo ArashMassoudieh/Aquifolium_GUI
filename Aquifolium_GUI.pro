@@ -20,7 +20,7 @@ TEMPLATE = app
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += QT_DEPRECATED_WARNINGS QT_version Aquifolium
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -54,7 +54,23 @@ SOURCES += \
     ../jsoncpp/src/lib_json/json_writer.cpp \
     aqflmblockitem.cpp \
     diagramviewer.cpp \
-    aqflmedgeitem.cpp
+    edge.cpp \
+    GWidget.cpp \
+    mProp.cpp \
+    mProplist.cpp \
+    node.cpp \
+    utility_funcs.cpp \
+    XString.cpp \
+    mProp.cpp \
+    mProplist.cpp \
+    PropList.cpp \
+    PropListItem.cpp \
+    PropModel.cpp \
+    logwindow.cpp \
+    colorScheme.cpp \
+    Command.cpp \
+    treeitem.cpp \
+    treemodel.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -91,10 +107,29 @@ HEADERS += \
     ../jsoncpp/src/lib_json/version.h.in \
     aqflmblockitem.h \
     diagramviewer.h \
-    aqflmedgeitem.h
+    edge.h \
+    enums.h \
+    GWidget.h \
+    mProp.h \
+    mProplist.h \
+    node.h \
+    utility_funcs.h \
+    XString.h \
+    mProp.h \
+    mProplist.h \
+    PropList.h \
+    PropListItem.h \
+    PropModel.h \
+    multiValues.h \
+    logwindow.h \
+    colorScheme.h \
+    Command.h \
+    treeitem.h \
+    treemodel.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    logwindow.ui
 
 # LAPACK — Linear Algebra PACKage lib and include locations
 
