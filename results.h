@@ -6,6 +6,9 @@
 #include "GWidget.h"
 #include "enums.h"
 //class CMediumSet;
+#ifdef Aquifolium
+    class System;
+#endif
 #ifdef GIFMOD
 class CMediumSet;
 //#include "MediumSet.h"
@@ -37,6 +40,9 @@ public:
 	~Results() {
 	
 	}
+#ifdef Aquifolium
+   System *model;
+#endif
 #ifdef GIFMOD
 	CMediumSet *model;
 #endif

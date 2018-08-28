@@ -79,7 +79,8 @@ SOURCES += \
     results.cpp \
     helpWindow.cpp \
     CustomPlotZoom.cpp \
-    qcustomplot.cpp
+    qcustomplot.cpp \
+    texToHtml.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -145,7 +146,9 @@ HEADERS += \
     CustomPlotZoom.h \
     qcustomplot.h \
     navigationList.h \
-    variant.h
+    variant.h \
+    texfonts.h \
+    texToHtml.h
 
 FORMS += \
         mainwindow.ui \

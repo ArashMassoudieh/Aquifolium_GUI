@@ -18,6 +18,7 @@
 //#include "helpWindow.h"
 #include "colorScheme.h"
 #include "Command.h"
+#include "plotWindow.h"
 
 //class MainWindow;
 class helpWindow;
@@ -37,7 +38,7 @@ class CGWA;
 class CGWASet;
 class Results;
 class System;
-struct plotformat;
+//struct plotformat;
 
 
 //class logWindow;
@@ -220,8 +221,8 @@ public:
 	vector<Results *> resultsSet;
 
 #endif
-	Results *results = 0;
-	helpWindow* help = 0;
+    Results *results = nullptr;
+    helpWindow* help = nullptr;
 
 	void deleteSolutionResults(){
 	/*	if (model)
@@ -232,9 +233,9 @@ public:
 			delete results;
 		if (resultsSet.size())
 			resultsSet.clear();
-	*/	model = 0;		results = 0;
+    */	model = nullptr;		results = nullptr;
 
-	modelSet = 0;
+    modelSet = nullptr;
 	hasResults = false;
 	}
 	QMap<QCPGraph *, plotformat> graphsClipboard; // scatterPlotsList;
@@ -243,7 +244,7 @@ public:
 	QString updateRelativePaths(QString oldPath, QString newPath);
 	QString defaultDir() const;
 	void log(QString text) const {
-		(*logW)(text); };
+        (*logW)(text); }
 	logWindow *logW;
 	void newError(QString message){
 		logW->append(message);
@@ -253,7 +254,7 @@ public:
 	QStringList variableValuesHasError();
 	bool hasChanged() {
 		return changedState;
-	};
+    }
 	bool changedState = false;
 
 	void startEditingDelegate(QString variableName){
@@ -313,9 +314,9 @@ public:
 	//void setpropModel(PropModel *_propModel);
 	void scaleView(qreal scaleFactor);
 	bool select(const QString &name, const QString type) const;
-	void nodeContextMenuRequested(Node* ,QPointF pos, QMenu *menu=NULL);
-	void edgeContextMenuRequested(Edge*, QPointF pos, QMenu *menu=NULL);
-	void warning(QString){};
+    void nodeContextMenuRequested(Node* ,QPointF pos, QMenu *menu=nullptr);
+    void edgeContextMenuRequested(Edge*, QPointF pos, QMenu *menu=nullptr);
+    void warning(QString){}
 	QList<CCommand> script() const;
 	QList<CCommand> s_get_params() const;
 	QList<CCommand> s_get_observed() const;
@@ -343,7 +344,7 @@ public:
 	void nodeChanged(Node*);
 	void edgeChanged(Edge*);
 	void entityChanged(Entity*);
-	void delegateDatePicked(QCalendarWidget *calendar = 0, QModelIndex index = QModelIndex());
+    void delegateDatePicked(QCalendarWidget *calendar = nullptr, QModelIndex index = QModelIndex());
 	//QComboBox* experiments;
 
 signals:

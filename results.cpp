@@ -2,7 +2,9 @@
 
 #include "results.h"
 
+#ifdef GIFMod
 #include "MediumSet.h"
+#endif
 
 #ifdef GWA
 #include "GWA.h"
