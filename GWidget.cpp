@@ -96,6 +96,9 @@ GraphWidget::GraphWidget(QWidget *_parent, QString applicationShortName, QString
 	this->mainWindow = mainWindow;
 	this->applicationShortName = applicationShortName;
 	logW = logwindow;
+#ifdef Aquifolium
+    help = new helpWindow(this, "Help", "AqflmHelp.txt");
+#endif
 
 #ifdef GIFMOD
 	help = new helpWindow(this, "Help", "Help.txt");
@@ -1054,7 +1057,9 @@ void GraphWidget::undo()
 	if (undo_counter>1)
 	{
 		clear();
-		unCompact(undolist[--counter - 1]);
+#ifndef Aquifolium
+        unCompact(undolist[--counter - 1]);
+#endif
 	}
 	undo_counter = counter;
 	//	refresh();
@@ -1069,7 +1074,9 @@ void GraphWidget::redo()
 	if (undo_counter < undolist.size())
 	{
 		clear();
-		unCompact(undolist[counter++]);
+#ifndef Aquifolium
+        unCompact(undolist[counter++]);
+#endif
 	}
 	//	refresh();
 	undo_counter = counter;

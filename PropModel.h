@@ -15,10 +15,10 @@ class PropModel :
 {
 public:
 
-	PropModel(){};
-	PropModel(Node* parent){ this->parent = parent; };
-	PropModel(Edge* parent){ this->parent = parent; };
-	PropModel(Entity* parent){	this->parent = parent; };
+    PropModel(){}
+    PropModel(Node* parent){ this->parent = parent; }
+    PropModel(Edge* parent){ this->parent = parent; }
+    PropModel(Entity* parent){	this->parent = parent; }
 	PropModel(QList<T*> items) { this->items = items; parent = items[0]; }
 	QList<T*> itemsList() {
 		return items;
@@ -28,12 +28,12 @@ public:
 	int rows(const QModelIndex & index = QModelIndex()) const{
 	//	//qDebug() << "rows" <<  parent->getmList(parent->Filter()).size();
 		return parent->getmList(parent->Filter()).size();
-	};
+    }
 	int rowCount(const QModelIndex & index = QModelIndex()) const{
 		return parent->getmList(parent->Filter()).size()+8;
-	};
+    }
 	int columnCount(const QModelIndex & parent = QModelIndex()) const {
-		return 2; };
+        return 2; }
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const{
 		if (role == Qt::DisplayRole)
 		{

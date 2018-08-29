@@ -56,8 +56,6 @@ SOURCES += \
     diagramviewer.cpp \
     edge.cpp \
     GWidget.cpp \
-    mProp.cpp \
-    mProplist.cpp \
     node.cpp \
     utility_funcs.cpp \
     XString.cpp \
@@ -80,7 +78,9 @@ SOURCES += \
     helpWindow.cpp \
     CustomPlotZoom.cpp \
     qcustomplot.cpp \
-    texToHtml.cpp
+    texToHtml.cpp \
+    tth_source.c \
+    scriptExport.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -125,8 +125,6 @@ HEADERS += \
     node.h \
     utility_funcs.h \
     XString.h \
-    mProp.h \
-    mProplist.h \
     PropList.h \
     PropListItem.h \
     PropModel.h \

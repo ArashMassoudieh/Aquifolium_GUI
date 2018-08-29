@@ -63,12 +63,14 @@ Node::Node(GraphWidget *gwidget, QString _type, QString _name, int _ID, int x, i
 	parent->MainGraphicsScene->addItem(this);
     QList<Node*> nodenames = parent->Nodes();
     setName (newNodeName( (_name == "No Name") ? ObjectType().SubType : _name, nodenames));
-	if (_type == "Tracer")
-		parent->treeModel->addTracer(this);
+#ifdef GWA
+    if (_type == "Tracer")
+        parent->treeModel->addTracer(this);
 	else if (_type == "Well")
-		parent->treeModel->addWell(this);
-	else 
-		parent->treeModel->add(this);
+        parent->treeModel->addWell(this);
+    else
+#endif
+        parent->treeModel->add(this);
 	parent->log(QString("One block created, type:%1, name:%2.").arg(_type).arg(_name));
 	//QObject::connect(this, SIGNAL(changed()), this, SLOT(sendChange()));
 
