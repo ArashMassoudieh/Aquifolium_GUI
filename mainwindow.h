@@ -6,6 +6,7 @@
 #include <QList>
 #include "System.h"
 #include "diagramviewer.h"
+#include "GWidget.h"
 
 class AqflmBlockItem;
 
@@ -19,7 +20,7 @@ class MainWindow : public QMainWindow
 
 public:
     QList<QAction*> actions;
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void additemselected(AqflmBlockItem *bitm) {itemselected = bitm;}
     QString applicationName;
@@ -28,7 +29,7 @@ private:
     Ui::MainWindow *ui;
     System system;
     QMap<QString,int> counts;
-    View *diagramview;
+    GraphWidget *diagramview;
     QGraphicsScene *scene;
     AqflmBlockItem *itemselected;
     QString modelpathname;

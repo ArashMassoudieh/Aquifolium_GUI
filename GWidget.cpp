@@ -142,8 +142,9 @@ GraphWidget::GraphWidget(QWidget *_parent, QString applicationShortName, QString
     for (QString item : tempPhysicalCharacteristicsList)
 		PhysicalCharacteristicsList.append(XString(item));
     QList <mProp> QL1 = mList->List;
-
+#ifndef Aquifolium
 	ModelSpace.Model = mList->Models()[0];
+#endif
 #ifdef GIFMOD
 	new Entity("Solver settings", "Solver settings", this);
 	new Entity("Project settings", "Project settings", this);
@@ -458,7 +459,8 @@ void GraphWidget::update(bool fast)
 }
 void GraphWidget::mousePressEvent(QMouseEvent *event)
 {
-	tableProp->setModel(0);
+    if (tableProp)
+        tableProp->setModel(nullptr);
 	Node *node = qgraphicsitem_cast<Node*> (itemAt(event->pos())); //Get the item at the position
 	if (node)
 	{	//qDebug() << "Name: "<< node->Name()<<" Flag:" << node->flags() << "enabled:" << node->isEnabled() << "active:" << node->isActive();
@@ -613,14 +615,8 @@ void GraphWidget::mouseMoveEvent(QMouseEvent *event)
 	}
 	if (Operation_Mode == Operation_Modes::NormalMode && dragMode()==DragMode::NoDrag)
 	{
-		Node *node = qgraphicsitem_cast<Node*> (itemAt(event->pos())); //Get the item at the position
-																	   /*		Edge *edge = static_cast<Edge*> (itemAt(event->pos())); //Get the item at the position
-																	   if (edge)
-																	   {
-																	   setCursor(Qt::ForbiddenCursor);
-																	   //qDebug() << edge->dist(mapToScene(event->pos()));
-																	   }
-																	   */
+        Node *node = qgraphicsitem_cast<Node*> (itemAt(event->pos()));
+
 		if (node)
 			if (node->itemType == Object_Types::Block)
 			{
@@ -636,7 +632,7 @@ void GraphWidget::mouseMoveEvent(QMouseEvent *event)
 				}
 
 				if (node->corner(xx, yy) == none)
-					if (node->edge(xx, yy) != noside)
+                {	if (node->edge(xx, yy) != noside)
 					{
 						setCursor(Qt::CrossCursor);
 						cursorModeNormal = false;
@@ -646,7 +642,7 @@ void GraphWidget::mouseMoveEvent(QMouseEvent *event)
 						setCursor(Qt::ArrowCursor);
 						cursorModeNormal = false;
 					}
-
+                }
 			}
 	}
 	if ((Operation_Mode == Operation_Modes::resizeNode) && (event->buttons() == Qt::LeftButton))
@@ -1242,7 +1238,7 @@ bool GraphWidget::select(const QString &name, const QString type) const
 		if (entity->objectType.ObjectType== type && entity->Name() == name)
 		{
 			deselectAll();
-			tableProp->setModel(entity->model);
+            if (tableProp) tableProp->setModel(entity->model);
 			entity->setSelected(true);
 			r = true;
 			return r;
@@ -1251,7 +1247,7 @@ bool GraphWidget::select(const QString &name, const QString type) const
 		if (entity->objectType.ObjectType == name && entity->Name() == name)
 		{
 			deselectAll();
-			tableProp->setModel(entity->model);
+            if (tableProp) tableProp->setModel(entity->model);
 			r = true;
 			return r;
 		}
@@ -1536,7 +1532,7 @@ void GraphWidget::clear()
 //	qDeleteAll(Processes);
 //	Processes.clear();
 	treeModel->refresh();
-	tableProp->setModel(0);
+    if (tableProp) tableProp->setModel(nullptr);
 	if (results)
 		delete results;
 	if (resultsSet.size())
@@ -1585,7 +1581,7 @@ void GraphWidget::clearRXN()
 	
 
 	treeModel->refresh();
-	tableProp->setModel(0);
+    if (tableProp) tableProp->setModel(nullptr);
 }
 
 #ifndef Aquifolium
@@ -2275,7 +2271,7 @@ QStringList GraphWidget::edgeNames() const
 void GraphWidget::deleteNode(Node *node)
 {
 	
-	if (static_cast<PropModel<Node>*>(tableProp->model()) == node->model) tableProp->setModel(0);
+    if (static_cast<PropModel<Node>*>(tableProp->model()) == node->model) tableProp->setModel(nullptr);
     for (Edge * e : node->edgeList)
 		treeModel->deleteEdge(e);
 	//treeModel->deleteNode(node);
@@ -2284,7 +2280,7 @@ void GraphWidget::deleteNode(Node *node)
 
 void GraphWidget::deleteEdge(Edge *edge)
 {
-	if (static_cast<PropModel<Edge>*>(tableProp->model()) == edge->model) tableProp->setModel(0);
+    if (static_cast<PropModel<Edge>*>(tableProp->model()) == edge->model) tableProp->setModel(nullptr);
 	edge->sourceNode()->edgeList.removeOne(edge);
 	edge->destNode()->edgeList.removeOne(edge);
 	//treeModel->deleteEdge(edge);
@@ -2293,7 +2289,7 @@ void GraphWidget::deleteEdge(Edge *edge)
 
 void GraphWidget::deleteEntity(Entity *entity)
 {
-	if (static_cast<PropModel<Entity>*>(tableProp->model()) == entity->model) tableProp->setModel(0);
+    if (static_cast<PropModel<Entity>*>(tableProp->model()) == entity->model) tableProp->setModel(nullptr);
 	Entities.removeOne(entity);
 	//treeModel->deleteEntity(entity);
 	delete entity;

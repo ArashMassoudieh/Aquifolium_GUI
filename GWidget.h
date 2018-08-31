@@ -154,11 +154,11 @@ public:
 
 	QStringList EntityNames(const QString &type) const;
 	QTreeView *projectExplorer;
-	void setProjExp(QTreeView *p){ projectExplorer = p; };
+    void setProjExp(QTreeView *p){ projectExplorer = p; }
 	//void setProjExpModel(QAbstractItemModel *p){ projectExplorer = p; };
 
 	mPropList *mList;
-	QTableView *tableProp;
+    QTableView *tableProp = nullptr;
 //	PropModel *propModel;
     QAbstractItemModel *propModel() const { return tableProp->model(); }
 	//PropModel *propModel() const { return static_cast<PropModel*>(tableProp->model()); };

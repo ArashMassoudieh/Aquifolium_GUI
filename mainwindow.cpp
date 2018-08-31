@@ -3,6 +3,7 @@
 #include "QDebug"
 #include "QGraphicsRectItem"
 #include "aqflmblockitem.h"
+#include "logwindow.h"
 
 #define cout qDebug()
 
@@ -13,8 +14,9 @@ MainWindow::MainWindow(QWidget *parent) :
     system.GetQuanTemplate(qApp->applicationDirPath().toStdString() + "/resources/power_reservoirs.qnt");
     ui->setupUi(this);
     qDebug()<<qApp->applicationDirPath();
-
-    diagramview = new View("Diagram",ui->dockWidgetContents_4);
+    logWindow* logwindow = new logWindow(this);
+    //diagramview = new View("Diagram",ui->dockWidgetContents_4);
+    diagramview = new GraphWidget(this,"Aquifolium","",logwindow,this);
     diagramview->setObjectName(QStringLiteral("graphicsView_2"));
     ui->verticalLayout_3->addWidget(diagramview);
     for (unsigned int i=0; i<system.GetAllBlockTypes().size(); i++)
@@ -43,8 +45,8 @@ MainWindow::MainWindow(QWidget *parent) :
         connect(action,SIGNAL(triggered()),this,SLOT(onaddlink()));
     }
 
-    scene = new QGraphicsScene(this);
-    diagramview->view()->setScene(scene);
+    //scene = new QGraphicsScene(this);
+    //diagramview->view()->setScene(scene);
 
 }
 
@@ -75,5 +77,5 @@ void MainWindow::onaddblock()
     AqflmBlockItem* item = new AqflmBlockItem(obj->objectName() + QString::number(counts[obj->objectName()]));
     item->SetPixMap(iconfilename);
     item->setFlags(QGraphicsItem::ItemIsMovable);
-    scene->addItem(item);
+    diagramview->MainGraphicsScene->addItem(item);
 }
