@@ -4,6 +4,8 @@
 #include "QGraphicsRectItem"
 #include "aqflmblockitem.h"
 #include "logwindow.h"
+#include "node.h"
+#include "edge.h"
 
 #define cout qDebug()
 
@@ -73,9 +75,9 @@ void MainWindow::onaddblock()
     QString iconfilename = qApp->applicationDirPath()+"/resources/Icons/"+QString::fromStdString(system.GetModel(obj->objectName().toStdString())->IconFileName());
     //QGraphicsRectItem* item = new QGraphicsRectItem(0,0,100,100);
     qDebug()<<"creating new AqflmBlockItem";
+    Node* item = new Node(diagramview,obj->objectName(),obj->objectName() + QString::number(counts[obj->objectName()]));
 
-    AqflmBlockItem* item = new AqflmBlockItem(obj->objectName() + QString::number(counts[obj->objectName()]));
-    item->SetPixMap(iconfilename);
+    //item->SetPixMap(iconfilename);
     item->setFlags(QGraphicsItem::ItemIsMovable);
     diagramview->MainGraphicsScene->addItem(item);
 }

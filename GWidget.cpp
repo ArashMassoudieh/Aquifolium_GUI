@@ -50,17 +50,13 @@
 
 void Node::update(bool fast)
 {
-	if (!fast)
-	{
-		TreeModel* tmodel = static_cast<TreeModel *>(parent->projectExplorer->model());
-		tmodel->update();
-//		if (isSelected())
-//		{
-			//PropModel<Node>* propModel = static_cast<PropModel<Node>*>(parent->propModel());
-			//propModel->update();
-	//		model->update();
-	//	}
-	}
+    if (parent->projectExplorer)
+    {   if (!fast)
+        {
+            TreeModel* tmodel = static_cast<TreeModel *>(parent->projectExplorer->model());
+            tmodel->update();
+        }
+    }
 	QGraphicsItem::update();
 };
 void Edge::update(bool fast)
@@ -325,7 +321,7 @@ void GraphWidget::deselectAll(QString items) const
 	if (items.toLower().contains("node") ||
 		items.toLower().contains("edge") ||
 		items.toLower().contains("entity"))
-		tableProp->setModel(0);
+        tableProp->setModel(nullptr);
 //	if ((propModel->type() == "Node") || (propModel->type() == "Edge")) propModel->setParentEntity(Entities[0]);
 }
 
@@ -1084,9 +1080,9 @@ void GraphWidget::sceneChanged()
 {
 	QRectF rect = MainGraphicsScene->sceneRect();
 	QRectF newRect = MainGraphicsScene->itemsBoundingRect();
-	float width = newRect.width();
-	float height = newRect.height();
-	float scale = 1.1;
+    float width = float(newRect.width());
+    float height = float(newRect.height());
+    float scale = float(1.1);
 	newRect.setLeft(newRect.left() - (scale-1)/2*width);
 	newRect.setTop(newRect.top() - (scale-1)/2*height);
 	newRect.setWidth(width * scale);

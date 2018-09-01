@@ -153,7 +153,7 @@ public:
 	void deleteProcess(Process *process);
 
 	QStringList EntityNames(const QString &type) const;
-	QTreeView *projectExplorer;
+    QTreeView *projectExplorer = nullptr;
     void setProjExp(QTreeView *p){ projectExplorer = p; }
 	//void setProjExpModel(QAbstractItemModel *p){ projectExplorer = p; };
 
@@ -284,7 +284,7 @@ public:
 			r.append(experiments->itemText(i));
 		return r;
 	}
-	QComboBox *experiments;
+    QComboBox *experiments = nullptr;
 	bool hasResults = false;
     void experimentsComboClear(bool addExperiment1 = true);
     void updateNodeCoordinates();

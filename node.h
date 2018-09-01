@@ -44,7 +44,7 @@ public:
 		delete constituentInitialConditions;
 		delete NutrientHalfSaturationConstants;
 
-	}
+    }
 	objectColor color;
 	Node operator=(const Node &);
 	void addEdge(Edge *edge);

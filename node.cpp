@@ -18,9 +18,6 @@ Node::Node(GraphWidget *gwidget, QString _type, QString _name, int _ID, int x, i
 	//: graph(gwidget)
 {
 	model = new PropModel<Node>(this);
-	particleInitialConditions = new QMap < QString, QList<ParticleInitialConditionItem> >;
-	constituentInitialConditions = new QMap < QString, QList<ConstituentInitialConditionItem> >;
-	NutrientHalfSaturationConstants = new QMap < QString, QList<NutrientHalfSaturationConstantItem> >;
 
 	setFlag(ItemIsMovable);
 	setFlag(ItemIsSelectable);
@@ -39,22 +36,15 @@ Node::Node(GraphWidget *gwidget, QString _type, QString _name, int _ID, int x, i
 	objectType = parent->ModelSpace;//'*';
 	objectType.GuiObject = "Block";
 	GUI = "Block";
-//	QList <mProp> QL;
-//	QL = (*parent->mList).List;
-//	PropList = (*parent->mList).filter(ObjectType());
-//	for (int i = 0; i < PropList.size(); i++)
-//		PropList.List[i].Value = QSplit (PropList.List[i].DefaultValues, ':')[0];
-//		PropList.List[i].Value = PropList.List[i].DefaultValuesList()[0];
+
 	QString type = (_type == "") ?
 		(*parent->mList).filter(objectType).ObjectTypes()[0] :
 		_type;
 	objectType.ObjectType = type;
 	mProp filter;
-//	filter = (parent->ModelSpace & ObjectType);
-//	filter = (*parent).ModelSpace & ObjectType();
 	filter = objectType;
-	objectType.SubType = (*parent->mList).filter(filter).SubTypes()[0];
-//	props = new PropList<Node>(this);
+    if ((*parent->mList).filter(filter).SubTypes().size())
+        objectType.SubType = (*parent->mList).filter(filter).SubTypes()[0];
 	props.parent = this;
 	setProp("x", x);
 	setProp("y", y);
@@ -70,6 +60,7 @@ Node::Node(GraphWidget *gwidget, QString _type, QString _name, int _ID, int x, i
         parent->treeModel->addWell(this);
     else
 #endif
+    if (parent->treeModel)
         parent->treeModel->add(this);
 	parent->log(QString("One block created, type:%1, name:%2.").arg(_type).arg(_name));
 	//QObject::connect(this, SIGNAL(changed()), this, SLOT(sendChange()));
