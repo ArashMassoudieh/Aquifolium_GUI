@@ -54,13 +54,15 @@ public:
 //	{
 //		return rootItem;
 //	}
+#ifdef Aquifolium
+    TreeItem *rootItem, *settings, *blocks, *connectors, *evapotranspiration, *waterQuality, *constituent, *buildUp, *extrenalFlux, *particle,
+         *projectSettings, *climateSettings, *solverSettings, *reactions, *reaction, *reactionNetwork, *reactionParameter, *GA, *MCMC, *inverseModeling, *control, *sensor, *objectiveFunction, *controller, *parameter,
+         *observed, *wells, *tracers;
+#endif
 #ifdef GIFMOD	
 	TreeItem *rootItem, *settings, *blocks, *connectors, *evapotranspiration, *waterQuality, *constituent, *buildUp, *extrenalFlux, *particle,
 		 *projectSettings, *climateSettings, *solverSettings, *reactions, *reaction, *reactionNetwork, *reactionParameter, *GA, *MCMC, *inverseModeling, *control, *sensor, *objectiveFunction, *controller, *parameter,
 		 *observed, *wells, *tracers;
-#endif
-#ifdef Aquifolium
-    TreeItem *rootItem, *blocks, *connectors;
 #endif
 #ifdef GWA
 	TreeItem *rootItem, *settings, *blocks, *connectors, *evapotranspiration, *waterQuality, *constituent, *buildUp, *extrenalFlux, *particle,

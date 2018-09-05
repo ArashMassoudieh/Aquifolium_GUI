@@ -60,7 +60,8 @@ Edge::Edge(Node *sourceNode, Node *destNode, GraphWidget *_parent)
 //	mProp filter;
 	//	filter = (parent->ModelSpace && ObjectType);
 	//filter = (*parent).ModelSpace && ObjectType;
-	objectType.ObjectType = (*parent->mList).filter(objectType).ObjectTypes()[0];
+    if ((*parent->mList).filter(objectType).ObjectTypes().size())
+        objectType.ObjectType = (*parent->mList).filter(objectType).ObjectTypes()[0];
 //	objectType.SubType = (*parent->mList).filter(objectType).SubTypes()[0];
 	updateSubType();
 //	props = new PropList<Edge>(this);
@@ -68,7 +69,8 @@ Edge::Edge(Node *sourceNode, Node *destNode, GraphWidget *_parent)
 
 	parent->MainGraphicsScene->addItem(this);
 	name = QString("%1 - %2").arg(sourceNode->Name()).arg(destNode->Name());
-	parent->treeModel->add(this);
+    if (parent->treeModel)
+        parent->treeModel->add(this);
 	parent->log(QString("One %3 connector from %1 to %2 created.").arg(sourceNode->Name()).arg(destNode->Name()).arg(objectType.SubType));
 	changed();
 }
@@ -238,22 +240,22 @@ void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 //		painter->drawPolygon(QPolygonF() << line.p1() << sourceArrowP1 << sourceArrowP2);
 		painter->drawPolygon(QPolygonF() << line.p2() << destArrowP1 << destArrowP2);
 	}
-	if (isSelected())
+    if (isSelected() && parent->tableProp)
 	{
 //		parent->propModel->setParentEdge(this);
-		parent->tableProp->setModel(model);
+        parent->tableProp->setModel(model);
 		parent->tableProp->setFocus();
 	}
 }
 int Edge::dist(const QPointF point)
 {
-	int x1 = sourcePoint.x();
-	int y1 = sourcePoint.y();
-	int x2 = destPoint.x();
-	int y2 = destPoint.y();
-	int x0 = point.x();
-	int y0 = point.y();
-	int dist = abs(x0*(y2 - y1) - y0*(x2 - x1) + x2*y1 - y2*x1) / sqrt((y2 - y1) ^ 2 + (x2 - x1) ^ 2);
+    int x1 = int(sourcePoint.x());
+    int y1 = int(sourcePoint.y());
+    int x2 = int(destPoint.x());
+    int y2 = int(destPoint.y());
+    int x0 = int(point.x());
+    int y0 = int(point.y());
+    int dist = int(abs(x0*(y2 - y1) - y0*(x2 - x1) + x2*y1 - y2*x1) / sqrt((y2 - y1) ^ 2 + (x2 - x1) ^ 2));
 	return dist;
 }
 mPropList Edge::getmList(const mProp &_filter) const

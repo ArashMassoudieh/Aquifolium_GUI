@@ -595,7 +595,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 		painter->setPen(QPen(Qt::black, (bold) ? 2 : 0));
 		painter->drawRoundRect(0, 0, width, height, 10, 10);
 		qreal factor = parent->transform().scale(1, 1).mapRect(QRectF(0, 0, 1, 1)).width();
-		int size = 4 + 6 / factor;
+        int size = int(4 + 6 / factor);
 		QFont QF = painter->font(); QF.setPointSize(size);// QF.pointSize() + 2);
 		QF.setBold(bold);
 		painter->setFont(QF);
@@ -611,9 +611,9 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 		}
 		if (parent->selectedNodes().count() == 1 && parent->selectedEdges().count() == 0) // only one node is selected
 		{
-			if (isSelected())
+            if (isSelected() && parent->tableProp)
 			{
-				if (parent->tableProp->model() != model) {
+                if (parent->tableProp->model() != model) {
 					parent->tableProp->setModel(model);
 				}
 			}

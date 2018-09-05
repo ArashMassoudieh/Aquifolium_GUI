@@ -180,7 +180,7 @@ public:
 	GraphWidget* unCompact10(QList<QMap<QString, QVariant>>);//, QWidget *parent = 0);
 	void clear();
 	void clearRXN();
-	TreeModel *treeModel;
+    TreeModel *treeModel=nullptr;
 	void expandNode(const QModelIndex &parentIndex, bool expand);
 	QMap<QString, QString> find_objects(QString name);
 
@@ -197,8 +197,8 @@ public:
 */
 	void copyProps(QString sourceExperiment, QString destExperiment);
 #ifdef Aquifolium
-    System *model;
-    vector<System> *modelSet;
+    System *model=nullptr;
+    vector<System> *modelSet=nullptr;
     vector<Results *> resultsSet;
     bool wizard(QList<command>&commands);
     QVariant runCommand(CCommand command); //runs the commands submitted into script window
@@ -245,7 +245,7 @@ public:
 	QString defaultDir() const;
 	void log(QString text) const {
         (*logW)(text); }
-	logWindow *logW;
+    logWindow *logW = nullptr;
 	void newError(QString message){
 		logW->append(message);
 	}

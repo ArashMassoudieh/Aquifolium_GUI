@@ -7,6 +7,7 @@
 #include "System.h"
 #include "diagramviewer.h"
 #include "GWidget.h"
+#include "treemodel.h"
 
 class AqflmBlockItem;
 
@@ -25,6 +26,7 @@ public:
     void additemselected(AqflmBlockItem *bitm) {itemselected = bitm;}
     QString applicationName;
     QString &modelPathname() {return modelpathname;}
+
 private:
     Ui::MainWindow *ui;
     System system;
@@ -33,6 +35,7 @@ private:
     QGraphicsScene *scene;
     AqflmBlockItem *itemselected;
     QString modelpathname;
+    TreeModel *projModel;
 private slots:
     void onaddlink();
     void onaddblock();

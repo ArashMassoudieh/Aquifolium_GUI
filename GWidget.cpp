@@ -3853,7 +3853,10 @@ void GraphWidget::legendSliderChanged_Edges(int value)
 #endif
 int GraphWidget::experimentID()
 {
-	return experiments->currentIndex();
+    if (experiments)
+        return experiments->currentIndex();
+    else
+        return -1;
 }
 QString GraphWidget::experimentName()
 {
@@ -3861,8 +3864,13 @@ QString GraphWidget::experimentName()
 	return "experiment1";
 #endif
 
-	QString a = experiments->currentText();
-	return experiments->currentText();
+    if (experiments)
+    {
+        QString a = experiments->currentText();
+        return experiments->currentText();
+    }
+    else
+        return "";
 }
 
 #ifdef GIFMOD

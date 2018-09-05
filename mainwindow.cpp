@@ -20,6 +20,20 @@ MainWindow::MainWindow(QWidget *parent) :
     //diagramview = new View("Diagram",ui->dockWidgetContents_4);
     diagramview = new GraphWidget(this,"Aquifolium","",logwindow,this);
     diagramview->setObjectName(QStringLiteral("graphicsView_2"));
+    diagramview->tableProp = ui->tableView;
+
+    projModel = new TreeModel(diagramview);
+    ui->treeView->setModel(projModel);
+
+    ui->treeView->setObjectName(QStringLiteral("projectExplorer"));
+
+    Qt::WindowFlags flags = this->windowFlags();
+    setWindowFlags(windowFlags() | Qt::WindowMaximizeButtonHint);
+
+    // ***
+    diagramview->setProjExp(ui->treeView);
+    diagramview->treeModel = projModel;
+
     ui->verticalLayout_3->addWidget(diagramview);
     for (unsigned int i=0; i<system.GetAllBlockTypes().size(); i++)
     {

@@ -11,6 +11,47 @@ TreeModel::TreeModel(GraphWidget *parent) : QAbstractItemModel(parent)
 {
 		Parent = parent;
         rootItem = new TreeItem("Root", parent, TreeItem::Type::Root);// , 0);
+#ifdef Aquifolium
+        settings = new TreeItem("Settings", parent, TreeItem::Type::SettingsBranch);//, rootItem);
+        projectSettings = new TreeItem("Project settings", parent, TreeItem::Type::Item);//, settings);
+        climateSettings = new TreeItem("Climate settings", parent, TreeItem::Type::Item);//, settings);
+        solverSettings = new TreeItem("Solver settings", parent, TreeItem::Type::Item);//, settings);
+        blocks = new TreeItem("Blocks", parent, TreeItem::Type::NodesBranch);//, rootItem);
+        connectors = new TreeItem("Connectors", parent, TreeItem::Type::EdgesBranch);//, rootItem);
+        waterQuality = new TreeItem("Water quality", parent, TreeItem::Type::WaterQualityBranch);//, rootItem);
+        particle = new TreeItem("Particles", parent, TreeItem::Type::Branch);//, waterQuality);
+        constituent = new TreeItem("Constituents", parent, TreeItem::Type::Branch);//, waterQuality);
+        evapotranspiration = new TreeItem("Evapotranspirations", parent, TreeItem::Type::Branch);//, waterQuality);
+        buildUp = new TreeItem("Build-ups", parent, TreeItem::Type::Branch);//, waterQuality);
+        extrenalFlux = new TreeItem("External fluxes", parent, TreeItem::Type::Branch);//, waterQuality);
+        reactions = new TreeItem("Reactions", parent, TreeItem::Type::ReactionsBranch);//, waterQuality);
+        reactionParameter = new TreeItem("Reaction parameters", parent, TreeItem::Type::Branch);//, reactions);
+        //				reaction = new TreeItem("Reaction", parent, TreeItem::Type::Branch, reactions);
+        reactionNetwork = new TreeItem("Reaction network", parent, TreeItem::Type::ReactionNetworkItem);//, reactions);
+        inverseModeling = new TreeItem("Inverse modeling", parent, TreeItem::Type::InverseModelingBranch);//, rootItem);
+        GA = new TreeItem("Genetic algorithm", parent, TreeItem::Type::Item);//, inverseModeling);
+        MCMC = new TreeItem("Markov chain Monte Carlo", parent, TreeItem::Type::Item);//, inverseModeling);
+        parameter = new TreeItem("Parameters", parent, TreeItem::Type::Branch);//, inverseModeling);
+        observed = new TreeItem("Observations", parent, TreeItem::Type::Branch);//, inverseModeling);
+        control = new TreeItem("Control", parent, TreeItem::Type::ControlBranch);//, rootItem);
+        sensor = new TreeItem("Sensors", parent, TreeItem::Type::Branch);
+        objectiveFunction = new TreeItem("Objective functions", parent, TreeItem::Type::Branch);
+        controller = new TreeItem("Controllers", parent, TreeItem::Type::Branch);
+
+        QList<TreeItem*> rootNodes, settingsNodes, waterQualityNodes, reactionsNodes, inverseModelingNodes, controlNodes;
+        rootNodes << settings << blocks << connectors << evapotranspiration << waterQuality << inverseModeling << control;
+        settingsNodes << projectSettings << climateSettings << solverSettings;
+        waterQualityNodes << particle << constituent << buildUp << extrenalFlux << reactions;
+        reactionsNodes << reactionParameter << reactionNetwork;
+        inverseModelingNodes << GA << MCMC << parameter << observed;
+        controlNodes << objectiveFunction << sensor << controller;
+        rootItem->addChild(rootNodes);
+        settings->addChild(settingsNodes);
+        waterQuality->addChild(waterQualityNodes);
+        reactions->addChild(reactionsNodes);
+        inverseModeling->addChild(inverseModelingNodes);
+        control->addChild(controlNodes);
+#endif
 #ifdef GIFMOD
 		if (parent->applicationShortName == "GIFMod")
 		{
@@ -91,7 +132,8 @@ TreeModel::TreeModel(GraphWidget *parent) : QAbstractItemModel(parent)
 		}
 #endif
 
-		Parent->log("Tree model created.");
+        if (Parent->logW)
+            Parent->log("Tree model created.");
 }
 
 void TreeModel::refresh(QString part)
@@ -450,6 +492,13 @@ QString TreeModel::singularform(QString name) const
 
 void TreeModel::add(Node *node)
 {
+    Parent->log("Adding one block to tree view.");
+    QModelIndex parent = createIndex(rootItem->indexOf(blocks), 0, rootItem);
+    int row = blocks->childCount();
+    beginInsertRows(parent, row, row);
+    blocks->addChild(new TreeItem(node));
+    endInsertRows();
+    reset;
 #ifdef GIFMOD
 	Parent->log("Adding one block to tree view.");
 	QModelIndex parent = createIndex(rootItem->indexOf(blocks), 0, rootItem);
