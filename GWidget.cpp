@@ -111,8 +111,6 @@ GraphWidget::GraphWidget(QWidget *_parent, QString applicationShortName, QString
 	setRenderHint(QPainter::Antialiasing);
 	setTransformationAnchor(AnchorUnderMouse);
 	undo_counter = 0;
-	//add_to_undo_list();
-//	QObject::connect(MainGraphicsScene, SIGNAL(changed(const QList<QRectF>)), this, SLOT(dadd_to_undo_list()));
 	QObject::connect(MainGraphicsScene, SIGNAL(changed(const QList<QRectF>)), this, SLOT(sceneChanged()));
 	ModelSpace = mProp('*');
 	mList = new mPropList;
@@ -770,10 +768,10 @@ void GraphWidget::mouseReleaseEvent(QMouseEvent *event)
 	bool changed = false;
     for (Node *n : Nodes())
 	{
-		if (specs[n->Name()]["x"].toFloat() != n->x() ||
-			specs[n->Name()]["y"].toFloat() != n->y() ||
-			specs[n->Name()]["w"].toFloat() != n->Width() ||
-			specs[n->Name()]["h"].toFloat() != n->Height())
+        if (specs[n->Name()]["x"].toFloat() != n->x() ||
+            specs[n->Name()]["y"].toFloat() != n->y() ||
+            specs[n->Name()]["w"].toInt() != n->Width() ||
+            specs[n->Name()]["h"].toInt() != n->Height())
 		{
 			changed = true;
 			specs[n->Name()]["x"] = QString::number(n->x());
@@ -1083,10 +1081,10 @@ void GraphWidget::sceneChanged()
     float width = float(newRect.width());
     float height = float(newRect.height());
     float scale = float(1.1);
-	newRect.setLeft(newRect.left() - (scale-1)/2*width);
-	newRect.setTop(newRect.top() - (scale-1)/2*height);
-	newRect.setWidth(width * scale);
-	newRect.setHeight(height * scale);
+    newRect.setLeft(newRect.left() - int((scale-1)/2*width));
+    newRect.setTop(newRect.top() - int((scale-1)/2*height));
+    newRect.setWidth(int(width * scale));
+    newRect.setHeight(int(height * scale));
 
 	newRect.setLeft(min(rect.left(), newRect.left()));
 	newRect.setTop(min(rect.top(), newRect.top()));

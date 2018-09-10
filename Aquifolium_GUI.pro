@@ -80,7 +80,9 @@ SOURCES += \
     qcustomplot.cpp \
     texToHtml.cpp \
     tth_source.c \
-    scriptExport.cpp
+    scriptExport.cpp \
+    delegate.cpp \
+    UnitTextBox3.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -146,7 +148,11 @@ HEADERS += \
     navigationList.h \
     variant.h \
     texfonts.h \
-    texToHtml.h
+    texToHtml.h \
+    delegate.h \
+    UnitTextBox.h \
+    UnitTextBox2.h \
+    UnitTextBox3.h
 
 FORMS += \
         mainwindow.ui \

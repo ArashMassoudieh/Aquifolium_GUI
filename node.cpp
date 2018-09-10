@@ -439,6 +439,9 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 	painter->setPen(Qt::NoPen);
 	painter->setOpacity(0.7);
 	QColor Color1, Color2;
+
+
+
 	if (parent->colorCode.nodes)
 	{
 		Color1 = color.color1; Color2 = color.color2;
@@ -572,7 +575,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 		painter->drawPixmap(rect, pixmap, source);
 		painter->setPen(QPen(Qt::black, (bold) ? 2 : 0));
 		qreal factor = parent->transform().scale(1, 1).mapRect(QRectF(0, 0, 1, 1)).width();
-		int size = 4 + 6 / factor;
+        int size = 4 + int(6 / factor);
 		QFont QF = painter->font(); QF.setPointSize(size);// QF.pointSize() + 2);
 		QF.setBold(bold);
 		painter->setFont(QF);
@@ -624,7 +627,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 			QList<Edge*> m = parent->selectedEdges();
 			if (parent->selectedNodes().count() > 1 && parent->selectedEdges().count() == 0)//multi nodes are selected and no edges
 			{
-				static PropModel<Node>* multiModel = 0;
+                static PropModel<Node>* multiModel = nullptr;
 				if (!multiModel)
 					multiModel = new PropModel<Node>(parent->selectedNodes());
 				if (multiModel->itemsList()!=parent->selectedNodes())

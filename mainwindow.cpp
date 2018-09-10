@@ -6,6 +6,7 @@
 #include "logwindow.h"
 #include "node.h"
 #include "edge.h"
+#include "delegate.h"
 
 #define cout qDebug()
 
@@ -33,6 +34,15 @@ MainWindow::MainWindow(QWidget *parent) :
     // ***
     diagramview->setProjExp(ui->treeView);
     diagramview->treeModel = projModel;
+
+    Delegate *mDelegate = new Delegate(this, diagramview);
+
+    ui->tableView->setItemDelegateForColumn(1,mDelegate);
+    diagramview->settableProp(ui->tableView);
+
+    ui->tableView->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::AllEditTriggers
+        | QAbstractItemView::SelectedClicked);
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
 
     ui->verticalLayout_3->addWidget(diagramview);
     for (unsigned int i=0; i<system.GetAllBlockTypes().size(); i++)
