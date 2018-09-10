@@ -68,7 +68,7 @@ Node::Node(GraphWidget *gwidget, QString _type, QString _name, int _ID, int x, i
 	
 }
 
-mPropList Node::getmList(const mProp& _filter) const
+mPropList Node::getmList(const mProp& _filter) const //returns properties of the node
 {
 	int type = (_filter.ObjectType == "Tracer")? 1:0;
 	
@@ -79,7 +79,7 @@ mPropList Node::getmList(const mProp& _filter) const
 	filter = _filter;
 	return r;// (*parent->mList).filter(Filter() & _filter);
 }
-mPropList Node::getmList(const QList<mProp> _filter) const
+mPropList Node::getmList(const QList<mProp> _filter) const  //returns properties of the node
 {
 //	int type = (_filter.ObjectType == "Tracer") ? 1 : 0;
 

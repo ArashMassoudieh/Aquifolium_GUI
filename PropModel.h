@@ -48,9 +48,9 @@ public:
 			}
 		}
 		return QVariant();
-	};
+    }
 	Qt::ItemFlags flags(const QModelIndex & index) const{
-		if (index.row() >= rows()) return 0;
+        if (index.row() >= rows()) return nullptr;
 		int col = index.column();
 		//	if (index.row() >= list.size()) return 0;
 		if (col == 0) return Qt::ItemIsEnabled;
@@ -58,13 +58,13 @@ public:
 		if (col == 1)
 		{
 			if (data(index, TypeRole) == "ComboBox" && data(index, DefaultValuesListRole).toStringList().count() == 0)
-				return 0;
+                return nullptr;
 			return Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled;
 		}
 		return Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled;
-	};
+    }
 
-	~PropModel(){};
+    ~PropModel(){}
 	T *parent;
 	QList<T*> items;
 	GraphWidget *mainGraphWidget() const {
