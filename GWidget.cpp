@@ -135,7 +135,7 @@ GraphWidget::GraphWidget(QWidget *_parent, QString applicationShortName, QString
 		"~lambda" << "sc" << "bulk_density" << "~epsilonstorage" << "storage_n" << "temperature" << "light";
     for (QString item : tempPhysicalCharacteristicsList)
 		PhysicalCharacteristicsList.append(XString(item));
-    QList <mProp> QL1 = mList->List;
+    QList <mProp> QL1 = mList->GetList();
 #ifndef Aquifolium
 	ModelSpace.Model = mList->Models()[0];
 #endif

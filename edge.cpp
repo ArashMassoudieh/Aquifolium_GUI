@@ -50,7 +50,7 @@ Edge::Edge(Node *sourceNode, Node *destNode, GraphWidget *_parent)
 	objectType = parent->ModelSpace; // mProp('*');
 	objectType.GuiObject = "Connector";
 	QList <mProp> QL;
-	QL = (*parent->mList).List;
+    QL = (*parent->mList).GetList();
 //	propList = (*parent->mList).filter(objectType);
 //	for (int i = 0; i < propList.size(); i++)
 		//		PropList.List[i].Value = QSplit (PropList.List[i].DefaultValues, ':')[0];
@@ -553,20 +553,20 @@ Edge* Edge::unCompact10(QMap<QString, QVariant> n, GraphWidget *gwidget)
 
     foreach (QString key , n.keys())
 		edge->props.list[key] = XString::unCompactOld(n[key].toString());*/
-    return new Edge(0,0,0);
+    return new Edge(nullptr,nullptr,nullptr);
 }
 
 QStringList Edge::codes() const
 {
 	QStringList r;
-    foreach (mProp mP , getmList(objectType).List)
+    foreach (mProp mP , getmList(objectType).GetList())
 		if (mP.VariableCode != "") r.append(mP.VariableCode);
 	return r;
 }
 QMap<QString, condition> Edge::variableNameConditions() const
 {
 	QMap<QString, condition> r;
-    foreach (mProp mP , getmList(objectType).List)
+    foreach (mProp mP , getmList(objectType).GetList())
 		if (mP.VariableCode != "")
 		{
 			condition c;
@@ -580,7 +580,7 @@ QMap<QString, condition> Edge::variableNameConditions() const
 XString Edge::val(const QString & code) const
 {
 	//qDebug() << code;
-    foreach (mProp mP , getmList(objectType).List)
+    foreach (mProp mP , getmList(objectType).GetList())
 		if (mP.VariableCode.toLower() == code.toLower())
 		{
 			XString r = getValue(mP.VariableName);
@@ -607,13 +607,13 @@ void Edge::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 QStringList Edge::variableNames() const
 {
 	QStringList r;
-    foreach (mProp mP , getmList(objectType).List)
+    foreach (mProp mP , getmList(objectType).GetList())
 		if (mP.VariableName != "") r.append(mP.VariableName);
 	return r;
 }
 QString Edge::variableName(QString code) const
 {
-    foreach (mProp mP , getmList(objectType).List)
+    foreach (mProp mP , getmList(objectType).GetList())
 		if (mP.VariableCode.toLower() == code.toLower()) return mP.VariableName;
 	return QString("Error: code (%1) not found.").arg(code);
 }

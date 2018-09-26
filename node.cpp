@@ -954,7 +954,7 @@ QList<NutrientHalfSaturationConstantItem> &Node::NutrientHalfSaturationConstant(
 QStringList Node::codes() const
 {
 	QStringList r;
-    foreach (mProp mP , getmList(objectType).List)
+    foreach (mProp mP , getmList(objectType).GetList())
 		if (mP.VariableCode != "") r.append(mP.VariableCode);
 	return r;
 }
@@ -962,7 +962,7 @@ QStringList Node::codes() const
 QMap<QString, condition> Node::variableNameConditions() const
 {
 	QMap<QString, condition> r;
-    foreach (mProp mP , getmList(objectType).List)
+    foreach (mProp mP , getmList(objectType).GetList())
 		if (mP.VariableCode != "")
 		{
 			condition c;
@@ -975,7 +975,7 @@ QMap<QString, condition> Node::variableNameConditions() const
 }
 XString Node::val(const QString & code) const
 {
-    foreach (mProp mP , getmList(objectType).List)
+    foreach (mProp mP , getmList(objectType).GetList())
 		if (mP.VariableCode.toLower() == code.toLower())
 		{
 			XString r = getValue(mP.VariableName);
@@ -1199,13 +1199,13 @@ QString Node::newNodeName(const QString name, QList<Node*> &nodes) const
 QStringList Node::variableNames() const
 {
 	QStringList r;
-    foreach (mProp mP , getmList(objectType).List)
+    foreach (mProp mP , getmList(objectType).GetList())
 		if (mP.VariableName != "") r.append(mP.VariableName);
 	return r;
 }
 QString Node::variableName(QString code) const
 {
-    foreach (mProp mP , getmList(objectType).List)
+    foreach (mProp mP , getmList(objectType).GetList())
 		if (mP.VariableCode.toLower() == code.toLower()) return mP.VariableName;
 	return QString("Error: code (%1) not found.").arg(code);
 }
