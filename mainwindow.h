@@ -26,7 +26,7 @@ public:
     void additemselected(AqflmBlockItem *bitm) {itemselected = bitm;}
     QString applicationName;
     QString &modelPathname() {return modelpathname;}
-
+    System *GetSystem() {return &system;}
 private:
     Ui::MainWindow *ui;
     System system;

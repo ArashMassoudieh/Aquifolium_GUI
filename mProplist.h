@@ -28,6 +28,7 @@ public:
     int size() const { return List.size(); }
     mListReadStatus getconfigfromfile(QString filename);
     mListReadStatus GetFromMetaModel(MetaModel &m);
+    mListReadStatus GetFromMetaModel(MetaModel *m);
 //	mListReadStatus mPropList::getconfigfromfile(QString filename, GraphWidget *GW);
     QStringList Models(const mProp &mP = '*') const;
 	QStringList GuiObjects(const mProp &mP = '*') const;
