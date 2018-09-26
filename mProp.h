@@ -38,9 +38,9 @@ public:
 	void setValue(const QString &QS);
 	QStringList getList() const;
 
-	~mProp(void){};
+    ~mProp(void){}
 
-    int size() const{ return(getList().size()); };
+    int size() const{ return(getList().size()); }
 	QString Model;
 	QString GuiObject;
 	QString ObjectType;
