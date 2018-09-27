@@ -6,6 +6,9 @@
 //#include "qstring.h"
 #include "enums.h"
 //#include "GWidget.h"
+#ifdef Aquifolium
+#include "MetaModel.h"
+#endif
 
 //typedef void(*FPointer)();
 
@@ -13,20 +16,21 @@ class mPropList
 {
 public:
 	mPropList();
-	mPropList(const QList<mProp> &mPL){ List = mPL; };
+    mPropList(const QList<mProp> &mPL){ List = mPL; }
 	mPropList(QString filename);
 	mPropList(const mPropList &CC);
 	mPropList& operator= (const mPropList &CC); 
 	mProp operator[](int i) const { 
 		if (i >= List.size())
 			return mProp(); //has error
-		return List[i]; };
-	~mPropList(){};
-	int size() const { return List.size(); };
+        return List[i]; }
+    ~mPropList(){}
+    int size() const { return List.size(); }
     mListReadStatus getconfigfromfile(QString filename);
+    mListReadStatus GetFromMetaModel(MetaModel &m);
+    mListReadStatus GetFromMetaModel(MetaModel *m);
 //	mListReadStatus mPropList::getconfigfromfile(QString filename, GraphWidget *GW);
-	QList<mProp> List;
-	QStringList Models(const mProp &mP = '*') const;
+    QStringList Models(const mProp &mP = '*') const;
 	QStringList GuiObjects(const mProp &mP = '*') const;
 	QStringList ObjectTypes(const mProp &mP = '*') const;
 	QStringList SubTypes(const mProp &mP = '*') const;
@@ -48,4 +52,7 @@ public:
 	QStringList extract_units_for_prop(QString type, QString property);
 	mPropList filter(const QList<mProp> mP) const;
 	int setProp(const QString _PropertyName, const XString _Value = "", const mProp _Filter = '*');
+    QList<mProp> &GetList() {return  List;}
+private:
+    QList<mProp> List;
 };

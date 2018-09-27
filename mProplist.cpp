@@ -104,6 +104,99 @@ mListReadStatus mPropList::getconfigfromfile(QString filename)
 	}
 }
 
+mListReadStatus mPropList::GetFromMetaModel(MetaModel &m)
+{
+    for (map<string, QuanSet>::iterator it=m.begin(); it!=m.end(); it++)
+    {
+        for (map<string,Quan>::iterator it1 = m[it->first]->begin(); it1!=m[it->first]->end(); it1++)
+        {
+            mProp mP;
+            mP.Model = "1";
+            if (m[it->first]->BlockLink == blocklink::block)
+                mP.GuiObject = "Block";
+             else if (m[it->first]->BlockLink == blocklink::link)
+                mP.GuiObject = "Connector";
+
+            mP.ObjectType = QString::fromStdString(m[it->first]->Name());
+            mP.SubType = "*";
+            mP.Description = QString::fromStdString(it1->second.Description());
+            mP.VariableName = QString::fromStdString(it1->second.GetName());
+            mP.VariableCode = "";
+            mP.VariableUnit = QString::fromStdString(it1->second.Unit());
+            mP.DefaultUnit = QString::fromStdString(it1->second.DefaultUnit());
+            mP.VariableType = QString::fromStdString(it1->second.InputType());
+            mP.setDefaultValues (QString::fromStdString(it1->second.Default()), mP.VariableUnit, mP.DefaultUnit);
+            mP.Delegate = QString::fromStdString(it1->second.Delegate());
+            mP.Category = QString::fromStdString(it1->second.Category());
+            mP.inputMethod = QString::fromStdString(it1->second.InputType());
+            if (it1->second.ExperimentDependent())
+                mP.ExperimentDependent = "Yes";
+            else
+                mP.ExperimentDependent = "No";
+
+
+            mP.DescriptionCode = QString::fromStdString(it1->second.DescriptionCode());
+            mP.Abbreviations = QString::fromStdString(it1->second.Abbreviation()).split(";");
+
+            List.append(mP);
+        }
+    }
+
+    if (List.size() == 0)
+        return (mListReadStatus::errorInContents);
+    else
+    {
+        return (mListReadStatus::readSuccessfully);
+    }
+}
+
+mListReadStatus mPropList::GetFromMetaModel(MetaModel *m)
+{
+    for (map<string, QuanSet>::iterator it=m->begin(); it!=m->end(); it++)
+    {
+        for (map<string,Quan>::iterator it1 = m->GetItem(it->first)->begin(); it1!=m->GetItem(it->first)->end(); it1++)
+        {
+            mProp mP;
+            mP.Model = "1";
+            if (m->GetItem(it->first)->BlockLink == blocklink::block)
+                mP.GuiObject = "Block";
+             else if (m->GetItem(it->first)->BlockLink == blocklink::link)
+                mP.GuiObject = "Connector";
+
+            mP.ObjectType = QString::fromStdString(m->GetItem(it->first)->Name());
+            mP.SubType = "*";
+            mP.Description = QString::fromStdString(it1->second.Description());
+            mP.VariableName = QString::fromStdString(it1->second.GetName());
+            mP.VariableCode = "";
+            mP.VariableUnit = QString::fromStdString(it1->second.Unit());
+            mP.DefaultUnit = QString::fromStdString(it1->second.DefaultUnit());
+            mP.VariableType = QString::fromStdString(it1->second.InputType());
+            mP.setDefaultValues (QString::fromStdString(it1->second.Default()), mP.VariableUnit, mP.DefaultUnit);
+            mP.Delegate = QString::fromStdString(it1->second.Delegate());
+            mP.Category = QString::fromStdString(it1->second.Category());
+            mP.inputMethod = QString::fromStdString(it1->second.InputType());
+            if (it1->second.ExperimentDependent())
+                mP.ExperimentDependent = "Yes";
+            else
+                mP.ExperimentDependent = "No";
+
+
+            mP.DescriptionCode = QString::fromStdString(it1->second.DescriptionCode());
+            mP.Abbreviations = QString::fromStdString(it1->second.Abbreviation()).split(";");
+
+            List.append(mP);
+        }
+    }
+
+    if (List.size() == 0)
+        return (mListReadStatus::errorInContents);
+    else
+    {
+        return (mListReadStatus::readSuccessfully);
+    }
+}
+
+
 QStringList mPropList::Models(const mProp& mP)const
 {
 	QStringList r;

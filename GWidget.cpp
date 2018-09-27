@@ -113,8 +113,13 @@ GraphWidget::GraphWidget(QWidget *_parent, QString applicationShortName, QString
 	undo_counter = 0;
 	QObject::connect(MainGraphicsScene, SIGNAL(changed(const QList<QRectF>)), this, SLOT(sceneChanged()));
 	ModelSpace = mProp('*');
-	mList = new mPropList;
-	switch (mList->getconfigfromfile(metafilename)){
+    mList = new mPropList;
+#ifndef Aquifolium
+    switch (mList->getconfigfromfile(metafilename))
+#else
+    switch (mList->GetFromMetaModel(mainWindow->GetSystem()->GetMetaModel()))
+#endif
+    {
 	case mListReadStatus::fileNotValid:
 		log(QString("%1 metaFile Not valid.").arg(metafilename));
 		break;
@@ -125,6 +130,9 @@ GraphWidget::GraphWidget(QWidget *_parent, QString applicationShortName, QString
 		log(QString("%1 metaFile %2 records read successfully.").arg(metafilename).arg(mList->size()));
 		break;
 	}
+
+
+
 	functionList.clear();
 	functionList << "exp" << "hsd" << "min" << "max" << "lne" << "lnt" << "sgm" << "pos" << "sq1" << "sqr" // functions
 		<< "frs" << "fas" << "ply" << "mon" << "sq2" << "abs";
@@ -135,7 +143,7 @@ GraphWidget::GraphWidget(QWidget *_parent, QString applicationShortName, QString
 		"~lambda" << "sc" << "bulk_density" << "~epsilonstorage" << "storage_n" << "temperature" << "light";
     for (QString item : tempPhysicalCharacteristicsList)
 		PhysicalCharacteristicsList.append(XString(item));
-    QList <mProp> QL1 = mList->List;
+    QList <mProp> QL1 = mList->GetList();
 #ifndef Aquifolium
 	ModelSpace.Model = mList->Models()[0];
 #endif

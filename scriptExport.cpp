@@ -70,7 +70,7 @@ QList<CCommand> GraphWidget::s_get_environmental_params() const
 		CCommand command;
 		command.command = "setprop";
 		command.values.append(e->Name());
-        foreach (mProp prop , e->getmList(e->objectType).List)
+        foreach (mProp prop , e->getmList(e->objectType).GetList())
 		{
 			if (!e->val(prop.VariableCode).isEmpty() && e->val(prop.VariableCode) != "Default")
 				if (e->val(prop.VariableCode).replace("...", "").trimmed()!="")

@@ -18,7 +18,7 @@ Entity::Entity(const QString _type, QString _name, GraphWidget *_parent)
 
 
 	QList <mProp> QL;
-	QL = (*parent->mList).List;
+    QL = (*parent->mList).GetList();
 	objectType.ObjectType = _type;
 	mProp filter;
 	filter = objectType;
@@ -496,21 +496,21 @@ Entity* Entity::unCompact10(QMap<QString, QVariant> n, GraphWidget *gwidget)
 QStringList Entity::variableNames() const
 {
 	QStringList r;
-    for (mProp mP : getmList(objectType).List)
+    for (mProp mP : getmList(objectType).GetList())
 		if (mP.VariableName != "") r.append(mP.VariableName);
 	return r;
 }
 QStringList Entity::codes() const
 {
 	QStringList r;
-    for (mProp mP : getmList(objectType).List)
+    for (mProp mP : getmList(objectType).GetList())
 		if (mP.VariableCode != "") r.append(mP.VariableCode);
 	return r;
 }
 QMap<QString, condition> Entity::variableNameConditions() const
 {
 	QMap<QString, condition> r;
-    for (mProp mP : getmList(objectType).List)
+    for (mProp mP : getmList(objectType).GetList())
 		if (mP.VariableCode != "")
 		{
 			condition c;
@@ -524,7 +524,7 @@ QMap<QString, condition> Entity::variableNameConditions() const
 
 XString Entity::val(const QString & code) const
 {
-    for (mProp mP : getmList(objectType).List)
+    for (mProp mP : getmList(objectType).GetList())
 		if (mP.VariableCode.toLower() == code.toLower())
 		{
 			XString r = getValue(mP.VariableName);

@@ -14,7 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    system.GetQuanTemplate(qApp->applicationDirPath().toStdString() + "/resources/power_reservoirs.qnt");
+    string modelfilename = qApp->applicationDirPath().toStdString() + "/resources/power_reservoirs.qnt";
+    system.GetQuanTemplate(modelfilename);
     ui->setupUi(this);
     qDebug()<<qApp->applicationDirPath();
     logWindow* logwindow = new logWindow(this);
