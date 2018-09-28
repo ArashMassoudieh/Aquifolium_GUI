@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->tableView->setItemDelegateForColumn(1,mDelegate);
     diagramview->settableProp(ui->tableView);
-
+    diagramview->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     ui->tableView->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::AllEditTriggers
         | QAbstractItemView::SelectedClicked);
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
@@ -102,7 +102,4 @@ void MainWindow::onaddblock()
     qDebug()<<"creating new AqflmBlockItem";
     Node* item = new Node(diagramview,obj->objectName(),obj->objectName() + QString::number(counts[obj->objectName()]));
 
-    //item->SetPixMap(iconfilename);
-    item->setFlags(QGraphicsItem::ItemIsMovable);
-    diagramview->MainGraphicsScene->addItem(item);
 }

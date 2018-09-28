@@ -692,7 +692,7 @@ Node::Node(const Node &E)
 	setCacheMode(DeviceCoordinateCache);
 	setZValue(E.zValue());
 	setPos(E.pos());
-
+    setFlag(ItemSendsGeometryChanges);
 	edgeList = E.edgeList;
 	newPos = E.newPos;
 //	graph = E.graph; 

@@ -175,7 +175,7 @@ public:
 	QList<QMap<QString, QVariant>> compact() const;// QDataStream &out = QDataStream(), bool toFile = false) const;
 	QList<QMap<QString, QVariant>> compactRXN() const;
 	GraphWidget* unCompact(QList<QMap<QString, QVariant>>&, bool oldVersionLoad = false);//, QWidget *parent = 0);
-	//GraphWidget* unCompact(QDataStream &in);
+    GraphWidget* unCompact(QDataStream &in);
 	GraphWidget* unCompact12(QList<QMap<QString, QVariant>>&, bool oldVersionLoad = false);//, QWidget *parent = 0);
 	GraphWidget* unCompact10(QList<QMap<QString, QVariant>>);//, QWidget *parent = 0);
 	void clear();
@@ -289,7 +289,7 @@ public:
     void experimentsComboClear(bool addExperiment1 = true);
     void updateNodeCoordinates();
 	QMap<QString, QMap<QString, QString>> specs;
-	QSlider *legendSliderTime = 0;
+    QSlider *legendSliderTime = nullptr;
 	colorlegend colors;
 
 	public slots:
@@ -301,11 +301,13 @@ public:
 	void colorSchemeLegend_closed();
 	void legendSliderChanged_Nodes(int value);
 	void legendSliderChanged_Edges(int value);
-	void applyColorstoNodes();
-	void applyColorstoEdges();
-	void experimentSelect(const QString &experimentName);
-
+    void experimentSelect(const QString &experimentName);
 #endif
+    void applyColorstoNodes();
+	void applyColorstoEdges();
+
+
+
 	void shuffle();
 	void zoomIn();
 	void zoomOut();

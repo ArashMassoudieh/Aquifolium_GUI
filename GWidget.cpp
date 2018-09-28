@@ -1,4 +1,3 @@
-#pragma once
 #include "GWidget.h"
 #include "edge.h"
 #include "node.h"
@@ -144,9 +143,9 @@ GraphWidget::GraphWidget(QWidget *_parent, QString applicationShortName, QString
     for (QString item : tempPhysicalCharacteristicsList)
 		PhysicalCharacteristicsList.append(XString(item));
     QList <mProp> QL1 = mList->GetList();
-#ifndef Aquifolium
+
 	ModelSpace.Model = mList->Models()[0];
-#endif
+
 #ifdef GIFMOD
 	new Entity("Solver settings", "Solver settings", this);
 	new Entity("Project settings", "Project settings", this);
@@ -817,7 +816,7 @@ void GraphWidget::updateNodesColorCodes(QString propertyName, bool logged, QStri
 {
 	if (!hasResults)
 	{
-		QMessageBox::information(0, "GIFMod", "There is no results available, please run the model first.");
+        QMessageBox::information(nullptr, "GIFMod", "There is no results available, please run the model first.");
 		return;
 	}
 	//	colorlegend colors;
@@ -894,7 +893,7 @@ void GraphWidget::updateNodesColorCodes_WaterQuality(QStringList property, bool 
 {
 	if (!hasResults)
 	{
-		QMessageBox::information(0, "GIFMod", "There is no results available, please run the model first.");
+        QMessageBox::information(nullptr, "GIFMod", "There is no results available, please run the model first.");
 		return;
 	}
 	//	colorlegend colors;
@@ -994,7 +993,7 @@ void GraphWidget::updateEdgesColorCodes(QString propertyName, bool logged, QStri
 	colorScheme::colorandLegend(colors, time, "Blue-Red", false, 8);
 	applyColorstoEdges();
 }
-
+#endif
 void GraphWidget::applyColorstoNodes()
 {
 	for (int i = 0; i < colors.nodeNames.size(); i++)
@@ -1025,7 +1024,7 @@ void GraphWidget::applyColorstoEdges()
 	colorScheme::showColorandLegend(colors, title, this);
 	//	update();
 }
-#endif
+
 void GraphWidget::settableProp(QTableView*_tableProp)
 {
 	tableProp = _tableProp;
@@ -1055,9 +1054,8 @@ void GraphWidget::undo()
 	if (undo_counter>1)
 	{
 		clear();
-#ifndef Aquifolium
+
         unCompact(undolist[--counter - 1]);
-#endif
 	}
 	undo_counter = counter;
 	//	refresh();
@@ -1072,9 +1070,9 @@ void GraphWidget::redo()
 	if (undo_counter < undolist.size())
 	{
 		clear();
-#ifndef Aquifolium
+
         unCompact(undolist[counter++]);
-#endif
+
 	}
 	//	refresh();
 	undo_counter = counter;
@@ -1329,7 +1327,7 @@ Entity* GraphWidget::entityByName(const QString &name) const
     for (Entity *e : Entities)
 		if (e->Name().toLower() == name.toLower())
 			return e;
-	return 0;
+    return nullptr;
 }
 
 QList<Entity *> GraphWidget::entitiesByType(const QString &type) const
@@ -1547,10 +1545,10 @@ void GraphWidget::clear()
 	if (model)
 	{
 		model->clear(); 
-		model = 0;
+        model = nullptr;
 	}
 	//qDebug() << "Model Deleted...";
-	model = 0; modelSet = 0; results = 0;
+    model = nullptr; modelSet = nullptr; results = nullptr;
 	experimentsComboClear();
 	hasResults = false;
 
@@ -1586,7 +1584,7 @@ void GraphWidget::clearRXN()
     if (tableProp) tableProp->setModel(nullptr);
 }
 
-#ifndef Aquifolium
+
 GraphWidget* GraphWidget::unCompact(QList<QMap<QString, QVariant>> &list, bool oldVersion) //, QWidget *parent)
 {
 #ifdef GIFMOD
@@ -1736,6 +1734,7 @@ GraphWidget* GraphWidget::unCompact(QList<QMap<QString, QVariant>> &list, bool o
 
 		}
 
+#ifndef Aquifolium
 		if (list[i].value("GUI").toString() == "Block Index")
 		{
 			//			r.remove ("GUI");
@@ -1756,7 +1755,8 @@ GraphWidget* GraphWidget::unCompact(QList<QMap<QString, QVariant>> &list, bool o
 			QCoreApplication::processEvents();
 			list[i] = QMap<QString, QVariant>();
 
-		}
+        }
+#endif
 
 		if (list[i].value("GUI").toString() == "Results")
 		{
@@ -2162,7 +2162,7 @@ GraphWidget* GraphWidget::unCompact10(QList<QMap<QString, QVariant>> list) //, Q
 
 	return this;
 }
-#endif
+
 void GraphWidget::expandNode(const QModelIndex &parentIndex, bool expand)
 {
 	projectExplorer->setExpanded(parentIndex, expand);
@@ -2354,24 +2354,24 @@ void GraphWidget::nodeContextMenuRequested(Node* n, QPointF pos, QMenu *menu)
 			menu->addAction("Plot Atmospheric Concentration Record");
 		}
 	}
-	if (modelSet != NULL)
+    if (modelSet != nullptr)
 #ifndef Aquifolium
         model = (experimentID() == 0 || modelSet->Medium.size() == 0) ? 0 : &(modelSet->Medium[experimentID() - 1]);
 #else
         model = (experimentID() == 0 || modelSet->size() == 0) ? 0 : &((*modelSet)[experimentID() - 1]);
 #endif
 	else
-		model = 0; 
+        model = nullptr;
 
 
-	if (model == 0)
+    if (model == nullptr)
 		if (modelSet)
 			if (hasResults)
 			{
 				menu->addSeparator();
 				menu->addAction("No expeiments selected to show the results.")->setEnabled(false);
 			}
-	if (model != 0)
+    if (model != nullptr)
 	{
 #ifdef GIFMOD
 //		if (model->ANS.BTC[model->getblocksq(n->Name().toStdString())].n > 0)
@@ -3416,8 +3416,8 @@ QString GraphWidget::modelPathname() const
 QStringList GraphWidget::variableValuesHasError()
 {
 	int numberofErrors = 0, numberofWarnings = 0;
-	Node *n0 = 0;
-	Edge *e0 = 0;
+    Node *n0 = nullptr;
+    Edge *e0 = nullptr;
 	deselectAll();
 	QString savedExperiment = experimentName();
 

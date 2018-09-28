@@ -11,7 +11,7 @@ class Node;
 class Edge : public QGraphicsItem
 {
 public:
-    Edge(Node *sourceNode, Node *destNode, GraphWidget *_parent = 0);
+    Edge(Node *sourceNode, Node *destNode, GraphWidget *_parent = nullptr);
 	Edge(const Edge &);
     Edge operator=(const Edge &);
 	~Edge() {

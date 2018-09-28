@@ -18,7 +18,7 @@ static double TwoPi = 2.0 * Pi;
 Edge::Edge(Node *sourceNode, Node *destNode, GraphWidget *_parent)
     : arrowSize(10)
 {
-    setAcceptedMouseButtons(0);
+    setAcceptedMouseButtons(nullptr);
     source = sourceNode;
     dest = destNode;
 	model = new PropModel<Edge>(this);
@@ -44,6 +44,7 @@ Edge::Edge(Node *sourceNode, Node *destNode, GraphWidget *_parent)
 
 	setFlag(ItemIsSelectable);
 	setFlag(ItemSendsGeometryChanges);
+
 	setCacheMode(DeviceCoordinateCache);
 	setZValue(1);
 	parent = _parent;

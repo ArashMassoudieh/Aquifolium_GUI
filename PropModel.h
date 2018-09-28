@@ -23,8 +23,8 @@ public:
 	QList<T*> itemsList() {
 		return items;
 	}
-	QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-	bool setData(const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 	int rows(const QModelIndex & index = QModelIndex()) const{
 	//	//qDebug() << "rows" <<  parent->getmList(parent->Filter()).size();
 		return parent->getmList(parent->Filter()).size();

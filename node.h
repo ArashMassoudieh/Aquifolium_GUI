@@ -38,7 +38,7 @@ public:
 	Node(GraphWidget *gwidget, QString _type = "Not Defined", QString _name = "No Name", int _ID = -1, int _xx = 0, int _yy = 0, int _width = 200, int _height = 100);	
 	Node(modelItem &item, GraphWidget *gwidget);
 	Node(const Node &);
-	~Node() {
+    ~Node() override {
 		delete model;
 		delete particleInitialConditions;
 		delete constituentInitialConditions;
