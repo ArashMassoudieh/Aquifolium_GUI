@@ -14,7 +14,7 @@
 //#include "multiValues.h"
 //#include "utility_Funcs.h"
 
-Node::Node(GraphWidget *gwidget, QString _type, QString _name, int _ID, int x, int y, int _width, int _height)
+Node::Node(GraphWidget *gwidget, QString _type, QString _name, int x, int y, int _width, int _height)
 	//: graph(gwidget)
 {
 	model = new PropModel<Node>(this);
@@ -440,155 +440,33 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 	painter->setOpacity(0.7);
 	QColor Color1, Color2;
 
-
+    painter->setBrush(Qt::darkGray);
+    QRadialGradient radialGrad(QPointF(width / 2, height / 2), min(width, height));
+    radialGrad.setColorAt(0, QColor(Qt::lightGray).light(300));
+    radialGrad.setColorAt(1, QColor(Qt::lightGray).light(120));
+    QPixmap pixmap(iconfilename);
+    QRectF rect = QRectF(boundingRect().left() + 0.05*boundingRect().width(), boundingRect().top()+0.05*boundingRect().width(), boundingRect().width()*0.9, boundingRect().height()*0.9);
+    QRectF source(0.0, 0.0, 450, 612);
+    painter->drawPixmap(rect, pixmap, source);
 
 	if (parent->colorCode.nodes)
 	{
 		Color1 = color.color1; Color2 = color.color2;
 	}
 
-	else
-	{
-		if (ObjectType().ObjectType == "Soil")
-		{
-			Color1 = Qt::yellow; Color2 = Qt::darkYellow;
-		}
-		if (ObjectType().ObjectType == "Catchment")
-		{
-			Color1 = Qt::darkGray; Color2 = Qt::black;
-		}
-		if (ObjectType().ObjectType == "Pond")
-		{
-			Color1 = Qt::cyan; Color2 = Qt::darkCyan;
-		}
-		if (ObjectType().ObjectType == "Stream")
-		{
-			Color1 = Qt::blue; Color2 = Qt::darkBlue;
-		}
-		if (ObjectType().ObjectType == "Storage")
-		{
-			Color1 = Qt::gray; Color2 = Qt::darkGray;
-		}
-		if (ObjectType().ObjectType == "Darcy")
-		{
-			Color1 = Qt::darkCyan; Color2 = Qt::darkGray;
-		}
-		if (ObjectType().ObjectType == "Plant")
-		{
-			Color1 = Qt::darkGreen; Color2 = Qt::green;
-		}
-	}
-	if (ObjectType().ObjectType == "Well")
-	{
-		Color1 = Qt::yellow; Color2 = Qt::darkYellow;
-	}
-	painter->setBrush(Qt::darkGray);
-	QRadialGradient radialGrad(QPointF(width / 2, height / 2), min(width, height));
+
+
 	if (isSelected())
 	{
 		radialGrad.setColorAt(0, Qt::green);
 		radialGrad.setColorAt(1, Qt::darkGreen);
 	}
-	else if (!parent->colorCode.nodes)
 
-	{
-		if (ObjectType().ObjectType == "Soil")
-		{
-			radialGrad.setColorAt(0, QColor(Qt::yellow).light(120));
-			radialGrad.setColorAt(1, QColor(Qt::darkYellow).light(120));
-		}
-		if (ObjectType().ObjectType == "Catchment")
-		{
-			radialGrad.setColorAt(0, QColor(Qt::darkGray).light(120));
-			radialGrad.setColorAt(1, QColor(Qt::black).light(120));
-		}
-		if (ObjectType().ObjectType == "Pond")
-		{
-			radialGrad.setColorAt(0, QColor(Qt::cyan).light(120));
-			radialGrad.setColorAt(1, QColor(Qt::darkCyan).light(120));
-		}
-		if (ObjectType().ObjectType == "Stream")
-		{
-			radialGrad.setColorAt(0, QColor(Qt::blue).light(120));
-			radialGrad.setColorAt(1, QColor(Qt::darkBlue).light(120));
-		}
-		if (ObjectType().ObjectType == "Storage")
-		{
-			radialGrad.setColorAt(0, QColor(Qt::gray).light(120));
-			radialGrad.setColorAt(1, QColor(Qt::darkGray).light(120));
-		}
-		if (ObjectType().ObjectType == "Darcy")
-		{
-			radialGrad.setColorAt(0, QColor(Qt::darkCyan).light(120));
-			radialGrad.setColorAt(1, QColor(Qt::darkGray).light(120));
-		}
-		if (ObjectType().ObjectType == "Plant")
-		{
-			radialGrad.setColorAt(0, QColor(Qt::darkGreen).light(300));
-			radialGrad.setColorAt(1, QColor(Qt::green).light(120));
-			QPixmap pixmap("icons/plant.png");
-			QRectF rect = QRectF(boundingRect().left() + 0.05*boundingRect().width(), boundingRect().top()+0.05*boundingRect().width(), boundingRect().width()*0.9, boundingRect().height()*0.9);
-			QRectF source(0.0, 0.0, 450, 612);
-			painter->drawPixmap(rect, pixmap, source);
-		}
-
-		if (ObjectType().ObjectType == "Well")
-		{
-			radialGrad.setColorAt(0, QColor(Qt::yellow).light(120));
-			radialGrad.setColorAt(1, QColor(Qt::darkYellow).light(120));
-			
-		}
-		if (errorDetected())
-		{
-			radialGrad.setColorAt(0, QColor(Qt::red).light(120));
-			radialGrad.setColorAt(1, QColor(Qt::gray).light(120));
-		}
-	}
-
-	if (ObjectType().ObjectType == "Well")
-	{
-		QRectF source(0.0, 0.0, 512, 512);
-		QPixmap pixmap("icons/well.png");
-		QRectF rect = QRectF(boundingRect().left() + 10, boundingRect().top(), boundingRect().width() - 20, boundingRect().height() - 20);
-		painter->drawPixmap(rect, pixmap, source);
-		painter->setPen(QPen(Qt::black, (bold) ? 2 : 0));
-		qreal factor = parent->transform().scale(1, 1).mapRect(QRectF(0, 0, 1, 1)).width();
-		int size = 4 + 6 / factor;
-		QFont QF = painter->font(); QF.setPointSize(size);// QF.pointSize() + 2);
-		QF.setBold(bold);
-		painter->setFont(QF);
-		painter->drawText(boundingRect(), Qt::AlignCenter | Qt::AlignBottom, Name());
-		if (isSelected())
-		{
-			painter->setBrush(Qt::transparent);
-			painter->drawRoundRect(boundingRect(), 10, 10);
-			if (parent->tableProp->model() != model) {
-				parent->tableProp->setModel(model);
-			}
-		}
-	}
-	else if (ObjectType().ObjectType == "Tracer")
-	{
-		QRectF source(0.0, 0.0, 211.0, 239.0);
-		QPixmap pixmap("icons/tracer.png");
-		QRectF rect = QRectF(boundingRect().left() + 10, boundingRect().top(), boundingRect().width() - 20, boundingRect().height() - 20);
-		painter->drawPixmap(rect, pixmap, source);
-		painter->setPen(QPen(Qt::black, (bold) ? 2 : 0));
-		qreal factor = parent->transform().scale(1, 1).mapRect(QRectF(0, 0, 1, 1)).width();
-        int size = 4 + int(6 / factor);
-		QFont QF = painter->font(); QF.setPointSize(size);// QF.pointSize() + 2);
-		QF.setBold(bold);
-		painter->setFont(QF);
-		painter->drawText(boundingRect(), Qt::AlignCenter | Qt::AlignBottom, Name());
-		if (isSelected())
-		{
-			painter->setBrush(Qt::transparent);
-			painter->drawRoundRect(boundingRect(), 10, 10);
-			if (parent->tableProp->model() != model) {
-				parent->tableProp->setModel(model);
-			}
-		}
-	}
+    if (errorDetected())
+    {
+        radialGrad.setColorAt(0, QColor(Qt::red).light(120));
+        radialGrad.setColorAt(1, QColor(Qt::gray).light(120));
+    }
 	else
 	{
 		if (parent->colorCode.nodes)
@@ -602,16 +480,9 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 		QFont QF = painter->font(); QF.setPointSize(size);// QF.pointSize() + 2);
 		QF.setBold(bold);
 		painter->setFont(QF);
-		if (ObjectType().ObjectType == "Well" || ObjectType().ObjectType == "Tracer")
-			painter->drawText(10, height - 10, QString("%1: %2").arg(ObjectType().ObjectType).arg(Name()));
-		else
-		{
-			painter->drawText(10, height - 10, QString("%1, z0=%2").arg(Name()).arg(XString(getProp(variableName("z0")).toStringList())));
-			if (parent->colorCode.nodes && middleText!="")
-			{
-				painter->drawText(10, height / 2 - 10, middleText);
-			}
-		}
+
+        painter->drawText(10, height - 10, QString("%1: %2").arg(ObjectType().ObjectType).arg(Name()));
+
 		if (parent->selectedNodes().count() == 1 && parent->selectedEdges().count() == 0) // only one node is selected
 		{
             if (isSelected() && parent->tableProp)
@@ -1041,7 +912,7 @@ QMap<QString, QVariant> Node::compact() const
 Node* Node::unCompact(QMap<QString, QVariant> n, GraphWidget *gwidget, bool oldVersion)
 {
 
-	Node *node = new Node(gwidget, n["Type"].toString(), n["Name"].toString(), -1, n["X"].toInt(), n["Y"].toInt(), n["Width"].toInt(), n["Height"].toInt());
+    Node *node = new Node(gwidget, n["Type"].toString(), n["Name"].toString(), n["X"].toInt(), n["Y"].toInt(), n["Width"].toInt(), n["Height"].toInt());
 	node->setObjectSubType(n["SubType"].toString());
 	QStringList connectorNames = n["Connector Names"].toStringList();
 	//qDebug() << "Node: " << n["Name"].toString() << ", " << node->Name();

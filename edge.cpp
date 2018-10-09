@@ -15,12 +15,13 @@
 static const double Pi = 3.14159265358979323846264338327950288419717;
 static double TwoPi = 2.0 * Pi;
 
-Edge::Edge(Node *sourceNode, Node *destNode, GraphWidget *_parent)
+Edge::Edge(Node *sourceNode, Node *destNode, QString ctr_type, GraphWidget *_parent)
     : arrowSize(10)
 {
     setAcceptedMouseButtons(nullptr);
     source = sourceNode;
     dest = destNode;
+    connector_type = ctr_type;
 	model = new PropModel<Edge>(this);
 	QList<Node*> list;
     foreach (Edge *e , source->edgeList)
@@ -50,6 +51,7 @@ Edge::Edge(Node *sourceNode, Node *destNode, GraphWidget *_parent)
 	parent = _parent;
 	objectType = parent->ModelSpace; // mProp('*');
 	objectType.GuiObject = "Connector";
+    objectType.ObjectType = connector_type;
 	QList <mProp> QL;
     QL = (*parent->mList).GetList();
 //	propList = (*parent->mList).filter(objectType);
@@ -287,6 +289,7 @@ Edge::Edge(const Edge &E)
 	objectType = E.objectType;
 	avoidCrossObjects = E.avoidCrossObjects;
 	props.list = E.props.list;
+    connector_type = E.connector_type;
 }
 
 Edge Edge::operator=(const Edge &E)
@@ -307,6 +310,7 @@ Edge Edge::operator=(const Edge &E)
 	objectType = E.objectType;
 	avoidCrossObjects = E.avoidCrossObjects;
 	props.list = E.props.list;
+    connector_type = E.connector_type;
 	return *this;
 }
 
@@ -442,7 +446,7 @@ bool Edge::setValue(const QString &propName, const XString &Value)
 
 QString Edge::updateSubType()
 {
-	QString r;
+/*	QString r;
 //	QStringList Porous;
 //	Porous << "Soil" << "Darcy" << "Storage";// << "" << "";
 //	if (Porous.contains(source->ObjectType().ObjectType) || Porous.contains(dest->ObjectType().ObjectType))
@@ -457,7 +461,8 @@ QString Edge::updateSubType()
 		//qDebug() << source->ObjectType().ObjectType << dest->ObjectType().ObjectType << objectType.SubType;
 	}
 	return objectType.SubType;
-
+*/
+    return "*";
 }
 
 QMap<QString, QVariant> Edge::compact() const
@@ -488,7 +493,7 @@ Edge* Edge::unCompact(QMap<QString, QVariant> n, GraphWidget *gwidget, bool oldV
 	QString dest = n["Dest Node"].toString();
 	//qDebug() << gwidget->node(source)->Name();
 	//qDebug() << gwidget->node(dest)->Name();
-	Edge *edge = new Edge(gwidget->node(source), gwidget->node(dest), gwidget);
+    Edge *edge = new Edge(gwidget->node(source), gwidget->node(dest), "", gwidget);
 
 	if (!gwidget->Edges().contains(edge))
 	{

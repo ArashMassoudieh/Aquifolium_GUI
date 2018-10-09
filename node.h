@@ -35,7 +35,7 @@ class Node : public QGraphicsItem
 	//Q_OBJECT
 
 public:
-	Node(GraphWidget *gwidget, QString _type = "Not Defined", QString _name = "No Name", int _ID = -1, int _xx = 0, int _yy = 0, int _width = 200, int _height = 100);	
+    Node(GraphWidget *gwidget, QString _type = "Not Defined", QString _name = "No Name", int _xx = 0, int _yy = 0, int _width = 200, int _height = 100);
 	Node(modelItem &item, GraphWidget *gwidget);
 	Node(const Node &);
     ~Node() override {
@@ -142,7 +142,8 @@ public:
 	}
 	QString middleText = "";
 	void changed();
-
+    QString geticonfilename() {return iconfilename;}
+    void seticonfilename(const QString& icnflname ) {iconfilename = icnflname;}
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 	void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
@@ -156,7 +157,7 @@ signals:
 private:
 	int width, height;
 	QString name;
-
+    QString iconfilename;
 	QPointF newPos;
 //	GraphWidget *graph;
 //	QMap<QString, QString> warnings, errors;

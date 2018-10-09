@@ -348,7 +348,8 @@ public:
 	void entityChanged(Entity*);
     void delegateDatePicked(QCalendarWidget *calendar = nullptr, QModelIndex index = QModelIndex());
 	//QComboBox* experiments;
-
+    QString getselectedconnectfeature() {return connect_feature;} //returns the type of connector to be added.
+    void setconnectfeature(QString cf) {connect_feature = cf;} //sets the type of connector to be used
 signals:
 	void Mouse_Pos(int, int, QString);
 	void changed();
@@ -376,6 +377,7 @@ private:
 	bool sceneReady = false;
 	QList<Node*> nodes(const QList<QGraphicsItem*>items) const;
 	QList<Edge*> edges(const QList<QGraphicsItem*>items) const;
+    QString connect_feature = "";
 };
 bool validInflowFile(QString file);
 QString getTime(bool reset=true);

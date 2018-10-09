@@ -487,7 +487,7 @@ void GraphWidget::mousePressEvent(QMouseEvent *event)
 		if (node)
 			if (node->itemType == Object_Types::Block)
 			{
-				int xx = mapToScene(event->pos()).x();	int yy = mapToScene(event->pos()).y();
+                int xx = mapToScene(event->pos()).x();	int yy = int(mapToScene(event->pos()).y());
 				if (event->buttons() == Qt::LeftButton)
 				{
 					if (event->modifiers() && Qt::ControlModifier) {
@@ -501,7 +501,7 @@ void GraphWidget::mousePressEvent(QMouseEvent *event)
 						resizecorner = node->corner(xx, yy);
 						node->setFlag(QGraphicsItem::ItemIsMovable, false);
 					}
-					else if (node->edge(xx, yy)) {
+                    else if (node->edge(xx, yy) && getselectedconnectfeature()!="") {
 						node->setFlag(QGraphicsItem::ItemIsMovable, false);
 						Node1 = node;
 						tempRay = new Ray();
@@ -586,7 +586,7 @@ void GraphWidget::mouseMoveEvent(QMouseEvent *event)
 		//		e1->setBold(true);
 		//		e1->update();
 		//txt = QString("%1, %2: %3").arg(c2->ObjectType().GuiObject).arg(c2->ObjectType().ObjectType).arg(c2->Name());
-		QString toolTip = QString("%1, %2: %3").arg(e1->ObjectType().GuiObject).arg(e1->ObjectType().ObjectType).arg(e1->ObjectType().SubType);
+        QString toolTip = QString("%1, %2").arg(e1->ObjectType().GuiObject).arg(e1->ObjectType().ObjectType);
 		//QString toolTip = QString("Type: %1\nName: %2").arg(c1->ObjectType().ObjectType).arg(c1->Name());
 		//toolTip.append(QString("\nBottom Elevation: %1").arg(c1->val("z0").toStringUnit()));
 		//if (c1->errors.count()) toolTip.append(QString("\n%1 Error(s)").arg(c1->errors.count()));
@@ -767,7 +767,7 @@ void GraphWidget::mouseReleaseEvent(QMouseEvent *event)
 		Node *child = static_cast<Node*> (itemAt(event->pos())); //Get the item at the position
 		if (!child)	break;
 		if (child->itemType != Object_Types::Block) break;
-		if (Node1 != child) new Edge(Node1, child, this);
+        if (Node1 != child) new Edge(Node1, child, connect_feature, this);
 		break;
 	}
 	//	default:

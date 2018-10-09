@@ -63,6 +63,7 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         qDebug()<<QString::fromStdString(system.GetAllLinkTypes()[i]);
         QAction* action = new QAction(this);
+        action->setCheckable(true);
         action->setObjectName(QString::fromStdString(system.GetAllLinkTypes()[i]));
         QIcon icon;
         icon.addFile(QString::fromStdString(qApp->applicationDirPath().toStdString()+"/resources/Icons/"+system.GetModel(system.GetAllLinkTypes()[i])->IconFileName()), QSize(), QIcon::Normal, QIcon::Off);
@@ -85,21 +86,23 @@ MainWindow::~MainWindow()
 void MainWindow::onaddlink()
 {
     QObject* obj = sender();
-    qDebug()<<"link added! "<<obj->objectName();
+    diagramview->setconnectfeature(obj->objectName());
+    foreach (QAction* action, ui->mainToolBar->actions())
+    {
+        if (action->objectName()!=obj->objectName())
+            action->setChecked(false);
+        else
+            action->setChecked(true);
+    }
 
-    QGraphicsRectItem* item = new QGraphicsRectItem(5000,5000,5100,5100);
-    item->setBrush(QBrush(Qt::red));
-    item->setFlags(QGraphicsItem::ItemIsMovable);
-    //ui->graphicsView_2->scene()->addItem(item);
 }
 void MainWindow::onaddblock()
 {
     QObject* obj = sender();
     counts[obj->objectName()]=counts[obj->objectName()]+1;
     qDebug()<<"block added! " << obj->objectName();
-    QString iconfilename = qApp->applicationDirPath()+"/resources/Icons/"+QString::fromStdString(system.GetModel(obj->objectName().toStdString())->IconFileName());
-    //QGraphicsRectItem* item = new QGraphicsRectItem(0,0,100,100);
     qDebug()<<"creating new AqflmBlockItem";
-    Node* item = new Node(diagramview,obj->objectName(),obj->objectName() + QString::number(counts[obj->objectName()]));
+    Node* item = new Node(diagramview,obj->objectName(),obj->objectName() + QString::number(counts[obj->objectName()]),int(diagramview->scene()->width()/2), int(diagramview->scene()->height()/2));
+    item->seticonfilename(qApp->applicationDirPath()+"/resources/Icons/"+QString::fromStdString(system.GetModel(obj->objectName().toStdString())->IconFileName()));
 
 }

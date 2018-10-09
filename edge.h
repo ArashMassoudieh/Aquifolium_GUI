@@ -11,7 +11,7 @@ class Node;
 class Edge : public QGraphicsItem
 {
 public:
-    Edge(Node *sourceNode, Node *destNode, GraphWidget *_parent = nullptr);
+    Edge(Node *sourceNode, Node *destNode, QString connect_type, GraphWidget *_parent = nullptr);
 	Edge(const Edge &);
     Edge operator=(const Edge &);
 	~Edge() {
@@ -72,6 +72,8 @@ public:
 	QString experimentName() const;
 	void copyProps(QString sourceExperiment, QString destExperiment);
 	void changed();
+    void SetConnectorType(const QString &Typ) {connector_type = Typ;}
+    QString GetConnectorType() {return connector_type;}
 
 protected:
     QRectF boundingRect() const Q_DECL_OVERRIDE;
@@ -84,6 +86,7 @@ private:
 	int sourceID, destID;
 //	PropList<Edge> props;
 	bool intersects(double x, double y);
+    QString connector_type = "";
 };
 /*
 bool twoLineIntersect(QPoint p1, QPoint p2, QLine l2){
