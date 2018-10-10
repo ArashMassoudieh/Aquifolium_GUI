@@ -6,7 +6,7 @@
 #include <qdatetime.h>
 #include <qstringlist.h>
 #include <qdebug.h>
-#include "math.h"
+#include <math.h>
 #endif // QT_version
 
 #include <utility_funcs.h>
