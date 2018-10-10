@@ -19,7 +19,7 @@ XString PropListItem<Node>::getProp(const QString &inpPropName, Node* parent) co
 		filter.VariableName = propName;
 		mPropList mPL = parent->getmList(filter);
 		if (mPL.size() == 0) return ".";
-		QList<XString> LX = mPL[0].DefaultValuesList(0,0,parent->parent);
+        QList<XString> LX = mPL[0].DefaultValuesList(nullptr,nullptr,parent->parent);
 		XString r = (LX.count()) ? LX[0]: "";
 		return r;
 
@@ -86,11 +86,11 @@ XString PropListItem<Edge>::getProp(const QString &inpPropName, Edge* parent) co
 		mProp filter = parent->Filter();
 		filter.VariableName = propName;
 		mPropList mPL = parent->getmList(filter);
-		QList<XString> LX = mPL[0].DefaultValuesList(0, 0, parent->parent);
+        QList<XString> LX = mPL[0].DefaultValuesList(nullptr, nullptr, parent->parent);
 		XString r = LX[0];
 		return r;
 
-		return parent->getmList(filter)[0].DefaultValuesList(0, 0, parent->parent)[0];
+        return parent->getmList(filter)[0].DefaultValuesList(nullptr, nullptr, parent->parent)[0];
 	}
 
 }

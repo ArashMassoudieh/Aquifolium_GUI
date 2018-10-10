@@ -137,7 +137,7 @@ mListReadStatus mPropList::GetFromMetaModel(MetaModel &m)
 
             mP.DescriptionCode = QString::fromStdString(it1->second.DescriptionCode());
             mP.Abbreviations = QString::fromStdString(it1->second.Abbreviation()).split(";");
-
+            mP.set_user_provided(it1->second.AskFromUser());
             List.append(mP);
         }
     }
@@ -183,7 +183,7 @@ mListReadStatus mPropList::GetFromMetaModel(MetaModel *m)
 
             mP.DescriptionCode = QString::fromStdString(it1->second.DescriptionCode());
             mP.Abbreviations = QString::fromStdString(it1->second.Abbreviation()).split(";");
-
+            mP.set_user_provided(it1->second.AskFromUser());
             List.append(mP);
         }
     }
@@ -361,6 +361,21 @@ mPropList mPropList::filter(const mProp &mP) const
 	}
 //	//qDebug() << "filter:" << counter++;
 	return(r);
+}
+
+mPropList mPropList::getaskables() const
+{
+    static int counter = 0;
+    static mPropList r;
+
+    r = mPropList();
+    int n = List.size();
+    for (int i = 0; i < n; i++)
+    {
+        if (List[i].get_user_provided()) r.List.append(List[i]);
+    }
+//	//qDebug() << "filter:" << counter++;
+    return(r);
 }
 
 mPropList mPropList::filter_abv(const mProp &mP) const

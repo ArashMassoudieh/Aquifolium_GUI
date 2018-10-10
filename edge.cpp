@@ -54,20 +54,11 @@ Edge::Edge(Node *sourceNode, Node *destNode, QString ctr_type, GraphWidget *_par
     objectType.ObjectType = connector_type;
 	QList <mProp> QL;
     QL = (*parent->mList).GetList();
-//	propList = (*parent->mList).filter(objectType);
-//	for (int i = 0; i < propList.size(); i++)
-		//		PropList.List[i].Value = QSplit (PropList.List[i].DefaultValues, ':')[0];
-//		propList.List[i].Value = propList.List[i].DefaultValuesList()[0];
-
-//	ObjectType.ObjectType = sourceNode->ObjectType.ObjectType;
-//	mProp filter;
-	//	filter = (parent->ModelSpace && ObjectType);
-	//filter = (*parent).ModelSpace && ObjectType;
     if ((*parent->mList).filter(objectType).ObjectTypes().size())
         objectType.ObjectType = (*parent->mList).filter(objectType).ObjectTypes()[0];
-//	objectType.SubType = (*parent->mList).filter(objectType).SubTypes()[0];
+
 	updateSubType();
-//	props = new PropList<Edge>(this);
+
 	props.parent = this;
 
 	parent->MainGraphicsScene->addItem(this);

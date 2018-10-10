@@ -265,7 +265,7 @@ QVariant Node::getProp(const QString &propName, const QList<Node*> nodes, const 
 		redBoldFont.setBold(true);
 		if (parent->applicationShortName == "GWA" && propName == "Name") return boldFont;
 		if (parent->applicationShortName != "GWA" && (propName == "Name" || propName == "Type" || propName == "SubType")) return boldFont;
-		if (mValue.DefaultValuesStringList(0, 0, parent).indexOf(getValue(propName)) != -1) return boldFont;
+        if (mValue.DefaultValuesStringList(nullptr, nullptr, parent).indexOf(getValue(propName)) != -1) return boldFont;
 		else return QFont();
 	}
 	if (role == Qt::CheckStateRole)

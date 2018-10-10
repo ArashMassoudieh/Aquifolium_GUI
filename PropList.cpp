@@ -31,7 +31,7 @@ XString PropList<Node>::getProp(const QString &propName, const QString &experime
 		filter.VariableName = propName;
 		mPropList mPL = parentSub->getmList(filter);
 		if (mPL.size() == 0) return ".";
-		QList<XString> LX = mPL[0].DefaultValuesList(0,0,parentSub->parent);
+        QList<XString> LX = mPL[0].DefaultValuesList(nullptr,nullptr,parentSub->parent);
 		XString r = (LX.count()) ? LX[0]: "";
 		return r;
 	}

@@ -7,17 +7,17 @@ class GraphWidget;
 class mProp
 {
 public:
-	mProp(){};
+    mProp(){}
 	mProp(const QString &QS){ 
 		//parent = _parent;  
-		setValue(QS); };
+        setValue(QS); }
 	mProp(const char &ch){
 		//parent = _parent;  
 		setValue(QString::fromUtf8(&ch, 1));
-	};
+    }
 	mProp(const QStringList &QL){
 		//parent = _parent;  
-		setValue(QL); };
+        setValue(QL); }
 //	mProp(const vector<string> &);
 //	mProp(const vector<QString> &);
 	mProp(const mProp &);
@@ -65,10 +65,13 @@ public:
 	void setDefaultValues(const QString &value, const QString &units, const QString &defaultUnit);
 //	XString Value;
 	QString DefaultValuesString() const;
+    void set_user_provided(bool usrprvdd) {user_provided = usrprvdd;}
+    bool get_user_provided() const {return user_provided;}
 //	mPropList *parent;
 
 private:
 	XString DefaultValues;
+    bool user_provided = false; // indicates whether this property is provided by the user
 
 };
 bool conditionConformed(QString condition, QString value, GraphWidget *gw);

@@ -26,6 +26,7 @@ mProp::mProp(const mProp &mP)
 	error = mP.error;
 	errorDesc = mP.errorDesc;
 	ExperimentDependent = mP.ExperimentDependent;
+    user_provided = mP.user_provided;
 }
 
 mProp mProp::operator= (const mProp &mP)

@@ -27,10 +27,10 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 	int rows(const QModelIndex & index = QModelIndex()) const{
 	//	//qDebug() << "rows" <<  parent->getmList(parent->Filter()).size();
-		return parent->getmList(parent->Filter()).size();
+        return parent->getmList(parent->Filter()).getaskables().size();
     }
 	int rowCount(const QModelIndex & index = QModelIndex()) const{
-		return parent->getmList(parent->Filter()).size()+8;
+        return parent->getmList(parent->Filter()).getaskables().size()+8;
     }
 	int columnCount(const QModelIndex & parent = QModelIndex()) const {
         return 2; }
@@ -83,7 +83,7 @@ public slots:
 		if (_fileName.contains("..."))
 			file =
 			QFileDialog::getOpenFileName(
-			0, //qApp->activeWindow(),
+                        nullptr, //qApp->activeWindow(),
 			tr("Select the File"),
 			QDir::currentPath(),
 			tr("Time Series Input Files (*.txt *.csv)"));
