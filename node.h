@@ -40,9 +40,11 @@ public:
 	Node(const Node &);
     ~Node() override {
 		delete model;
-		delete particleInitialConditions;
+#ifdef GIFMOD
+        delete particleInitialConditions;
 		delete constituentInitialConditions;
 		delete NutrientHalfSaturationConstants;
+#endif
 
     }
 	objectColor color;

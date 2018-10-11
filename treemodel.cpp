@@ -394,6 +394,9 @@ void TreeModel::deleteNode(Node *node)
 {
 	Parent->log(QString("Deleting %1 block by tree view command.").arg(node->Name()));
 	TreeItem *branch;
+#ifdef Aquifolium
+    branch = blocks;
+#endif
 #ifdef GIFMOD
 	branch = blocks;
 #endif

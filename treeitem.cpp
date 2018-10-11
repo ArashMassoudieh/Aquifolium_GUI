@@ -72,10 +72,13 @@ QString TreeItem::Name() const
 	switch (type){
 	case Type::NodeItem:
 		if (node) return node->Name();
+        break;
 	case Type::EdgeItem:
 		if (edge) return edge->Name();
+        break;
 	case Type::EntityItem:
 		if (entity) return entity->Name();
+        break;
 	default:
 		return name;
 	}

@@ -150,8 +150,8 @@ bool MainWindow::saveModel(QString &fileName)
         clock_t t0, t1;		t0 = clock();
 
         {
-            t1 = clock() - t0;		float run_time = ((float)t1) / CLOCKS_PER_SEC;		QString st = " sec";		if (run_time >= 60) { run_time /= 60; st = " min"; }
-            if (run_time >= 60) { run_time /= 60; st = " hr"; }		QString r = QString("%1 %2").arg(run_time).arg(st);
+            t1 = clock() - t0;		float run_time = (float(t1)) / CLOCKS_PER_SEC;		QString st = " sec";		if (run_time >= 60) { run_time /= 60; st = " min"; }
+            if (run_time >= 60) { run_time /= 60; st = " hr"; }		QString r = QString("%1 %2").arg(double(run_time)).arg(st);
             getTime();
             out << diagramview->compact();
 
