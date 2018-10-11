@@ -152,7 +152,8 @@ HEADERS += \
     delegate.h \
     UnitTextBox.h \
     UnitTextBox2.h \
-    UnitTextBox3.h
+    UnitTextBox3.h \
+    folders.h
 
 FORMS += \
         mainwindow.ui \

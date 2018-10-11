@@ -36,9 +36,15 @@ private:
     AqflmBlockItem *itemselected;
     QString modelpathname;
     TreeModel *projModel;
+    QStringList recentFiles;
+    bool saveModel(QString &fileName);
+    void setModelFileName(const QString &fileName);
+    void addToRecentFiles(QString fileName, bool addToFile=true);
+    void writeRecentFilesList();
 private slots:
     void onaddlink();
     void onaddblock();
+    void on_action_Save_triggered();
 
 };
 
