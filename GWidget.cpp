@@ -1555,10 +1555,12 @@ void GraphWidget::clear()
 }
 void GraphWidget::experimentsComboClear(bool addExperiment1)
 {
-	experiments->clear();
-	experiments->addItem("All experiments");
-	if (addExperiment1)
-		experiments->addItem("experiment1");
+    if (experiments)
+    {   experiments->clear();
+        experiments->addItem("All experiments");
+        if (addExperiment1)
+            experiments->addItem("experiment1");
+    }
 }
 
 void GraphWidget::clearRXN()
@@ -1803,10 +1805,10 @@ GraphWidget* GraphWidget::unCompact(QList<QMap<QString, QVariant>> &list, bool o
 	}
 
 	QStringList missingList;
-	missingList << "Markov chain Monte Carlo" << "Project settings";
 
 #ifdef GIFMOD
-	missingList << "Solver settings" << "Climate settings";
+    missingList << "Markov chain Monte Carlo" << "Project settings";
+    missingList << "Solver settings" << "Climate settings";
 
 #endif
     for (QString missing  : missingList)

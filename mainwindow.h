@@ -41,11 +41,18 @@ private:
     void setModelFileName(const QString &fileName);
     void addToRecentFiles(QString fileName, bool addToFile=true);
     void writeRecentFilesList();
+    bool loadModel(QString modelfilename);
+    QString fileExtension, metafilename, applicationShortName;
 private slots:
     void onaddlink();
     void onaddblock();
     void on_action_Save_triggered();
-
+    void on_actionZoom_In_triggered();
+    void on_actionZoom_Out_triggered();
+    void on_actionZoom_All_triggered();
+    void on_actionE_xit_triggered();
+    void on_action_Open_triggered();
+    void on_actionSave_As_triggered();
 };
 
 #endif // MAINWINDOW_H

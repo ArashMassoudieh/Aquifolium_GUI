@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    fileExtension = "aqfm";
     string modelfilename = qApp->applicationDirPath().toStdString() + "/resources/power_reservoirs.qnt";
     system.GetQuanTemplate(modelfilename);
     ui->setupUi(this);
@@ -78,6 +79,7 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(on_action_Save_triggered()));
+    connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(on_action_Open_triggered()));
     //scene = new QGraphicsScene(this);
     //diagramview->view()->setScene(scene);
 
@@ -116,7 +118,27 @@ void MainWindow::on_action_Save_triggered()
 {
     QString fileName = (!diagramview->modelFilename.isEmpty()) ? diagramview->modelFilename : QFileDialog::getSaveFileName(this,
         tr("Save ").append(applicationName), diagramview->modelPathname(),
-        tr("Model (*.").append(".aqf").append(");;All Files (*)"));
+        tr("Model (*.").append(fileExtension).append(");;All Files (*)"));
+    if (saveModel(fileName))
+    {
+        setModelFileName(fileName);
+        if (fileName.right(4) != "temp")
+            addToRecentFiles(fileName);
+    }
+}
+
+void MainWindow::on_actionSave_As_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+        tr("Save ").append(applicationName), diagramview->modelPathname(),
+        tr("Model (*.").append(fileExtension).append(");;All Files (*)"));
+    Entity *e = diagramview->entityByName("Project settings (1)");
+
+    diagramview->Entities.removeOne(e);
+    if (fileName.right(fileExtension.size()+1)!="."+fileExtension)
+        fileName += "."+fileExtension;
+    saveModel(fileName);
+
     if (saveModel(fileName))
     {
         setModelFileName(fileName);
@@ -156,10 +178,8 @@ bool MainWindow::saveModel(QString &fileName)
             out << diagramview->compact();
 
             file.flush();
-
             file.close();
         }
-
 
         return true;
     }
@@ -211,11 +231,113 @@ void MainWindow::writeRecentFilesList()
     ofstream file(localAppFolderAddress().toStdString() + RECENT);
     if (file.good())
     {
-        int i = recentFiles.removeDuplicates();
+        recentFiles.removeDuplicates();
         foreach (QString fileName , recentFiles)
             file << fileName.toStdString() << std::endl;
     }
     file.close();
 }
 
+void MainWindow::on_action_Open_triggered()
+{
+    //open
+    if (diagramview->hasChanged())
+        if (QMessageBox::question(this, tr("Open Model"),
+            "Your model has not been saved.\nAll changes in the model will be lost.\nAre you sure?", QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::No)
+            return;
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open ").append(applicationName), diagramview->modelPathname(),
+        tr("Model (*.").append(fileExtension).append(");;All Files (*)"));
+    diagramview->clear();
+    if (fileName == "") return;
+    if (loadModel(fileName))
+    {
+        //diagramview->modelSet->load(diagramview, rtw); !Attention
+        on_actionZoom_All_triggered();
+        diagramview->updateNodeCoordinates();
+        addToRecentFiles(fileName);
+    }
+    else
+    {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::information(this, "File Corrupted!", "The model file is corrupted.",
+            QMessageBox::Ok);
+    }
+
+
+}
+bool MainWindow::loadModel(QString modelfilename)
+{
+    if (modelfilename.isEmpty())
+        return false;
+    else {
+        QFile file(modelfilename);
+        if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::information(this, tr("Unable to open file"),
+                file.errorString());
+            return false;
+        }
+        QDataStream in(&file);
+        in.setVersion(QDataStream::Qt_4_5);
+        QString fileHeader;
+        in >> fileHeader;
+        QList <QMap<QString, QVariant>> dataMap;
+
+        in >> dataMap;
+        file.close();
+
+        QString previousModelFilename = diagramview->modelFilename;
+        setModelFileName(modelfilename);
+
+
+        diagramview->trackingUndo = false;
+        diagramview->clear();
+        diagramview->unCompact(dataMap);
+
+    }
+
+    foreach (Node *n , diagramview->Nodes())
+    {
+        n->setProp("x", n->x());
+        n->setProp("y", n->y());
+    }
+
+    //	updateInterface(NavigationMode);
+    diagramview->changedState = false;
+    diagramview->trackingUndo = true;
+    return true;
+}
+
+void MainWindow::on_actionZoom_In_triggered()
+{
+    //Zoom In
+    //mainGraphWidget->zoomIn();
+
+    diagramview->scaleView(1.25);
+}
+
+void MainWindow::on_actionZoom_Out_triggered()
+{
+    diagramview->scaleView(1 / 1.25);
+}
+
+void MainWindow::on_actionZoom_All_triggered()
+{
+    QRectF newRect = diagramview->MainGraphicsScene->itemsBoundingRect();
+    float width = float(newRect.width());
+    float height = float(newRect.height());
+    float scale = float(1.1);
+    newRect.setLeft(newRect.left() - float(scale - 1) / 2 * float(width));
+    newRect.setTop(newRect.top() - (scale - 1) / 2 * height);
+    newRect.setWidth(qreal(width * scale));
+    newRect.setHeight(qreal(height * scale));
+
+    diagramview->fitInView(newRect,Qt::KeepAspectRatio);
+}
+
+
+void MainWindow::on_actionE_xit_triggered()
+{
+    this->close();
+}
 
