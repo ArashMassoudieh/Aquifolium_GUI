@@ -52,9 +52,11 @@
      </property>
      <addaction name="separator"/>
     </widget>
+    <addaction name="separator"/>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
+    <addaction name="actionSave_as_JSON"/>
     <addaction name="separator"/>
     <addaction name="menuRecent_Files"/>
    </widget>
@@ -137,6 +139,19 @@
     </layout>
    </widget>
   </widget>
+  <widget class="QToolBar" name="filetoolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionOpen"/>
+   <addaction name="actionSave"/>
+  </widget>
   <action name="actionTest">
    <property name="icon">
     <iconset>
@@ -150,6 +165,10 @@
    </property>
   </action>
   <action name="actionSave">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/Icons/Save.png</normaloff>resources/Icons/Save.png</iconset>
+   </property>
    <property name="text">
     <string>Save ...</string>
    </property>
@@ -158,16 +177,33 @@
    </property>
   </action>
   <action name="actionSave_As">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/Icons/Save.png</normaloff>resources/Icons/Save.png</iconset>
+   </property>
    <property name="text">
     <string>Save As ...</string>
    </property>
   </action>
   <action name="actionOpen">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/Icons/open.ico</normaloff>resources/Icons/open.ico</iconset>
+   </property>
    <property name="text">
     <string>Open ...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionSave_as_JSON">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/Icons/Save.png</normaloff>resources/Icons/Save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save as JSON ...</string>
    </property>
   </action>
  </widget>

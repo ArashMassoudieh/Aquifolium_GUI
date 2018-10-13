@@ -35,7 +35,7 @@ public:
         const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE;
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
-		const QModelIndex &index) const;
+        const QModelIndex &index) const override;
 	GraphWidget* parent;
 
 public slots:

@@ -19,6 +19,7 @@
 #include "colorScheme.h"
 #include "Command.h"
 #include "plotWindow.h"
+#include <QJsonObject>
 
 //class MainWindow;
 class helpWindow;
@@ -173,6 +174,7 @@ public:
 	QStringList inflowFileNames;
 
 	QList<QMap<QString, QVariant>> compact() const;// QDataStream &out = QDataStream(), bool toFile = false) const;
+    void compact(QJsonObject &json) const;
 	QList<QMap<QString, QVariant>> compactRXN() const;
 	GraphWidget* unCompact(QList<QMap<QString, QVariant>>&, bool oldVersionLoad = false);//, QWidget *parent = 0);
     GraphWidget* unCompact(QDataStream &in);

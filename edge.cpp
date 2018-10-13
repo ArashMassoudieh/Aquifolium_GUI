@@ -475,6 +475,25 @@ QMap<QString, QVariant> Edge::compact() const
 	return r;
 }
 
+void Edge::compact(QJsonObject &json) const
+{
+//	//qDebug() << "Compacting: " << name << sourceNode()->Name() << destNode()->Name();
+
+    QJsonObject edgejson;
+    edgejson["Source Node"] = sourceNode()->Name();
+    edgejson["Dest Node"] = destNode()->Name();
+
+    edgejson["GUI"] = GUI;
+    edgejson["Name"] = name;
+    edgejson["Type"] = objectType.ObjectType;
+    edgejson["SubType"] = objectType.SubType;
+    edgejson["Arrow Size"] = arrowSize;
+    props.compact(edgejson);
+    json[name] = edgejson;
+
+
+}
+
 Edge* Edge::unCompact(QMap<QString, QVariant> n, GraphWidget *gwidget, bool oldVersion)
 {
 	//qDebug() << "Loading: " << n["Name"].toString() << n["Source Node"].toString() << n["Dest Node"].toString();

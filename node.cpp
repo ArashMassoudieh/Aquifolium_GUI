@@ -343,12 +343,12 @@ bool Node::setProp(const QString &propName, const QVariant &Value, const int rol
 		QStringList valallUnits;
 		valallUnits.append(Value.toString());
 		valallUnits.append(getProp(propName, allUnitsRole).toStringList());
-		
+        setX(getProp(variableName("x")).toInt());
+        setY(getProp(variableName("y")).toInt());
+        setWidth(getProp(variableName("appwidth")).toInt());
+        setHeight(getProp(variableName("appheight")).toInt());
 		return setValue(propName, valallUnits);
-		setX(getProp(variableName("x")).toInt());
-		setY(getProp(variableName("y")).toInt());
-		setWidth(getProp(variableName("appwidth")).toInt());
-		setHeight(getProp(variableName("appheight")).toInt());
+
 	}
 
 	return false;
@@ -909,6 +909,31 @@ QMap<QString, QVariant> Node::compact() const
 	r["Nutrient Half Saturation Constants"] = HSCList;
 	return r;
 }
+
+void Node::compact(QJsonObject &json) const
+{
+//	//qDebug() << "Compacting: " << name;
+    QMap<QString, QVariant> r;
+    QStringList connectorNames;
+    foreach (Edge * e , edgeList)
+        connectorNames.append(e->Name());
+
+    QJsonObject nodejson;
+    nodejson["GUI"] = GUI;
+    nodejson["Name"] = name;
+    nodejson["Type"] = objectType.ObjectType;
+    nodejson["SubType"] = objectType.SubType;
+    nodejson["X"] = x();
+    nodejson["Y"] = y();
+    nodejson["Width"] = Width();
+    nodejson["Height"] = Height();
+    nodejson["Connector Names"] = connectorNames.join(",");
+    props.compact(nodejson);
+    json[name] = nodejson;
+
+
+}
+
 Node* Node::unCompact(QMap<QString, QVariant> n, GraphWidget *gwidget, bool oldVersion)
 {
 

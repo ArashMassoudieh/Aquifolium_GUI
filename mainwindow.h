@@ -38,6 +38,7 @@ private:
     TreeModel *projModel;
     QStringList recentFiles;
     bool saveModel(QString &fileName);
+    bool saveModelJson(QString &fileName);
     void setModelFileName(const QString &fileName);
     void addToRecentFiles(QString fileName, bool addToFile=true);
     void writeRecentFilesList();
@@ -53,6 +54,7 @@ private slots:
     void on_actionE_xit_triggered();
     void on_action_Open_triggered();
     void on_actionSave_As_triggered();
+    void on_actionSave_As_JSON_triggered();
 };
 
 #endif // MAINWINDOW_H

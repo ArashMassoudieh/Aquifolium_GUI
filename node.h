@@ -4,6 +4,7 @@
 #include "PropList.h"
 #include "XString.h"
 #include "enums.h"
+#include <QJsonObject>
 
 //#include "GWidget.h"
 //using namespace std;
@@ -108,6 +109,7 @@ public:
 	QList<NutrientHalfSaturationConstantItem> &NutrientHalfSaturationConstant(QString experimentName = "") const;
 	QList<NutrientHalfSaturationConstantItem> &NutrientHalfSaturationConstant(QString experimentName = "");
 	QMap<QString, QVariant> compact() const;
+    void compact(QJsonObject &json) const;
 	static Node* unCompact(QMap<QString, QVariant>, GraphWidget *gwidget, bool oldVersion = false);
 	static Node* unCompact10(QMap<QString, QVariant>, GraphWidget *gwidget);
 	QStringList codes() const;
@@ -148,10 +150,10 @@ public:
     void seticonfilename(const QString& icnflname ) {iconfilename = icnflname;}
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
-	void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
 
 signals:
-	void hoverMoveEvent(QGraphicsSceneHoverEvent * event);
+    void hoverMoveEvent(QGraphicsSceneHoverEvent * event) override;
 
 //public slots:
 //	void contextMenuClicked(QAction*);

@@ -9,6 +9,7 @@
 #include "delegate.h"
 #include "qmessagebox.h"
 #include "folders.h"
+#include <QJsonDocument>
 
 #define RECENT "recentFiles.txt"
 
@@ -80,6 +81,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(on_action_Save_triggered()));
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(on_action_Open_triggered()));
+    connect(ui->actionSave_as_JSON, SIGNAL(triggered()),this,SLOT(on_actionSave_As_JSON_triggered()));
     //scene = new QGraphicsScene(this);
     //diagramview->view()->setScene(scene);
 
@@ -146,6 +148,50 @@ void MainWindow::on_actionSave_As_triggered()
             addToRecentFiles(fileName);
     }
 }
+
+void MainWindow::on_actionSave_As_JSON_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+        tr("Save ").append(applicationName), diagramview->modelPathname(),
+        tr("JSON (*.").append("json").append(");;All Files (*)"));
+    Entity *e = diagramview->entityByName("Project settings (1)");
+
+    diagramview->Entities.removeOne(e);
+    if (fileName.right(fileExtension.size()+1)!=".json")
+        fileName += ".json";
+
+    if (saveModelJson(fileName)) {
+        setModelFileName(fileName);
+        if (fileName.right(4) != "temp")
+            addToRecentFiles(fileName);
+    }
+}
+
+bool MainWindow::saveModelJson(QString &fileName)
+{
+    if (fileName.isEmpty())
+        return false;
+    else {
+        QFile saveFile(fileName);
+        if (!saveFile.open(QIODevice::WriteOnly)) {
+            QMessageBox::information(this, tr("Unable to open file"),
+                saveFile.errorString());
+            return false;
+        }
+
+        QJsonObject json;
+        diagramview->compact(json);
+        QJsonDocument saveDoc(json);
+        saveFile.write(saveDoc.toJson());
+        saveFile.flush();
+        saveFile.close();
+
+    }
+
+    return true;
+
+}
+
 
 bool MainWindow::saveModel(QString &fileName)
 {

@@ -4,6 +4,7 @@
 #include "PropList.h"
 #include "XString.h"
 #include "node.h"
+#include <QJsonObject>
 
 class GraphWidget;
 class Node;
@@ -53,7 +54,8 @@ public:
 	PropList<Edge> props;
 	mProp objectType;
 	QString name; // , id;
-	QMap<QString, QVariant> compact() const;
+    void compact(QJsonObject &json) const;
+    QMap<QString, QVariant> compact() const;
 	static Edge* unCompact(QMap<QString, QVariant>, GraphWidget *gwidget, bool oldVersionLoad = false);
 	static Edge* unCompact10(QMap<QString, QVariant>, GraphWidget *gwidget);
 	QStringList codes() const;

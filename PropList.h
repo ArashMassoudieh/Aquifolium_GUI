@@ -7,6 +7,7 @@ class Node;
 class XString;
 class QString;
 #include "qvariant.h"
+#include <QJsonObject>
 
 template<class T>
 class PropList
@@ -48,6 +49,67 @@ public:
 			return rr;
 		}
 	}
+
+    void compact(QJsonObject &json) const
+    {
+        foreach (QString experiment, list.keys())
+        {
+            QMap<QString, QString> experimentProps = list.value(experiment).compact();
+            foreach (QString propertyName , experimentProps.keys())
+            {
+                QString val = experimentProps.value(propertyName);
+                if (val == OnlyPath(parent->parent->modelFilename))
+                    val = ".";
+                json[experiment + "$$$" + propertyName + "$$$"] = val;
+            }
+        }
+    }
+
+    static QMap<QString, PropListItem<T>> uncompact(const QJsonObject &json)
+    {
+        QStringList experiments;
+        QMultiMap<QString, QStringList> compacted;
+        QMap<QString, PropListItem<T>> r;
+        foreach(const QString& key, json.keys()) {
+            QJsonValue value = json.value(key);
+            qDebug() << "Key = " << key << ", Value = " << value.toString();
+            if (!experiments.contains(key.split("$$$")[0]) && key.split("$$$")[0] != "All experiments")
+                experiments.append(key.split("$$$")[0]);
+        }
+
+        experiments.removeDuplicates();
+
+        for (int i = 0; i < experiments.count(); i++)
+            foreach (QString line , json.keys())
+            {
+                QString experiment = experiments[i];
+                QStringList list = line.split("$$$");
+                if (experiment == list[0])
+                {
+                    QStringList propVal = QStringList() << list[1] << list[2];
+                    compacted.insertMulti(experiment, propVal);
+                }
+            }
+        experiments = compacted.keys();
+        experiments.removeDuplicates();
+
+        foreach (QString experiment , experiments)
+        {
+            QList<QStringList> experimentProps = compacted.values(experiment);
+            QMap<QString, QVariant> compactedPropListItem;
+            foreach(QStringList propVal , experimentProps)
+                compactedPropListItem[propVal[0]] = propVal[1];
+            PropListItem<T> propListItem;
+            propListItem.list = PropListItem<T>::unCompact(compactedPropListItem);
+            //			QMap<QString, XString> list = PropListItem<T>::unCompact(compactedPropListItem);
+            if (!propListItem.list.isEmpty())
+            {
+
+                r.insert(experiment, propListItem);
+            }
+        }
+        return r;
+    }
 
 	static QMap<QString, PropListItem<T>> unCompact(const QString &cInp) {
 		QString c = cInp;

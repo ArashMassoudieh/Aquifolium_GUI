@@ -1502,6 +1502,115 @@ QList<QMap<QString, QVariant>> GraphWidget::compact() const// QDataStream &out, 
 	return list;
 }
 
+
+void GraphWidget::compact(QJsonObject &json) const
+{
+    QList<QMap<QString, QVariant>> list;
+    QMap<QString, QVariant> r;
+
+    json["Model Space"] = ModelSpace.Model;
+    json["Inflow Filenames"] = inflowFileNames.join(",");
+    json["GUI"] = "Graphic Widget";
+    json["Experiments"] = experimentsList().join(",");
+    json["hasResults"] = hasResults;
+
+
+//	//qDebug() << r["GUI"].toString() << ", " << r["Name"].toString() << " saved.";
+#ifdef GIFMOD
+    if (hasResults){
+        getTime();
+        for (int i = 0; i < modelSet->Medium.size(); i++)
+        {
+            QString expName = QString::fromStdString(modelSet->Medium[i].name);
+            r[QString("%1 ANS").arg(expName)] = relativePathFilename(QString::fromStdString(modelSet->Medium[i].detoutfilename_hydro), modelPathname());
+            //qDebug() << QString("%1 ANS").arg(expName) << " " << getTime();
+
+            r[QString("%1 ANS_colloids").arg(expName)] = relativePathFilename(QString::fromStdString(modelSet->Medium[i].detoutfilename_prtcle), modelPathname());
+            //qDebug() << QString("%1 ANS_colloids").arg(expName) << " " << getTime();
+
+            r[QString("%1 ANS_constituents").arg(expName)] = relativePathFilename(QString::fromStdString(modelSet->Medium[i].detoutfilename_wq), modelPathname());
+            //qDebug() << QString("%1 ANS_constituents").arg(expName) << " " << getTime();
+            if (modelSet->SP.mass_balance_check)
+            {
+                r[QString("%1 ANS_MB").arg(expName)] = relativePathFilename(QString::fromStdString(modelSet->FI.outputpathname + "output_MB" + modelSet->Medium[i].name + ".txt"), modelPathname());
+                //qDebug() << QString("%1 ANS_MB").arg(expName) << " " << getTime();
+            }
+        }
+
+
+        r["ANS_obs"] = relativePathFilename(QString::fromStdString(modelSet->FI.detoutfilename_obs), modelPathname());
+        //qDebug() << "ANS_obs" << " " << getTime();
+
+//		r["ANS_obs_noise"] = "";
+//		out << r2;
+//		modelSet->ANS_obs_noise.compact(out);
+//		//qDebug() << "ANS_obs_noise" << " " << getTime();
+        list.append(r);
+    }
+
+
+    if (hasResults)
+    {
+        QMap<QString, QVariant> r;
+        r["GUI"] = "Block Index";
+        for (int i = 0; i < modelSet->Medium[0].Blocks.size(); i++)
+            r[QString::fromStdString(modelSet->Medium[0].Blocks[i].ID)] = i;
+        //qDebug() << "Block Index" << " " << getTime();
+
+        list.append(r);
+        //qDebug() << "append to list" << " " << getTime();
+    }
+    if (hasResults)
+    {
+        QMap<QString, QVariant> r;
+
+        r["GUI"] = "Connector Index";
+#ifdef GIFMOD
+        for (int i = 0; i < modelSet->Medium[0].Connectors.size(); i++)
+            r[QString::fromStdString(modelSet->Medium[0].Connectors[i].ID)] = i;
+#endif
+        //qDebug() << "Connector Index" << " " << getTime();
+        list.append(r);
+        //qDebug() << "append to list" << " " << getTime();
+    }
+
+
+
+
+    if (results)
+    {
+//		QMap<QString, QVariant> r;
+//		r["GUI"] = "Inverse Results";
+//		r["Inverse Results"] = results->compact();
+//		if (toFile)
+//			out << r;
+//		else
+//			list.append(r);
+//		//qDebug() << "results + append to list" << " " << getTime();
+    }
+#endif
+
+
+    QJsonObject nodes;
+    for (Node *n : Nodes())
+    {
+        n->compact(nodes);
+    //	//qDebug() << list.last()["GUI"].toString() << ", " << list.last()["Name"].toString() << " saved.";
+    }
+    //qDebug() << "nodes append to list" << " " << getTime();
+
+    QJsonObject edges;
+    for (Edge *e : Edges())
+    {
+        e->compact(edges);
+
+    //	//qDebug() << list.last()["GUI"].toString() << ", " << list.last()["Name"].toString() << " saved.";
+    }
+    //qDebug() << "connectors append to list" << " " << getTime();
+    json["Nodes"] = nodes;
+    json["Edges"] = edges;
+}
+
 QList<QMap<QString, QVariant>> GraphWidget::compactRXN() const
 {
 	QList<QMap<QString, QVariant>> list;
