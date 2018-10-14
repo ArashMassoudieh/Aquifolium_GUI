@@ -146,7 +146,7 @@ bool PropModel<Node>::setData(const QModelIndex & index, const QVariant & value,
 			
 		emit dataChanged(index, index);
 	}
-	return r;
+    return r;
 }
 template<>
 QVariant PropModel<Edge>::data(const QModelIndex & index, int role) const
@@ -306,6 +306,7 @@ QVariant PropModel<Entity>::data(const QModelIndex & index, int role) const
 //		//qDebug() << QString("data for (%1, %2) role %3").arg(row).arg(col).arg(role);
 	if (col == 1)
 		return parent->getProp(VariableName, role);
+
 }
 template<>
 bool PropModel<Entity>::setData(const QModelIndex & index, const QVariant & value, int role)

@@ -3987,7 +3987,7 @@ QString GraphWidget::experimentName()
         return experiments->currentText();
     }
     else
-        return "";
+        return "All experiments";
 }
 
 #ifdef GIFMOD

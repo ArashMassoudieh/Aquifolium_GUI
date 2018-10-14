@@ -3,6 +3,7 @@
 #include <vector>
 #ifdef QT_version
 #include "qdatetime.h"
+#include "qjsonobject.h"
 #endif // QT_version
 using namespace std;
 #ifdef GIFMOD
@@ -45,6 +46,7 @@ QStringList extract_by_space_quote(QString s);
 vector<int> find_indexes_of(const QString &s, QString &s1);
 QString extract_in_between(const QString &s, QString s1, QString s2);
 QString string2QString_qt(string s);
+bool writetojson(QJsonObject json, QString fileName);
 #else
 string string2QString_nqt(string s);
 #endif // QT_version

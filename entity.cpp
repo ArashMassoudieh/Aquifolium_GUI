@@ -192,7 +192,7 @@ QVariant Entity::getProp(const QString &propName, const int role) const
 		QFont boldFont;
 		boldFont.setBold(true);
 		if (propName == "Name" || propName == "Type" || propName == "SubType") return boldFont;
-		if (mValue.DefaultValuesStringList(0, 0, parent).indexOf(getValue(propName)) != -1) return boldFont;
+        if (mValue.DefaultValuesStringList(nullptr, nullptr, parent).indexOf(getValue(propName)) != -1) return boldFont;
 		else return QFont();
 	}
 	if (role == Qt::CheckStateRole)

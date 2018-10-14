@@ -7,6 +7,10 @@
 #include <qstringlist.h>
 #include <qdebug.h>
 #include <math.h>
+#include <qjsonobject.h>
+#include <qfile.h>
+#include <qmessagebox.h>
+#include <qjsondocument.h>
 #endif // QT_version
 
 #include <utility_funcs.h>
@@ -266,6 +270,25 @@ vector<int> find_indexes_of(const QString &s, QString &s1)
 QString string2QString_qt(string s)
 {
     return QString::fromStdString(s);
+}
+
+
+bool writetojson(QJsonObject json, QString fileName)
+{
+    if (fileName.isEmpty())
+        return false;
+    else {
+        QFile saveFile(fileName);
+
+        QJsonDocument saveDoc(json);
+        saveFile.write(saveDoc.toJson());
+        saveFile.flush();
+        saveFile.close();
+
+    }
+
+    return true;
+
 }
 #else
 string string2QString_nqt(string s)

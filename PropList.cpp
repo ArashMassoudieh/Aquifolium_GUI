@@ -7,6 +7,7 @@
 #include "mProp.h"
 #include "mProplist.h"
 #include "GWidget.h"
+#include "utility_funcs.h"
 
 
 template<>
@@ -96,7 +97,16 @@ bool PropList<Node>::setProp(const QString& propName, const XString& Value, cons
                 r |= setProp(propName, Value, parent->parent->experiments->itemText(i));
 		return r;
 	}
-	return list[experimentName].setProp(propName, Value, parent);
+    bool out = list[experimentName].setProp(propName, Value, parent);
+#ifdef DEBUG
+    {
+        QJsonObject json;
+        compact(json);
+        writetojson(json,propName);
+
+    }
+#endif
+    return out;
 }
 
 template<>

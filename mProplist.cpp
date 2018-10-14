@@ -44,7 +44,7 @@ mListReadStatus mPropList::getconfigfromfile(QString filename)
 		string line;
 		getline(file, line);
 
-		int a = line.find_first_of('//');
+        int a = int(line.find_first_of("//"));
 		if (a != 0)
 		{
 //			QStringList s = QSplit(QString::fromStdString(line), ',');

@@ -10,7 +10,9 @@
 			"flow": "flow",
 			"includeinoutput": "true",
 			"description": "Initial Storage",
-			"ask_user": "true"
+			"ask_user": "true",
+			"unit": "m^3",
+			"delegate": "UnitBox"
 		},
 		"reservoir_power": {
 			"type": "value",
