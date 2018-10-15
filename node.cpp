@@ -445,8 +445,8 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     radialGrad.setColorAt(0, QColor(Qt::lightGray).light(300));
     radialGrad.setColorAt(1, QColor(Qt::lightGray).light(120));
     QPixmap pixmap(iconfilename);
-    QRectF rect = QRectF(boundingRect().left() + 0.05*boundingRect().width(), boundingRect().top()+0.05*boundingRect().width(), boundingRect().width()*0.9, boundingRect().height()*0.9);
-    QRectF source(0.0, 0.0, 450, 612);
+    QRectF rect = QRectF(boundingRect().left()*0 + 0.05*boundingRect().width(), boundingRect().top()*0+0.05*boundingRect().width(), boundingRect().width()*0.9, boundingRect().height()*0.9);
+    QRectF source(0.0, 0.0, 512, 512);
     painter->drawPixmap(rect, pixmap, source);
 
 	if (parent->colorCode.nodes)

@@ -82,6 +82,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(on_action_Save_triggered()));
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(on_action_Open_triggered()));
     connect(ui->actionSave_as_JSON, SIGNAL(triggered()),this,SLOT(on_actionSave_As_JSON_triggered()));
+    connect(ui->actionSave_As, SIGNAL(triggered()),this,SLOT(on_actionSave_As_triggered()));
+    connect(ui->action_Zoom_All, SIGNAL(triggered()),this,SLOT(on_actionZoom_All_triggered()));
+    connect(ui->actionRun, SIGNAL(triggered()),this, SLOT(on_actionRun_Model_triggered()));
     //scene = new QGraphicsScene(this);
     //diagramview->view()->setScene(scene);
 
@@ -386,4 +389,127 @@ void MainWindow::on_actionE_xit_triggered()
 {
     this->close();
 }
+
+void MainWindow::on_actionRun_Model_triggered()
+{
+    diagramview->tableProp->setModel(nullptr);
+    if (!diagramview->allowRun)
+    {
+        statusBar()->showMessage("Unable to run Model.");
+        diagramview->log(QString("Unable to run Model, the value of [%1] in property dialog has not been confirmed.").arg(diagramview->allowRunVariableName));
+        diagramview->allowRun = true;
+        return;
+    }
+
+    if (!diagramview->Nodes().size())
+    {
+        statusBar()->showMessage("Unable to run Model.");
+        diagramview->log("The model should have at least one block to run.");
+        return;
+    }
+#ifdef Aquifolium
+    QString fileName = diagramview->modelFilename;
+    diagramview->modelFilename.replace(QString(".").append(fileExtension), ".temp");
+    on_action_Save_triggered();
+    if (fileName != "") setModelFileName(fileName);
+    QString statusBarText = statusBar()->currentMessage();
+    diagramview->log("Checking for Errors.");
+    statusBar()->showMessage("Checking for Errors.");
+    setCursor(Qt::WaitCursor);
+    diagramview->logW->writetotempfile();
+
+#endif
+#ifdef GIFMOD
+    QString fileName = mainGraphWidget->modelFilename;
+    mainGraphWidget->modelFilename.replace(QString(".").append(fileExtension), ".temp");
+    on_action_Save_triggered();
+    if (fileName != "") setModelFileName(fileName);
+    QString statusBarText = statusBar()->currentMessage();
+    mainGraphWidget->log("Checking for Errors.");
+    statusBar()->showMessage("Checking for Errors.");
+    //QProgressBar *progress = new QProgressBar(statusBar());
+    //progress->setAlignment(Qt::AlignRight);
+    //progress->setMaximumSize(180, 19);
+    //statusBar()->addPermanentWidget(progress);
+    setCursor(Qt::WaitCursor);
+    mainGraphWidget->logW->writetotempfile();
+
+    QStringList result = mainGraphWidget->variableValuesHasError();
+    QString logMsg;
+    mainGraphWidget->log("-------------------------------------------");
+    logMsg.append(QString("====   %1 Errors, %2 Warnings   ====").arg(result[0]).arg(result[1]));
+    mainGraphWidget->log(logMsg);
+    if (result[0].toInt()>0)
+    {
+        setCursor(Qt::ArrowCursor);
+        statusBar()->showMessage("Unable to run Model.");
+        mainGraphWidget->log("Faild to run the Model.");
+        mainGraphWidget->deselectAll();
+        return;
+    }
+    mainGraphWidget->log("Assembling model configuration.");
+    statusBar()->showMessage("Assembling model configuration.");
+    mainGraphWidget->logW->writetotempfile();
+    QCoreApplication::processEvents();
+    rtw = new runtimeWindow(mainGraphWidget);
+    mainGraphWidget->deleteSolutionResults();
+    mainGraphWidget->modelSet = new CMediumSet(mainGraphWidget, rtw);
+    rtw->show();
+    mainGraphWidget->log("Running Simulation.");
+    statusBar()->showMessage("Running Simulation.");
+    forwardRun(mainGraphWidget->modelSet, rtw);
+    //delete progress;
+    setCursor(Qt::ArrowCursor);
+//	mainGraphWidget->log(QString::fromStdString(mainGraphWidget->model->fail_reason));
+    statusBar()->showMessage("Done.");
+    //	QFileDialog::getOpenFileName(this, "Output Files", QString::fromStdString(mainGraphWidget->model->pathname));
+#endif
+#ifdef GWA
+    QString fileName = mainGraphWidget->modelFilename;
+    mainGraphWidget->modelFilename.replace(QString(".").append(fileExtension), ".temp");
+    on_action_Save_triggered();
+    if (fileName != "") setModelFileName(fileName);
+    QString statusBarText = statusBar()->currentMessage();
+    mainGraphWidget->log("Checking for Errors.");
+    statusBar()->showMessage("Checking for Errors.");
+    setCursor(Qt::WaitCursor);
+    mainGraphWidget->logW->writetotempfile();
+
+    QStringList result = mainGraphWidget->variableValuesHasError();
+    QString logMsg;
+    mainGraphWidget->log("-------------------------------------------");
+    logMsg.append(QString("====   %1 Errors, %2 Warnings   ====").arg(result[0]).arg(result[1]));
+    mainGraphWidget->log(logMsg);
+    if (result[0].toInt()>0)
+    {
+        setCursor(Qt::ArrowCursor);
+        statusBar()->showMessage("Unable to run Model.");
+        mainGraphWidget->log("Faild to run the Model.");
+        mainGraphWidget->deselectAll();
+        return;
+    }
+    mainGraphWidget->log("Assembling model configuration.");
+    statusBar()->showMessage("Assembling model configuration.");
+    QCoreApplication::processEvents();
+    runtimeWindow *rtw = new runtimeWindow(mainGraphWidget);
+    mainGraphWidget->deleteSolutionResults();
+
+    mainGraphWidget->modelSet = new CGWASet;
+    mainGraphWidget->modelSet->Medium.push_back(CGWA(mainGraphWidget, rtw));
+    mainGraphWidget->model = &mainGraphWidget->modelSet->operator()();
+    mainGraphWidget->modelSet->parameters = mainGraphWidget->model->parameters;
+
+    mainGraphWidget->results = new Results;
+    //rtw->show();
+    mainGraphWidget->log("Running Simulation.");
+    statusBar()->showMessage("Running Simulation.");
+    forwardRun(mainGraphWidget->modelSet, rtw);
+    //delete progress;
+    setCursor(Qt::ArrowCursor);
+    mainGraphWidget->log("Simulation ended.");
+    statusBar()->showMessage("Done.");
+    //	QFileDialog::getOpenFileName(this, "Output Files", QString::fromStdString(mainGraphWidget->model->pathname));
+#endif
+}
+
 

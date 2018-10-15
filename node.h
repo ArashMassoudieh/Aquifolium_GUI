@@ -36,7 +36,7 @@ class Node : public QGraphicsItem
 	//Q_OBJECT
 
 public:
-    Node(GraphWidget *gwidget, QString _type = "Not Defined", QString _name = "No Name", int _xx = 0, int _yy = 0, int _width = 200, int _height = 100);
+    Node(GraphWidget *gwidget, QString _type = "Not Defined", QString _name = "No Name", int _xx = 0, int _yy = 0, int _width = 100, int _height = 100);
 	Node(modelItem &item, GraphWidget *gwidget);
 	Node(const Node &);
     ~Node() override {

@@ -55,6 +55,7 @@ private slots:
     void on_action_Open_triggered();
     void on_actionSave_As_triggered();
     void on_actionSave_As_JSON_triggered();
+    void on_actionRun_Model_triggered();
 };
 
 #endif // MAINWINDOW_H
