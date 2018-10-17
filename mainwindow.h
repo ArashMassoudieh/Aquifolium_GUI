@@ -8,6 +8,7 @@
 #include "diagramviewer.h"
 #include "GWidget.h"
 #include "treemodel.h"
+#include "runtimeWindow.h"
 
 class AqflmBlockItem;
 
@@ -27,6 +28,7 @@ public:
     QString applicationName;
     QString &modelPathname() {return modelpathname;}
     System *GetSystem() {return &system;}
+    runtimeWindow *rtw;
 private:
     Ui::MainWindow *ui;
     System system;

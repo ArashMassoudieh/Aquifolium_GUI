@@ -82,7 +82,9 @@ SOURCES += \
     tth_source.c \
     scriptExport.cpp \
     delegate.cpp \
-    UnitTextBox3.cpp
+    UnitTextBox3.cpp \
+    runtimeWindow.cpp \
+    slndetailswindow.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -153,14 +155,18 @@ HEADERS += \
     UnitTextBox.h \
     UnitTextBox2.h \
     UnitTextBox3.h \
-    folders.h
+    folders.h \
+    runtimeWindow.h \
+    slndetailswindow.h
 
 FORMS += \
         mainwindow.ui \
     logwindow.ui \
     plotwindow.ui \
     gridWindow.ui \
-    helpWindow.ui
+    helpWindow.ui \
+    runtimeWindow.ui \
+    slndetailswindow.ui
 
 # LAPACK — Linear Algebra PACKage lib and include locations
 

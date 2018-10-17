@@ -878,7 +878,8 @@ QMap<QString, QVariant> Node::compact() const
     foreach (Edge * e , edgeList)
 		connectorNames.append(e->Name());
 
-	QStringList PICList;
+#ifdef GIFMod
+    QStringList PICList;
     foreach (QString experiment , parent->experimentsList())
         foreach (ParticleInitialConditionItem i , particleInitialCondition(experiment))
 			PICList.append(QString("%1;%2;%3;%4").arg(experiment).arg(i.Particle).arg(i.Model).arg(i.Value));
@@ -891,7 +892,7 @@ QMap<QString, QVariant> Node::compact() const
     foreach (QString experiment , parent->experimentsList())
         foreach (NutrientHalfSaturationConstantItem i , NutrientHalfSaturationConstant(experiment))
 			HSCList.append(QString("%1;%2;%3").arg(experiment).arg(i.Constituent).arg(i.Value));
-
+#endif
 	r["GUI"] = GUI;
 	r["Name"] = name;
 	r["Type"] = objectType.ObjectType;
@@ -904,9 +905,11 @@ QMap<QString, QVariant> Node::compact() const
 	r["Properties"] = props.compact();
 	/*for each (QString key in props.list.keys())
 		r[key] = props.list[key].compact();*/
-	r["Particle Initial Conditions"] = PICList;
+#ifdef GIFMod
+    r["Particle Initial Conditions"] = PICList;
 	r["Constituent Initial Conditions"] = CICList;
 	r["Nutrient Half Saturation Constants"] = HSCList;
+#endif
 	return r;
 }
 
@@ -951,6 +954,7 @@ Node* Node::unCompact(QMap<QString, QVariant> n, GraphWidget *gwidget, bool oldV
 	n.remove("Height");
 	n.remove("Connector Names");
 
+#ifdef GIFMod
 	QStringList PICList;
 	PICList = n["Particle Initial Conditions"].toStringList();
     foreach (QString i , PICList)
@@ -992,7 +996,7 @@ Node* Node::unCompact(QMap<QString, QVariant> n, GraphWidget *gwidget, bool oldV
 		node->NutrientHalfSaturationConstant(i.split(";")[0]).append(item);
 	}
 	n.remove("Nutrient Half Saturation Constants");
-
+#endif
 	node->props.list = PropList<Node>::unCompact(n.value("Properties").toString());
 	if (!node->props.list.size() && oldVersion)
         foreach(QString key , n.keys())
@@ -1050,7 +1054,7 @@ Node* Node::unCompact10(QMap<QString, QVariant> n, GraphWidget *gwidget)
 		XString r = XString::unCompactOld(n[key].toString());
 		node->props.list.[key] = r;
 	}*/
-    return new Node(0);
+    return new Node(nullptr);
 }
 
 void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)

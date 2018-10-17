@@ -10,6 +10,7 @@
 #include "qmessagebox.h"
 #include "folders.h"
 #include <QJsonDocument>
+#include "runtimeWindow.h"
 
 #define RECENT "recentFiles.txt"
 
@@ -26,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
     qDebug()<<qApp->applicationDirPath();
     logWindow* logwindow = new logWindow(this);
     //diagramview = new View("Diagram",ui->dockWidgetContents_4);
+    logwindow->show();
+    logwindow->append("Program started");
     diagramview = new GraphWidget(this,"Aquifolium","",logwindow,this);
     diagramview->setObjectName(QStringLiteral("graphicsView_2"));
     diagramview->tableProp = ui->tableView;
@@ -417,6 +420,29 @@ void MainWindow::on_actionRun_Model_triggered()
     statusBar()->showMessage("Checking for Errors.");
     setCursor(Qt::WaitCursor);
     diagramview->logW->writetotempfile();
+    QStringList result = diagramview->variableValuesHasError();
+    QString logMsg;
+    diagramview->log("-------------------------------------------");
+    logMsg.append(QString("====   %1 Errors, %2 Warnings   ====").arg(result[0]).arg(result[1]));
+    diagramview->log(logMsg);
+    if (result[0].toInt()>0)
+    {
+        setCursor(Qt::ArrowCursor);
+        statusBar()->showMessage("Unable to run Model.");
+        diagramview->log("Faild to run the Model.");
+        diagramview->deselectAll();
+        return;
+    }
+    diagramview->log("Assembling model configuration.");
+    statusBar()->showMessage("Assembling model configuration.");
+    diagramview->logW->writetotempfile();
+    QCoreApplication::processEvents();
+    rtw = new runtimeWindow(diagramview);
+    diagramview->deleteSolutionResults();
+    diagramview->modelSet = new System(diagramview, rtw);
+    rtw->show();
+    diagramview->log("Running Simulation.");
+    statusBar()->showMessage("Running Simulation.");
 
 #endif
 #ifdef GIFMOD

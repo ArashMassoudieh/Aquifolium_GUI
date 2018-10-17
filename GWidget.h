@@ -281,7 +281,9 @@ public:
 	QStringList experimentsList() const {
 		QStringList r;
 		if (!experiments)
-			return QStringList();
+        {	r.append("All experiments");
+            return r;
+        }
 		for (int i = 1; i < experiments->count(); i++)
 			r.append(experiments->itemText(i));
 		return r;

@@ -3536,7 +3536,8 @@ QStringList GraphWidget::variableValuesHasError()
 
     for (QString experiment : experimentsList())
 	{
-		experiments->setCurrentText(experiment);
+        if (experiments)
+            experiments->setCurrentText(experiment);
 		log("Experiment: " + experiment);
 		log("Blocks.");
 
@@ -3836,7 +3837,8 @@ QStringList GraphWidget::variableValuesHasError()
 	}
 	QStringList r;
 	r << QString::number(numberofErrors) << QString::number(numberofWarnings);
-	experiments->setCurrentText(savedExperiment);
+if (experiments)
+    experiments->setCurrentText(savedExperiment);
 	return r;
 }
 double GraphWidget::minX() const
