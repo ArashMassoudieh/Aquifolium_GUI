@@ -1,16 +1,11 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
+#pragma once
 #include <QMainWindow>
 #include <QAction>
 #include <QList>
-#include "System.h"
-#include "diagramviewer.h"
 #include "GWidget.h"
 #include "treemodel.h"
 #include "runtimeWindow.h"
-
-class AqflmBlockItem;
+#include "System.h"
 
 namespace Ui {
 class MainWindow;
@@ -24,7 +19,6 @@ public:
     QList<QAction*> actions;
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void additemselected(AqflmBlockItem *bitm) {itemselected = bitm;}
     QString applicationName;
     QString &modelPathname() {return modelpathname;}
     System *GetSystem() {return &system;}
@@ -35,7 +29,6 @@ private:
     QMap<QString,int> counts;
     GraphWidget *diagramview;
     QGraphicsScene *scene;
-    AqflmBlockItem *itemselected;
     QString modelpathname;
     TreeModel *projModel;
     QStringList recentFiles;
@@ -60,4 +53,4 @@ private slots:
     void on_actionRun_Model_triggered();
 };
 
-#endif // MAINWINDOW_H
+

@@ -8,8 +8,15 @@
 #include "qstring.h"
 #include "plotWindow.h"
 #include "slndetailswindow.h"
+#ifdef GIFMod
 class CMedium;
+#endif
+#ifdef GWA
 class CGWA;
+#endif
+#ifdef Aquifolium
+class System;
+#endif
 class GraphWidget;
 
 namespace Ui {
@@ -26,7 +33,12 @@ public:
   ~runtimeWindow();
   void setMode(QString mode);
   void setLabel(QString label);
+#ifdef GIFMod
   void setExperiment(CMedium *model);
+#endif
+#ifdef Aquifolium
+  void setExperiment(System *model);
+#endif
   void addScatterPlot(QString name, QVector<double> x, QVector<double> y);
   void addScatterPlot(QCPGraph *g);
   void addScatterDotPlot(CBTCSet &ANS, int index, QString name = "") {
@@ -69,6 +81,10 @@ public:
   void setupPlayground(QCustomPlot *customPlot);
   GraphWidget* parent;
   bool stopTriggered = false;
+#ifdef Aquifolium
+  System* experiment = nullptr; //Medium
+#endif
+
 #ifdef GIFMOD
   CMedium* experiment = 0; //Medium
 #endif
@@ -84,7 +100,7 @@ private slots:
 	void on_btnStop_clicked();
 	void on_button1_clicked(){
 
-	};
+    }
 	void on_slndtls_clicked();
 
 	

@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include "QDebug"
 #include "QGraphicsRectItem"
-#include "aqflmblockitem.h"
 #include "logwindow.h"
 #include "node.h"
 #include "edge.h"
@@ -439,7 +438,7 @@ void MainWindow::on_actionRun_Model_triggered()
     QCoreApplication::processEvents();
     rtw = new runtimeWindow(diagramview);
     diagramview->deleteSolutionResults();
-    diagramview->modelSet = new System(diagramview, rtw);
+    diagramview->model = new System(diagramview, rtw);
     rtw->show();
     diagramview->log("Running Simulation.");
     statusBar()->showMessage("Running Simulation.");

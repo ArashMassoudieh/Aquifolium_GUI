@@ -52,7 +52,6 @@ SOURCES += \
     ../jsoncpp/src/lib_json/json_value.cpp \
     ../jsoncpp/src/lib_json/json_valueiterator.inl \
     ../jsoncpp/src/lib_json/json_writer.cpp \
-    aqflmblockitem.cpp \
     diagramviewer.cpp \
     edge.cpp \
     GWidget.cpp \
@@ -119,7 +118,6 @@ HEADERS += \
     ../jsoncpp/include/json/writer.h \
     ../jsoncpp/src/lib_json/json_tool.h \
     ../jsoncpp/src/lib_json/version.h.in \
-    aqflmblockitem.h \
     diagramviewer.h \
     edge.h \
     enums.h \

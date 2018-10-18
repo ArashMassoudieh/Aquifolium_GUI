@@ -5,9 +5,10 @@
 #include <QScreen>
 #include <QMessageBox>
 #include <QMetaEnum>
-#include "qtimezone.h""
+#include "qtimezone.h"
 #include "qmenu.h"
 #include "GWidget.h"
+#include "QClipboard"
 #ifdef GIFMOD
 #include "Medium.h"
 #include "MediumSet.h"
@@ -120,9 +121,21 @@ void runtimeWindow::setMode(QString mode)
 	setupRealtimeDataDemo(ui->customPlot2);
 
 }
-	
+
+#ifdef Aquifolium
+void runtimeWindow::setExperiment(System *model)
+{
+    ui->btnStop->setEnabled(true);
+    experiment = model;
+    QString title = (windowTitle().split(", ").count() > 1) ? windowTitle().split(", ")[1] : windowTitle();
+    setWindowTitle(QString("%1, %2").arg(QString::fromStdString(model->GetName())).arg(title));
+}
+#endif
+
+#ifdef GIFMod
 void runtimeWindow::setExperiment(CMedium *model)
 {
+
 #ifdef GIFMOD
 	ui->btnStop->setEnabled(true);
 	experiment = model;
@@ -130,6 +143,7 @@ void runtimeWindow::setExperiment(CMedium *model)
 	setWindowTitle(QString("%1, %2").arg(QString::fromStdString(model->name)).arg(title));
 #endif
 }
+#endif
 
 	void runtimeWindow::update(QMap<QString, QVariant> &vars)
 	{
@@ -238,6 +252,10 @@ void runtimeWindow::on_btnStop_clicked()
 		"Are you sure?", QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
 	{
 		ui->btnStop->setEnabled(false);
+#ifdef Aquifolium
+        experiment->stop_triggered = true;
+#endif
+
 #ifdef GIFMOD
 		experiment->stop_triggered = true;
 #endif
@@ -295,7 +313,15 @@ void runtimeWindow::realtimeDataSlot(double x, double y, bool secondPlot, QStrin
 
 	//plot->graph(1)->clearData();
 	//plot->graph(1)->addData(key, value0);
-
+#ifdef Aquifolium
+    double Timemin = 0;
+    double Timemax = x;
+    if (experiment)
+    {
+        Timemin = experiment->tstart();
+        Timemax = experiment->tend();
+    }
+#endif
 
 #ifdef GIFMOD
 	double Timemin = 0;

@@ -33,10 +33,10 @@ class Delegate;
 class mPropList;
 class QTreeView;
 class TreeModel;
-class CMedium;
-class CMediumSet;
+#ifdef GWA
 class CGWA;
 class CGWASet;
+#endif
 class Results;
 class System;
 //struct plotformat;
