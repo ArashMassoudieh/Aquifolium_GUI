@@ -39,6 +39,7 @@ private:
     void writeRecentFilesList();
     bool loadModel(QString modelfilename);
     QString fileExtension, metafilename, applicationShortName;
+    void forwardRun(System *model, runtimeWindow* progress);
 private slots:
     void onaddlink();
     void onaddblock();
