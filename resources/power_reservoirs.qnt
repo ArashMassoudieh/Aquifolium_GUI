@@ -37,7 +37,7 @@
 			"expression": "reservoir_coeff.s*Storage.s^reservoir_power.s",
 			"includeinoutput": "true",
 			"applylimit": "true",
-			"ask_user": "true"
+			"ask_user": "false",
 		}
 	},
 "User": {
@@ -51,7 +51,7 @@
 			"flow": "flow",
 			"includeinoutput": "true",
 			"description": "Initial Storage",
-			"ask_user": "true"
+			"ask_user": "true",
 		}
 	},
 "User_flow": {
@@ -65,6 +65,7 @@
 			"applylimit": "true",
 			"description": "Flow rate time series",
 			"ask_user": "true"
+			"delegate": "Browser"
 		}
 	}
 }
