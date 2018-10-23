@@ -44,7 +44,7 @@ QWidget *Delegate::createEditor(QWidget *parent,
 	QString delegateType = index.data(TypeRole).toString();
 	if (delegateType.toLower().contains("date"))
 	{
-		QCalendarWidget *editor = new QCalendarWidget(0);
+        QCalendarWidget *editor = new QCalendarWidget(nullptr);
 		//(option.rect.left());
 		return editor;
 	}

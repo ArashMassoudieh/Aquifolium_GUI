@@ -7,7 +7,7 @@ class GraphWidget;
 class mProp
 {
 public:
-    mProp(){}
+    mProp(){inputMethod = "Input";}
 	mProp(const QString &QS){ 
 		//parent = _parent;  
         setValue(QS); }
