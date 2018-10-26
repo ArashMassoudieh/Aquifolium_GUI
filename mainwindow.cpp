@@ -442,7 +442,6 @@ void MainWindow::on_actionRun_Model_triggered()
     rtw->show();
     diagramview->log("Running Simulation.");
     statusBar()->showMessage("Running Simulation.");
-    statusBar()->showMessage("Running Simulation.");
     forwardRun(diagramview->model, rtw);
     setCursor(Qt::ArrowCursor);
     statusBar()->showMessage("Done.");

@@ -121,7 +121,7 @@ mListReadStatus mPropList::GetFromMetaModel(MetaModel &m)
             mP.SubType = "*";
             mP.Description = QString::fromStdString(it1->second.Description());
             mP.VariableName = QString::fromStdString(it1->second.GetName());
-            mP.VariableCode = "";
+            mP.VariableCode = QString::fromStdString(it1->second.GetName());
             mP.VariableUnit = QString::fromStdString(it1->second.Unit());
             mP.DefaultUnit = QString::fromStdString(it1->second.DefaultUnit());
             mP.VariableType = QString::fromStdString(it1->second.InputType());
@@ -167,7 +167,7 @@ mListReadStatus mPropList::GetFromMetaModel(MetaModel *m)
             mP.SubType = "*";
             mP.Description = QString::fromStdString(it1->second.Description());
             mP.VariableName = QString::fromStdString(it1->second.GetName());
-            mP.VariableCode = "";
+            mP.VariableCode = QString::fromStdString(it1->second.GetName());
             mP.VariableUnit = QString::fromStdString(it1->second.Unit());
             mP.DefaultUnit = QString::fromStdString(it1->second.DefaultUnit());
             mP.VariableType = QString::fromStdString(it1->second.InputType());
