@@ -1,6 +1,7 @@
 #pragma once
 #include "XString.h"
 #include "enums.h"
+#include "Quan.h"
 
 class mPropList;
 class GraphWidget;
@@ -68,10 +69,11 @@ public:
     void set_user_provided(bool usrprvdd) {user_provided = usrprvdd;}
     bool get_user_provided() const {return user_provided;}
 //	mPropList *parent;
-
+    Quan* GetQuan() {return &quan;}
 private:
 	XString DefaultValues;
     bool user_provided = false; // indicates whether this property is provided by the user
+    Quan quan;
 
 };
 bool conditionConformed(QString condition, QString value, GraphWidget *gw);

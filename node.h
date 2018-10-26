@@ -148,6 +148,7 @@ public:
 	void changed();
     QString geticonfilename() {return iconfilename;}
     void seticonfilename(const QString& icnflname ) {iconfilename = icnflname;}
+    QString GetObjectType() {return objectType.ObjectType;}
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
