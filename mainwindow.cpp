@@ -13,6 +13,7 @@
 
 #define RECENT "recentFiles.txt"
 
+
 #define cout qDebug()
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -20,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     fileExtension = "aqfm";
-    string modelfilename = qApp->applicationDirPath().toStdString() + "/resources/power_reservoirs.qnt";
+    modelfilename = qApp->applicationDirPath().toStdString() + "/resources/power_reservoirs.qnt";
     system.GetQuanTemplate(modelfilename);
     ui->setupUi(this);
     qDebug()<<qApp->applicationDirPath();
@@ -438,7 +439,7 @@ void MainWindow::on_actionRun_Model_triggered()
     QCoreApplication::processEvents();
     rtw = new runtimeWindow(diagramview);
     diagramview->deleteSolutionResults();
-    diagramview->model = new System(diagramview, rtw);
+    diagramview->model = new System(diagramview, rtw,modelfilename);
     rtw->show();
     diagramview->log("Running Simulation.");
     statusBar()->showMessage("Running Simulation.");
@@ -458,7 +459,7 @@ void MainWindow::forwardRun(System *model, runtimeWindow* progress)
     modelpathname = diagramview->modelFilename.section("/",0,-2);
     qDebug()<<modelPathname();
     runtime_file.open(modelPathname().toStdString() + "Runing_times.txt");
-    model->Solve("S");
+    model->Solve("Storage");
     t1 = clock() - t0;
     float run_time = (float(t1)) / CLOCKS_PER_SEC;
     string st = " sec";

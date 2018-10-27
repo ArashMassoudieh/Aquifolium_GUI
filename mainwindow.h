@@ -30,6 +30,7 @@ private:
     GraphWidget *diagramview;
     QGraphicsScene *scene;
     QString modelpathname;
+    string modelfilename;
     TreeModel *projModel;
     QStringList recentFiles;
     bool saveModel(QString &fileName);
