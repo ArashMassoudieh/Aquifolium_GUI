@@ -18,13 +18,13 @@ class logWindow : public QDialog
   
 public:
   explicit logWindow(MainWindow *parent, QString title = "Log Window", QString fileType= "Logfile (*.log)", bool modal = false);
-  ~logWindow() {};
+  ~logWindow() {}
   logWindow(QDialog * parent, QString title, QString fileType, bool modal);
   void append(QString text);
   void append(QStringList text);
   void append(vector<string> text);
   void setHtml(vector<string> text);
-  void operator()(QString text) { append(text); };
+  void operator()(QString text) { append(text); }
   void writetotempfile();
   QString text();
 private slots:

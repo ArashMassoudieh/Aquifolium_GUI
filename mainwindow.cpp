@@ -459,6 +459,7 @@ void MainWindow::forwardRun(System *model, runtimeWindow* progress)
     modelpathname = diagramview->modelFilename.section("/",0,-2);
     qDebug()<<modelPathname();
     runtime_file.open(modelPathname().toStdString() + "Runing_times.txt");
+    model->SetLogWindow(diagramview->logW);
     model->Solve("Storage");
     t1 = clock() - t0;
     float run_time = (float(t1)) / CLOCKS_PER_SEC;

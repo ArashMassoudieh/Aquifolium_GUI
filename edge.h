@@ -76,7 +76,7 @@ public:
 	void changed();
     void SetConnectorType(const QString &Typ) {connector_type = Typ;}
     QString GetConnectorType() {return connector_type;}
-
+    QString GetObjectType() {return objectType.ObjectType;}
 protected:
     QRectF boundingRect() const Q_DECL_OVERRIDE;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
