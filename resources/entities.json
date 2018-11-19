@@ -1,0 +1,42 @@
+{
+  "solver_settings": {
+    "description": "Solver Settings",
+    "properties": {
+      "c_n_weight": {
+        "default": "1",
+        "description": "Crank-Nicholson Time Weight",
+        "ask_user": "true",
+        "delegate": "UnitBox",
+        "code": "cn_weight"
+      },
+      "nr_tolerance": {
+        "default": "0.001",
+        "description": "Newton-Raphson Tolerance",
+        "ask_user": "true",
+        "delegate": "UnitBox",
+        "code": "nr_tolerance"
+      },
+      "nr_timestep_reduction_factor": {
+        "default": "0.75",
+        "description": "Newton-Raphson Time-step reduction factor",
+        "ask_user": "true",
+        "delegate": "UnitBox",
+        "code": "nr_timestep_reduction_factor"
+      },
+      "nr_timestep_reduction_factor_fail": {
+        "default": "0.2",
+        "description": "Newton-Raphson Time-step reduction factor when fail",
+        "ask_user": "true",
+        "delegate": "UnitBox",
+        "code": "nr_timestep_reduction_factor_fail"
+      },
+      "minimum_timestep": {
+        "default": "1e-6",
+        "description": "Minimum time-step",
+        "ask_user": "true",
+        "delegate": "UnitBox",
+        "code": "minimum_timestep"
+      }
+    }
+  }
+}

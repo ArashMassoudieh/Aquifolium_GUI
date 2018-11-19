@@ -31,6 +31,7 @@ private:
     QGraphicsScene *scene;
     QString modelpathname;
     string modelfilename;
+    string entitiesfilename;//the name of the JSON containing general properities of the system
     TreeModel *projModel;
     QStringList recentFiles;
     bool saveModel(QString &fileName);
@@ -39,6 +40,7 @@ private:
     void addToRecentFiles(QString fileName, bool addToFile=true);
     void writeRecentFilesList();
     bool loadModel(QString modelfilename);
+    bool ReadEntitiesJson();
     QString fileExtension, metafilename, applicationShortName;
     void forwardRun(System *model, runtimeWindow* progress);
 private slots:

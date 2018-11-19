@@ -6,12 +6,14 @@
 #include "edge.h"
 #include "entity.h"
 #include "qdebug.h" //remove it
+#include "qjsonobject.h"
 
-TreeModel::TreeModel(GraphWidget *parent) : QAbstractItemModel(parent)
+TreeModel::TreeModel(GraphWidget *parent ) : QAbstractItemModel(parent)
 {
 		Parent = parent;
         rootItem = new TreeItem("Root", parent, TreeItem::Type::Root);// , 0);
 #ifdef Aquifolium
+        //QJsonObject generalprops = QJsonDocument()
         settings = new TreeItem("Settings", parent, TreeItem::Type::SettingsBranch);//, rootItem);
         projectSettings = new TreeItem("Project settings", parent, TreeItem::Type::Item);//, settings);
         climateSettings = new TreeItem("Climate settings", parent, TreeItem::Type::Item);//, settings);

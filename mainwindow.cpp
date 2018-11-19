@@ -11,6 +11,7 @@
 #include <QJsonDocument>
 #include "runtimeWindow.h"
 
+
 #define RECENT "recentFiles.txt"
 
 
@@ -22,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     fileExtension = "aqfm";
     modelfilename = qApp->applicationDirPath().toStdString() + "/resources/power_reservoirs.qnt";
+    entitiesfilename = qApp->applicationDirPath().toStdString() + "/resources/entities.json";
+    ReadEntitiesJson();
     system.GetQuanTemplate(modelfilename);
     ui->setupUi(this);
     qDebug()<<qApp->applicationDirPath();
@@ -91,6 +94,28 @@ MainWindow::MainWindow(QWidget *parent) :
     //scene = new QGraphicsScene(this);
     //diagramview->view()->setScene(scene);
 
+}
+
+bool MainWindow::ReadEntitiesJson() {
+    QFile loadFile(QString::fromStdString(entitiesfilename));
+
+    if (!loadFile.open(QIODevice::ReadOnly)) {
+        qDebug() << QString("Couldn't open ") << QString::fromStdString(entitiesfilename) ;
+        return false;
+    }
+
+    QByteArray saveData = loadFile.readAll();
+
+    QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+
+    QJsonObject jsonobj = loadDoc.object();
+
+    foreach(QString key, jsonobj.keys()){
+        QJsonValue node = jsonobj[key];
+        qDebug()<<node;
+    }
+
+    return true;
 }
 
 MainWindow::~MainWindow()
