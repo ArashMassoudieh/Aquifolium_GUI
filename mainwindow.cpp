@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     fileExtension = "aqfm";
     modelfilename = qApp->applicationDirPath().toStdString() + "/resources/power_reservoirs.qnt";
     entitiesfilename = qApp->applicationDirPath().toStdString() + "/resources/entities.json";
-    ReadEntitiesJson();
+
     system.GetQuanTemplate(modelfilename);
     ui->setupUi(this);
     qDebug()<<qApp->applicationDirPath();
@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
     logwindow->show();
     logwindow->append("Program started");
     diagramview = new GraphWidget(this,"Aquifolium","",logwindow,this);
+    ReadEntitiesJson();
     diagramview->setObjectName(QStringLiteral("graphicsView_2"));
     diagramview->tableProp = ui->tableView;
 
@@ -107,12 +108,16 @@ bool MainWindow::ReadEntitiesJson() {
     QByteArray saveData = loadFile.readAll();
 
     QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
-
+    diagramview->jsondocentities = loadDoc;
     QJsonObject jsonobj = loadDoc.object();
 
     foreach(QString key, jsonobj.keys()){
         QJsonValue node = jsonobj[key];
-        qDebug()<<node;
+        foreach (QString key, node.toObject().keys())
+        {   QJsonValue innernode = node.toObject()[key];
+            qDebug()<<innernode;
+        }
+
     }
 
     return true;

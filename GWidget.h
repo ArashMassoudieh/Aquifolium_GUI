@@ -20,7 +20,7 @@
 #include "Command.h"
 #include "plotWindow.h"
 #include <QJsonObject>
-
+#include <QJsonDocument>
 //class MainWindow;
 class helpWindow;
 class QCPGraph;
@@ -205,6 +205,7 @@ public:
     bool wizard(QList<command>&commands);
     QVariant runCommand(CCommand command); //runs the commands submitted into script window
     QList<QVariant> runCommands(QList<CCommand> &command); //run commands sequentially
+    QJsonDocument jsondocentities;
 #endif
 
 #ifdef GIFMOD

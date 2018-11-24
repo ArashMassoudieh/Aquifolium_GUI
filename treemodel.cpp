@@ -12,47 +12,24 @@ TreeModel::TreeModel(GraphWidget *parent ) : QAbstractItemModel(parent)
 {
 		Parent = parent;
         rootItem = new TreeItem("Root", parent, TreeItem::Type::Root);// , 0);
-#ifdef Aquifolium
-        //QJsonObject generalprops = QJsonDocument()
-        settings = new TreeItem("Settings", parent, TreeItem::Type::SettingsBranch);//, rootItem);
-        projectSettings = new TreeItem("Project settings", parent, TreeItem::Type::Item);//, settings);
-        climateSettings = new TreeItem("Climate settings", parent, TreeItem::Type::Item);//, settings);
-        solverSettings = new TreeItem("Solver settings", parent, TreeItem::Type::Item);//, settings);
         blocks = new TreeItem("Blocks", parent, TreeItem::Type::NodesBranch);//, rootItem);
         connectors = new TreeItem("Connectors", parent, TreeItem::Type::EdgesBranch);//, rootItem);
-        waterQuality = new TreeItem("Water quality", parent, TreeItem::Type::WaterQualityBranch);//, rootItem);
-        particle = new TreeItem("Particles", parent, TreeItem::Type::Branch);//, waterQuality);
-        constituent = new TreeItem("Constituents", parent, TreeItem::Type::Branch);//, waterQuality);
-        evapotranspiration = new TreeItem("Evapotranspirations", parent, TreeItem::Type::Branch);//, waterQuality);
-        buildUp = new TreeItem("Build-ups", parent, TreeItem::Type::Branch);//, waterQuality);
-        extrenalFlux = new TreeItem("External fluxes", parent, TreeItem::Type::Branch);//, waterQuality);
-        reactions = new TreeItem("Reactions", parent, TreeItem::Type::ReactionsBranch);//, waterQuality);
-        reactionParameter = new TreeItem("Reaction parameters", parent, TreeItem::Type::Branch);//, reactions);
-        //				reaction = new TreeItem("Reaction", parent, TreeItem::Type::Branch, reactions);
-        reactionNetwork = new TreeItem("Reaction network", parent, TreeItem::Type::ReactionNetworkItem);//, reactions);
-        inverseModeling = new TreeItem("Inverse modeling", parent, TreeItem::Type::InverseModelingBranch);//, rootItem);
-        GA = new TreeItem("Genetic algorithm", parent, TreeItem::Type::Item);//, inverseModeling);
-        MCMC = new TreeItem("Markov chain Monte Carlo", parent, TreeItem::Type::Item);//, inverseModeling);
-        parameter = new TreeItem("Parameters", parent, TreeItem::Type::Branch);//, inverseModeling);
-        observed = new TreeItem("Observations", parent, TreeItem::Type::Branch);//, inverseModeling);
-        control = new TreeItem("Control", parent, TreeItem::Type::ControlBranch);//, rootItem);
-        sensor = new TreeItem("Sensors", parent, TreeItem::Type::Branch);
-        objectiveFunction = new TreeItem("Objective functions", parent, TreeItem::Type::Branch);
-        controller = new TreeItem("Controllers", parent, TreeItem::Type::Branch);
 
-        QList<TreeItem*> rootNodes, settingsNodes, waterQualityNodes, reactionsNodes, inverseModelingNodes, controlNodes;
-        rootNodes << settings << blocks << connectors << evapotranspiration << waterQuality << inverseModeling << control;
-        settingsNodes << projectSettings << climateSettings << solverSettings;
-        waterQualityNodes << particle << constituent << buildUp << extrenalFlux << reactions;
-        reactionsNodes << reactionParameter << reactionNetwork;
-        inverseModelingNodes << GA << MCMC << parameter << observed;
-        controlNodes << objectiveFunction << sensor << controller;
+#ifdef Aquifolium
+        QList<TreeItem*> rootNodes, settingsNodes;
+        QJsonObject jsonobj = parent->jsondocentities.object();
+        settings = new TreeItem("Settings", parent, TreeItem::Type::SettingsBranch);//, rootItem);
+        foreach(QString key, jsonobj.keys()){
+            QJsonValue val = jsonobj[key];
+            TreeItem *node = new TreeItem(val.toObject()["description"].toString(), parent, TreeItem::Type::Item);
+            settingsNodes << node;
+
+        }
+
+        rootNodes << settings << blocks << connectors;
         rootItem->addChild(rootNodes);
         settings->addChild(settingsNodes);
-        waterQuality->addChild(waterQualityNodes);
-        reactions->addChild(reactionsNodes);
-        inverseModeling->addChild(inverseModelingNodes);
-        control->addChild(controlNodes);
+
 #endif
 #ifdef GIFMOD
 		if (parent->applicationShortName == "GIFMod")

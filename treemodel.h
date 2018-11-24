@@ -55,9 +55,8 @@ public:
 //		return rootItem;
 //	}
 #ifdef Aquifolium
-    TreeItem *rootItem, *settings, *blocks, *connectors, *evapotranspiration, *waterQuality, *constituent, *buildUp, *extrenalFlux, *particle,
-         *projectSettings, *climateSettings, *solverSettings, *reactions, *reaction, *reactionNetwork, *reactionParameter, *GA, *MCMC, *inverseModeling, *control, *sensor, *objectiveFunction, *controller, *parameter,
-         *observed, *wells, *tracers;
+    TreeItem *rootItem, *settings, *blocks, *connectors;
+    QVector<TreeItem*> mainbranches;
 #endif
 #ifdef GIFMOD	
 	TreeItem *rootItem, *settings, *blocks, *connectors, *evapotranspiration, *waterQuality, *constituent, *buildUp, *extrenalFlux, *particle,
