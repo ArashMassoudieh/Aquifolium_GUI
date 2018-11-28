@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
     logwindow->append("Program started");
     diagramview = new GraphWidget(this,"Aquifolium","",logwindow,this);
     ReadEntitiesJson();
+    diagramview->mList->AppendEntities(&diagramview->jsondocentities);
     diagramview->setObjectName(QStringLiteral("graphicsView_2"));
     diagramview->tableProp = ui->tableView;
 

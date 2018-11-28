@@ -130,8 +130,6 @@ GraphWidget::GraphWidget(QWidget *_parent, QString applicationShortName, QString
 		break;
 	}
 
-
-
 	functionList.clear();
 	functionList << "exp" << "hsd" << "min" << "max" << "lne" << "lnt" << "sgm" << "pos" << "sq1" << "sqr" // functions
 		<< "frs" << "fas" << "ply" << "mon" << "sq2" << "abs";
