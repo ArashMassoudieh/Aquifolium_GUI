@@ -21,8 +21,7 @@ TreeModel::TreeModel(GraphWidget *parent ) : QAbstractItemModel(parent)
         settings = new TreeItem("Settings", parent, TreeItem::Type::SettingsBranch);//, rootItem);
         foreach (QString key, jsonobj.keys()){
             QJsonValue val = jsonobj[key];
-            TreeItem *node = new TreeItem(val.toObject()["description"].toString(), parent, TreeItem::Type::Item);
-            settingsNodes<<node;
+            new Entity(key, val.toObject()["description"].toString(), parent);
 
         }
 

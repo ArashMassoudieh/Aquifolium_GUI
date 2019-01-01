@@ -93,6 +93,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSave_As, SIGNAL(triggered()),this,SLOT(on_actionSave_As_triggered()));
     connect(ui->action_Zoom_All, SIGNAL(triggered()),this,SLOT(on_actionZoom_All_triggered()));
     connect(ui->actionRun, SIGNAL(triggered()),this, SLOT(on_actionRun_Model_triggered()));
+    connect(ui->treeView,SIGNAL(clicked(const QModelIndex&)),this, SLOT(on_projectExplorer_clicked(const QModelIndex&)));
     //scene = new QGraphicsScene(this);
     //diagramview->view()->setScene(scene);
 
@@ -505,8 +506,10 @@ void MainWindow::forwardRun(System *model, runtimeWindow* progress)
 
 }
 
-void MainWindow::on_projectExplorer_clicked(const QModelIndex &index)
+void MainWindow::on_projectExplorer_clicked(const QModelIndex& index)
 {
+    //QModelIndex index = ui->treeView->currentIndex();
+    qDebug()<<index << index.data().toString();
     if (index.data(Role::TreeItemType) == TreeItem::Type::NodeItem ||
         index.data(Role::TreeItemType) == TreeItem::Type::EdgeItem ||
         index.data(Role::TreeItemType) == TreeItem::Type::EntityItem ||
