@@ -23,7 +23,11 @@ Entity::Entity(const QString _type, QString _name, GraphWidget *_parent)
 	mProp filter;
 	filter = objectType;
 	QStringList a = (*parent->mList).filter(filter).SubTypes();
-	objectType.SubType = (*parent->mList).filter(filter).SubTypes()[0];
+    if (a.size())
+        objectType.SubType = (*parent->mList).filter(filter).SubTypes()[0];
+    else {
+        objectType.SubType = "*";
+    }
 	static int ID;
 	if (_name == "No Name" || _name == "") 
 		_name = _type;

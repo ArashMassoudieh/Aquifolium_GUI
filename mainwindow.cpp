@@ -40,15 +40,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     projModel = new TreeModel(diagramview);
     ui->treeView->setModel(projModel);
-
     ui->treeView->setObjectName(QStringLiteral("projectExplorer"));
-
+    diagramview->setProjExp(ui->treeView);
+    diagramview->treeModel = projModel;
+    projModel->Populate(diagramview);
     Qt::WindowFlags flags = this->windowFlags();
     setWindowFlags(windowFlags() | Qt::WindowMaximizeButtonHint);
 
     // ***
-    diagramview->setProjExp(ui->treeView);
-    diagramview->treeModel = projModel;
+
 
     Delegate *mDelegate = new Delegate(this, diagramview);
 

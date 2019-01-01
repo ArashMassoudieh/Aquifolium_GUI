@@ -1233,7 +1233,7 @@ bool GraphWidget::select(const QString &name, const QString type) const
 				return r;
 			}
     for (Entity* entity : Entities)
-		if (entity->objectType.ObjectType== type && entity->Name() == name)
+        if (entity->Name() == name)
 		{
 			deselectAll();
             if (tableProp) tableProp->setModel(entity->model);

@@ -19,17 +19,8 @@ TreeModel::TreeModel(GraphWidget *parent ) : QAbstractItemModel(parent)
         QList<TreeItem*> rootNodes, settingsNodes;
         QJsonObject jsonobj = parent->jsondocentities.object();
         settings = new TreeItem("Settings", parent, TreeItem::Type::SettingsBranch);//, rootItem);
-        foreach (QString key, jsonobj.keys()){
-            QJsonValue val = jsonobj[key];
-            new Entity(key, val.toObject()["description"].toString(), parent);
-
-        }
-
-
-        settings->addChild(settingsNodes);
         rootNodes << settings << blocks << connectors;
         rootItem->addChild(rootNodes);
-
 
 #endif
 #ifdef GIFMOD
@@ -209,6 +200,11 @@ TreeModel::~TreeModel()
 void TreeModel::addChildFromMenu(const QString name, QModelIndex *parentIndex)
 {
     TreeItem *parent = nullptr;
+#ifdef Aquifolium
+    if (name == "Settings")
+        parent = this->settings;
+
+#endif
 #ifdef GIFMOD
 	if (name == "Controller")
 		parent = this->controller;
@@ -535,6 +531,10 @@ void TreeModel::add(Edge *edge)
 TreeItem * TreeModel::entityParentItemfromType(QString type) const
 {
     TreeItem *parent = nullptr;
+#ifdef Aquifolium
+    if (type == "Settings")
+        parent = settings;
+#endif
 #ifdef GIFMOD
 	if (type == "Sensor")
 		parent = this->sensor;
@@ -571,5 +571,15 @@ void TreeModel::add(Entity *entity)
 {
 	QString type = entity->objectType.ObjectType;
 	TreeItem *parent = entityParentItemfromType(type);
-	if (parent)parent->addChild(new TreeItem(entity));
+    if (parent) parent->addChild(new TreeItem(entity));
+}
+
+void TreeModel::Populate(GraphWidget *parent)
+{
+    QJsonObject jsonobj = parent->jsondocentities.object();
+    foreach (QString key, jsonobj.keys()){
+        QJsonValue val = jsonobj[key];
+        new Entity("Settings", val.toObject()["description"].toString(), parent);
+    }
+
 }

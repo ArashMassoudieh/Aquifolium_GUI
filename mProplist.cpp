@@ -209,10 +209,10 @@ mListReadStatus mPropList::AppendEntities(QJsonDocument *othertreeitems)
             mP.Model = "1";
             mP.GuiObject = "Entity";
 
-            mP.ObjectType = key;
+            mP.ObjectType = "Settings";//jsonobj[key].toObject()["description"].toString();
             mP.SubType = "*";
             mP.Description = innerjsonobj["description"].toString();
-            mP.VariableName = innerkey;
+            mP.VariableName = innerjsonobj["description"].toString();
             mP.VariableCode = innerkey;
             mP.VariableUnit = innerjsonobj["unit"].toString();
             mP.DefaultUnit = innerjsonobj["default_unit"].toString();

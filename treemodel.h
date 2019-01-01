@@ -18,6 +18,7 @@ class TreeModel : public QAbstractItemModel
 
 public:
 	explicit TreeModel(GraphWidget *parent);
+    void Populate(GraphWidget *parent);
 //	explicit TreeModel(const QString &data, QObject *parent = 0);
 	~TreeModel();
 	GraphWidget *Parent;
