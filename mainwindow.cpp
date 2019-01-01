@@ -110,17 +110,8 @@ bool MainWindow::ReadEntitiesJson() {
 
     QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
     diagramview->jsondocentities = loadDoc;
+
     QJsonObject jsonobj = loadDoc.object();
-
-    foreach(QString key, jsonobj.keys()){
-        QJsonValue node = jsonobj[key];
-        foreach (QString key, node.toObject().keys())
-        {   QJsonValue innernode = node.toObject()[key];
-            qDebug()<<innernode;
-        }
-
-    }
-
     return true;
 }
 
@@ -512,4 +503,16 @@ void MainWindow::forwardRun(System *model, runtimeWindow* progress)
 
     diagramview->hasResults = true;
 
+}
+
+void MainWindow::on_projectExplorer_clicked(const QModelIndex &index)
+{
+    if (index.data(Role::TreeItemType) == TreeItem::Type::NodeItem ||
+        index.data(Role::TreeItemType) == TreeItem::Type::EdgeItem ||
+        index.data(Role::TreeItemType) == TreeItem::Type::EntityItem ||
+        index.data(Role::TreeItemType) == TreeItem::Type::Item)
+    {
+        QString type = index.data(Role::TreeParentItemType).toString();
+        diagramview->select(index.data().toString(), type);
+    }
 }

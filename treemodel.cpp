@@ -19,16 +19,18 @@ TreeModel::TreeModel(GraphWidget *parent ) : QAbstractItemModel(parent)
         QList<TreeItem*> rootNodes, settingsNodes;
         QJsonObject jsonobj = parent->jsondocentities.object();
         settings = new TreeItem("Settings", parent, TreeItem::Type::SettingsBranch);//, rootItem);
-        foreach(QString key, jsonobj.keys()){
+        foreach (QString key, jsonobj.keys()){
             QJsonValue val = jsonobj[key];
             TreeItem *node = new TreeItem(val.toObject()["description"].toString(), parent, TreeItem::Type::Item);
-            settingsNodes << node;
+            settingsNodes<<node;
 
         }
 
+
+        settings->addChild(settingsNodes);
         rootNodes << settings << blocks << connectors;
         rootItem->addChild(rootNodes);
-        settings->addChild(settingsNodes);
+
 
 #endif
 #ifdef GIFMOD
@@ -207,7 +209,7 @@ TreeModel::~TreeModel()
 
 void TreeModel::addChildFromMenu(const QString name, QModelIndex *parentIndex)
 {
-	TreeItem *parent = 0;
+    TreeItem *parent = nullptr;
 #ifdef GIFMOD
 	if (name == "Controller")
 		parent = this->controller;
@@ -286,7 +288,7 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
 Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
 {
 	if (!index.isValid())
-		return 0;
+        return nullptr;
 	return Qt::ItemIsSelectable | Qt::ItemIsEnabled; 
 }
 
@@ -337,7 +339,7 @@ TreeItem* TreeModel::itemFromIndex(const QModelIndex &index) const
 	if (index.isValid())
 		return static_cast<TreeItem *>(index.internalPointer());
 	else
-		return 0;// rootItem;
+        return nullptr;// rootItem;
 }
 
 bool TreeModel::hasChildren(const QModelIndex & parent) const
@@ -533,7 +535,7 @@ void TreeModel::add(Edge *edge)
 }
 TreeItem * TreeModel::entityParentItemfromType(QString type) const
 {
-	TreeItem *parent = 0;
+    TreeItem *parent = nullptr;
 #ifdef GIFMOD
 	if (type == "Sensor")
 		parent = this->sensor;

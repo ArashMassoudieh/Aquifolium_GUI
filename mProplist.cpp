@@ -201,7 +201,7 @@ mListReadStatus mPropList::AppendEntities(QJsonDocument *othertreeitems)
 
     QJsonObject jsonobj = othertreeitems->object();
     foreach(QString key, jsonobj.keys()){
-        QJsonValue val = jsonobj[key];
+        QJsonValue val = jsonobj[key].toObject()["properties"].toObject();
         foreach (QString innerkey, jsonobj[key].toObject()["properties"].toObject().keys())
         {
             QJsonObject innerjsonobj = jsonobj[key].toObject()["properties"].toObject()[innerkey].toObject();
