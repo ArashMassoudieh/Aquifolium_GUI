@@ -10,6 +10,9 @@
 #include "folders.h"
 #include <QJsonDocument>
 #include "runtimeWindow.h"
+#include "csvEditor.h"
+#include "helpWindow.h"
+#include "qinputdialog.h"
 
 
 #define RECENT "recentFiles.txt"
@@ -94,8 +97,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->action_Zoom_All, SIGNAL(triggered()),this,SLOT(on_actionZoom_All_triggered()));
     connect(ui->actionRun, SIGNAL(triggered()),this, SLOT(on_actionRun_Model_triggered()));
     connect(ui->treeView,SIGNAL(clicked(const QModelIndex&)),this, SLOT(on_projectExplorer_clicked(const QModelIndex&)));
-    //scene = new QGraphicsScene(this);
-    //diagramview->view()->setScene(scene);
+    ui->tableView->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    connect(ui->tableView, SIGNAL(customContextMenuRequested(const QPoint&)),
+        this, SLOT(tablePropShowContextMenu(const QPoint&)));
+
+    connect(diagramview, SIGNAL(changed()),
+        this, SLOT(gwidgetChanged()));
+
 
 }
 
@@ -591,4 +600,182 @@ void MainWindow::on_projectExplorer_clicked(const QModelIndex& index)
         QString type = index.data(Role::TreeParentItemType).toString();
         diagramview->select(index.data().toString(), type);
     }
+}
+
+void MainWindow::tablePropShowContextMenu(const QPoint&pos)
+{
+    QModelIndex i1 = ui->tableView->indexAt(pos);
+    int row = i1.row();
+    QModelIndex i2 = i1.sibling(row, 1);
+
+    if (i1.column() == 0)
+    {
+        QMenu *menu = new QMenu;
+        int code = i1.data(DescriptionCodeRole).toInt();
+        QString variableName = i1.data(VariableNameRole).toString();
+        showHelp(code, variableName);
+        menu->addAction("Help", this, SLOT(showHelp()));
+        menu->addSeparator();
+        qDebug()<<i1.data(VariableTypeRole).toString().toLower();
+        qDebug()<<i2.data(VariableTypeRole).toString().toLower();
+        if (i2.data(VariableTypeRole).toString().toLower().contains("getnumber"))
+        {
+            double initial = i2.data(Qt::ToolTipRole).toDouble();
+            getNumber(initial);
+            menu->addAction("Input number", this, SLOT(getNumber()));
+            addParameterIndex(i1); // tableProp->indexAt(pos));
+            menu->addSeparator();
+        }
+        QMenu *estimatesMenu = new QMenu("Parameters");
+        menu->addMenu(estimatesMenu);
+        estimatesMenu->setEnabled(false);
+        if (i2.data(VariableTypeRole).toString().toLower().contains("estimate"))
+        {
+            foreach (QString item , diagramview->EntityNames("Parameter"))
+                estimatesMenu->addAction(QString("%1").arg(item));// , this, SLOT(addParameter()));
+            addParameterIndex(i1); // tableProp->indexAt(pos));
+            connect(estimatesMenu, SIGNAL(triggered(QAction*)), this, SLOT(addParameter(QAction*)));
+            estimatesMenu->setEnabled(true);
+        }
+        QMenu *controlsMenu = new QMenu("Controls");
+        menu->addMenu(controlsMenu);
+        controlsMenu->setEnabled(false);
+        if (i2.data(VariableTypeRole).toString().toLower().contains("control"))
+        {
+            foreach (QString item , diagramview->EntityNames("Controller"))
+                controlsMenu->addAction(QString("%1").arg(item));// , this, SLOT(addParameter()));
+            addParameterIndex(i1); // tableProp->indexAt(pos));
+            connect(controlsMenu, SIGNAL(triggered(QAction*)), this, SLOT(addParameter(QAction*)));
+            controlsMenu->setEnabled(true);
+        }
+
+        menu->exec(ui->tableView->mapToGlobal(pos));
+    }
+    if (i1.column() == 1 && i1.data(TypeRole).toString().toLower().contains("time series"))
+    {
+        QStringList graphNames;
+        QString file = i2.data().toString();
+        QString fullfile = i2.data(Qt::ToolTipRole).toString();
+        fullfile = fullFilename(fullfile, diagramview->modelPathname());
+        //QString fullfile = fullFilename(QString("./%1").arg(file), modelPathname());
+        CBTCSet data;
+#ifdef GIFMOD
+        if (i1.data(TypeRole).toString().toLower().contains("precipitation"))
+            data = CPrecipitation(fullfile.toStdString()).getflow(1,1.0/24.0/4.0);
+        else
+#endif
+            data = CBTCSet(fullfile.toStdString(), 1);
+
+        foreach (string name , data.names)
+        {
+            if (!graphNames.contains(QString::fromStdString(name)))
+                graphNames.append(QString::fromStdString(name));
+            else diagramview->warning(QString("Duplicate header %1 in time series, file %1").arg(QString::fromStdString(name)).arg(file));
+        }
+        QMenu *menu = new QMenu;
+        menu->addAction("Edit time series");
+        if (graphNames.count())
+        {
+            bool convertXtoTime = true;
+            if (i1.data(TypeRole).toString().toLower().contains("age"))
+                convertXtoTime = false;
+            plotTimeSeries(nullptr, CBTC(), "", true, true);
+            foreach (QString subTitle , graphNames)
+            {
+                QAction* action = menu->addAction(subTitle);
+                plotTimeSeries(action, data[subTitle.toStdString()], subTitle, convertXtoTime);
+            }
+            connect(menu, SIGNAL(triggered(QAction*)), this, SLOT(plotTimeSeries(QAction*)));
+        }
+        QAction *action = menu->exec(ui->tableView->mapToGlobal(pos));
+        bool precipitation = (i1.data(TypeRole).toString().toLower().contains("precipitation")) ? true : false;
+
+        if (action)
+            if (action->text() == "Edit time series")
+                csvEditor *editor = new csvEditor(this, precipitation, fullfile, fullfile, ui->tableView, ui->tableView->indexAt(pos));
+
+    }
+}
+
+void MainWindow::showHelp(int code, QString variableName)
+{
+    static int helpCode;
+    static QString helpVariableName;
+
+    if (code != -1)
+    {
+        helpCode = code;
+        helpVariableName = variableName;
+        return;
+    }
+
+    diagramview->help->showHelp(helpCode, helpVariableName.toStdString());
+}
+
+void MainWindow::getNumber(double initial)
+{
+    static double initialValue = 1;
+    if (initial != -1)
+    {
+        initialValue = initial;
+        return;
+    }
+
+    double value = QInputDialog::getDouble(this, "Input Dialog Box", "Enter number:", initialValue, 0, 2147483647, 4);// item->text();
+
+    ui->tableView->model()->setData(addParameterIndex(), value);
+}
+
+
+void MainWindow::plotTimeSeries(QAction* action, CBTC data, QString name, bool convertXtoTime, bool reset)
+{
+    struct graph
+    {
+        QAction* action;
+        CBTC data;
+        QString name;
+        bool convertXtoTime;
+    };
+    static vector<graph>graphs;
+
+    if (reset){
+        graphs.clear();
+        return;
+    }
+
+    if (data.n)
+    {
+        graph g;
+        g.action = action;
+        g.data = data;
+        g.name = name;
+        g.convertXtoTime = convertXtoTime;
+        graphs.push_back(g);
+    }
+    else
+    {
+        for (int i = 0; i < graphs.size(); i++)
+            if (action == graphs[i].action)
+            {
+                plotWindow *plot = new plotWindow(diagramview);
+                plotformat format;
+                format.xAxisTimeFormat = graphs[i].convertXtoTime;
+                plot->addScatterPlot(graphs[i].data, graphs[i].name, format);
+                plot->show();
+                return;
+            }
+    }
+}
+
+QModelIndex MainWindow::addParameterIndex(const QModelIndex &index)
+{
+    static QModelIndex parameterIndex;
+    if (index != QModelIndex()) parameterIndex = index;
+    return parameterIndex;
+}
+
+void MainWindow::addParameter(QAction* item)
+{
+    QString parameter = item->text();
+    ui->tableView->model()->setData(addParameterIndex(), parameter, setParamRole);
 }

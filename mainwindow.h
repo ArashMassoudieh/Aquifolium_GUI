@@ -44,6 +44,11 @@ private:
     bool ReadEntitiesJson();
     QString fileExtension, metafilename, applicationShortName;
     void forwardRun(System *model, runtimeWindow* progress);
+    void showHelp(int code, QString variableName);
+    void plotTimeSeries(QAction*, CBTC data = CBTC(), QString name = "", bool convertXtoTime = true, bool reset = false);
+    QModelIndex addParameterIndex(const QModelIndex &index = QModelIndex());
+    void addParameter(QAction* item = nullptr);
+
 private slots:
     void onaddlink();
     void onaddblock();
@@ -57,6 +62,8 @@ private slots:
     void on_actionSave_As_JSON_triggered();
     void on_actionRun_Model_triggered();
     void on_projectExplorer_clicked(const QModelIndex& index);
+    void tablePropShowContextMenu(const QPoint&pos);
+    void getNumber(double initial=-1);
 };
 
 

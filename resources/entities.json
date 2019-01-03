@@ -46,14 +46,16 @@
         "default": "0",
         "description": "Simulation start time",
         "ask_user": "true",
-        "delegate": "datetime+getnumber",
+        "type": "datetime+getnumber",
+        "delegate": "DateTime",
         "code": "time_min"
       },
       "simulation_end_time": {
         "default": "1",
         "description": "Simulation end time",
         "ask_user": "true",
-        "delegate": "datetime+getnumber",
+        "type": "datetime+getnumber",
+        "delegate": "DateTime",
         "code": "time_max"
       }		
     }

@@ -29,7 +29,7 @@ public:
 
   void setHtml(vector<string> text);
   void setHtml(QString html);
-  void operator()(QString text) { append(text); };
+  void operator()(QString text) { append(text); }
   void showHelp(int code, string variableName, bool appendtoList = true);
   vector<string> search(int code);
   QString search2Html (int code);
