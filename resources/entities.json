@@ -38,5 +38,24 @@
         "code": "minimum_timestep"
       }
     }
+  },
+  "general_parameters": {
+    "description": "General Parameters",
+    "properties": {
+      "simulation_start_time": {
+        "default": "0",
+        "description": "Simulation start time",
+        "ask_user": "true",
+        "delegate": "datetime+getnumber",
+        "code": "time_min"
+      },
+      "simulation_end_time": {
+        "default": "1",
+        "description": "Simulation end time",
+        "ask_user": "true",
+        "delegate": "datetime+getnumber",
+        "code": "time_max"
+      }		
+    }
   }
 }

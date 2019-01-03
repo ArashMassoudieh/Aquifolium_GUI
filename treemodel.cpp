@@ -579,7 +579,7 @@ void TreeModel::Populate(GraphWidget *parent)
     QJsonObject jsonobj = parent->jsondocentities.object();
     foreach (QString key, jsonobj.keys()){
         QJsonValue val = jsonobj[key];
-        new Entity("Settings", val.toObject()["description"].toString(), parent);
+        new Entity(val.toObject()["description"].toString(), val.toObject()["description"].toString(), parent);
     }
 
 }

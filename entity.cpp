@@ -19,8 +19,9 @@ Entity::Entity(const QString _type, QString _name, GraphWidget *_parent)
 
 	QList <mProp> QL;
     QL = (*parent->mList).GetList();
-	objectType.ObjectType = _type;
-	mProp filter;
+    objectType.ObjectType = "Settings";
+    objectType.SubType = _type;
+    mProp filter;
 	filter = objectType;
 	QStringList a = (*parent->mList).filter(filter).SubTypes();
     if (a.size())
