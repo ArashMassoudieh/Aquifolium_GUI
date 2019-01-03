@@ -53,7 +53,9 @@ public:
     QString newEntityName(const QString name, QStringList &existingNames) const;
 	QString name;
 	QMap<QString, QVariant> compact() const;
-	static Entity* unCompact(QMap<QString, QVariant>, GraphWidget *gwidget, bool oldVersionLoad = false);
+    void compact(QJsonObject &json) const;
+    static Entity* unCompact(QMap<QString, QVariant>, GraphWidget *gwidget, bool oldVersionLoad = false);
+    static Entity* unCompact(const QJsonObject &jsonobj, GraphWidget *gwidget, bool oldVersionLoad = false);
 	static Entity* unCompact10(QMap<QString, QVariant>, GraphWidget *gwidget);
 	QList<mProp> get_props();
 	QStringList codes() const;

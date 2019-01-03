@@ -11,6 +11,7 @@
 #include <QGraphicsSceneContextMenuEvent>
 #include "treemodel.h"
 #include "PropList.h"
+#include "qjsonarray.h"
 //#include "multiValues.h"
 //#include "utility_Funcs.h"
 
@@ -916,7 +917,6 @@ QMap<QString, QVariant> Node::compact() const
 void Node::compact(QJsonObject &json) const
 {
 //	//qDebug() << "Compacting: " << name;
-    QMap<QString, QVariant> r;
     QStringList connectorNames;
     foreach (Edge * e , edgeList)
         connectorNames.append(e->Name());
@@ -1004,6 +1004,29 @@ Node* Node::unCompact(QMap<QString, QVariant> n, GraphWidget *gwidget, bool oldV
 
 	return node;
 }
+
+
+Node* Node::unCompact(const QJsonObject &jsonobj, GraphWidget *gwidget, bool oldVersion)
+{
+
+    Node *node = new Node(gwidget, jsonobj["Type"].toString(), jsonobj["Name"].toString(), jsonobj["X"].toInt(), jsonobj["Y"].toInt(), jsonobj["Width"].toInt(), jsonobj["Height"].toInt());
+    node->setObjectSubType(jsonobj["SubType"].toString());
+    QStringList connectorNames;
+    QJsonArray connectorNamesArray = jsonobj["Connector Names"].toArray();
+    for (int i=0; i<connectorNamesArray.count(); i++)
+    {
+        connectorNames.append(connectorNamesArray[i].toString());
+    }
+    //qDebug() << "Node: " << n["Name"].toString() << ", " << node->Name();
+
+    node->props.list = PropList<Node>::uncompact(jsonobj);
+    if (!node->props.list.size() && oldVersion)
+        foreach(QString key , jsonobj.keys())
+            node->props.setProp(key.toLower(), XString::unCompact(jsonobj[key].toString()), "experiment1");
+
+    return node;
+}
+
 
 Node* Node::unCompact10(QMap<QString, QVariant> n, GraphWidget *gwidget)
 {

@@ -538,6 +538,43 @@ Edge* Edge::unCompact(QMap<QString, QVariant> n, GraphWidget *gwidget, bool oldV
 	return edge;
 }
 
+Edge* Edge::unCompact(const QJsonObject &jsonobj, GraphWidget *gwidget, bool oldVersion)
+{
+    //qDebug() << "Loading: " << n["Name"].toString() << n["Source Node"].toString() << n["Dest Node"].toString();
+
+
+    QString source = jsonobj["Source Node"].toString();
+    QString dest = jsonobj["Dest Node"].toString();
+
+    Edge *edge = new Edge(gwidget->node(source), gwidget->node(dest), "", gwidget);
+
+    if (!gwidget->Edges().contains(edge))
+    {
+        gwidget->log(QString("%1-%2 connector ignored.").arg(source).arg(dest));
+        return nullptr;
+    }
+    edge->name = jsonobj["Name"].toString();
+    edge->objectType.ObjectType = jsonobj["Type"].toString();
+    edge->objectType.SubType = jsonobj["SubType"].toString();
+    edge->updateSubType();
+    edge->arrowSize = jsonobj["Arrow Size"].toInt();
+
+    edge->props.list = PropList<Edge>::uncompact(jsonobj);
+
+    if (!edge->props.list.size() && oldVersion)
+        foreach(QString key , jsonobj.keys())
+        {
+            QString propName = key;
+            if (key == "Interface Area")
+                propName = "Interface/cross sectional area";
+            edge->props.setProp(propName.toLower(), XString::unCompact(jsonobj[key].toString()), "experiment1");
+        }
+
+    /*foreach (QString key , n.keys())
+    edge->props.list[key] = XString::unCompact(n[key].toString());*/
+    return edge;
+}
+
 Edge* Edge::unCompact10(QMap<QString, QVariant> n, GraphWidget *gwidget)
 {
 	//qDebug() << "FUNCTION CANCELED.";

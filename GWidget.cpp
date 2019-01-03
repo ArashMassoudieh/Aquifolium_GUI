@@ -33,6 +33,7 @@
 #include "qfiledialog.h"
 #include "qdesktopservices.h"
 #include "utility_funcs.h"
+#include "qjsonarray.h"
 #ifdef GIFMOD
 #include "Medium.h"
 #include "mainwindow.h"
@@ -1588,6 +1589,12 @@ void GraphWidget::compact(QJsonObject &json) const
     }
 #endif
 
+    QJsonObject entities;
+    for (Entity *en : Entities)
+    {
+        en->compact(entities);
+    //	//qDebug() << list.last()["GUI"].toString() << ", " << list.last()["Name"].toString() << " saved.";
+    }
 
     QJsonObject nodes;
     for (Node *n : Nodes())
@@ -1605,6 +1612,7 @@ void GraphWidget::compact(QJsonObject &json) const
     //	//qDebug() << list.last()["GUI"].toString() << ", " << list.last()["Name"].toString() << " saved.";
     }
     //qDebug() << "connectors append to list" << " " << getTime();
+    json["Entities"] = entities;
     json["Nodes"] = nodes;
     json["Edges"] = edges;
 }
@@ -4539,3 +4547,67 @@ menuKey[particleSubMenu->addAction("Irreversible attached")] = list;
 }
 }
 */
+
+GraphWidget* GraphWidget::unCompact(const QJsonObject &jsonobj , bool oldVersion) //, QWidget *parent)
+{
+#ifdef GIFMOD
+    modelSet = new CMediumSet;
+#endif
+#ifdef GWA
+    modelSet = new CGWASet;
+#endif
+
+
+    QString newpath = "";
+    ModelSpace.Model = jsonobj["Model Space"].toString();
+    hasResults = jsonobj["hasResults"].toBool();
+
+    experimentsComboClear(false);
+    QString path = modelPathname();
+
+    QCoreApplication::processEvents();
+
+    QJsonObject Nodes = jsonobj["Nodes"].toObject();
+
+    foreach (QString key, Nodes.keys())
+    {
+        Node::unCompact(Nodes[key].toObject(),this,oldVersion);
+        QCoreApplication::processEvents();
+    }
+
+    QJsonObject Edges = jsonobj["Edges"].toObject();
+
+    foreach (QString key, Edges.keys())
+    {
+        Edge::unCompact(Edges[key].toObject(),this,oldVersion);
+        QCoreApplication::processEvents();
+    }
+
+    QJsonObject Entities = jsonobj["Entities"].toObject();
+    foreach (QString key, Entities.keys())
+    {
+        Entity::unCompact(Entities[key].toObject(),this,oldVersion);
+        QCoreApplication::processEvents();
+    }
+
+   QStringList missingList;
+
+#ifdef GIFMOD
+    missingList << "Markov chain Monte Carlo" << "Project settings";
+    missingList << "Solver settings" << "Climate settings";
+
+#endif
+    for (QString missing  : missingList)
+    {
+        Entity *e = entityByName(missing);
+        if (e == nullptr)
+            new Entity(missing, missing, this);
+    }
+
+    treeModel->refresh();
+
+    return this;
+
+}
+
+

@@ -40,6 +40,7 @@ private:
     void addToRecentFiles(QString fileName, bool addToFile=true);
     void writeRecentFilesList();
     bool loadModel(QString modelfilename);
+    bool loadModelJSON(QString modelfilename);
     bool ReadEntitiesJson();
     QString fileExtension, metafilename, applicationShortName;
     void forwardRun(System *model, runtimeWindow* progress);

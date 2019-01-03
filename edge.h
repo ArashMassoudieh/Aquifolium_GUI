@@ -57,6 +57,7 @@ public:
     void compact(QJsonObject &json) const;
     QMap<QString, QVariant> compact() const;
 	static Edge* unCompact(QMap<QString, QVariant>, GraphWidget *gwidget, bool oldVersionLoad = false);
+    static Edge* unCompact(const QJsonObject &jsonobj, GraphWidget *gwidget, bool oldVersion=false);
 	static Edge* unCompact10(QMap<QString, QVariant>, GraphWidget *gwidget);
 	QStringList codes() const;
 	QMap<QString, condition> variableNameConditions() const;

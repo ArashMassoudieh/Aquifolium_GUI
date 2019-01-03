@@ -73,11 +73,19 @@ public:
         foreach(const QString& key, json.keys()) {
             QJsonValue value = json.value(key);
             qDebug() << "Key = " << key << ", Value = " << value.toString();
-            if (!experiments.contains(key.split("$$$")[0]) && key.split("$$$")[0] != "All experiments")
+            if (!experiments.contains(key.split("$$$")[0]) && key.split("$$$")[0] != "All experiments" && key.split("$$$").count()==2)
                 experiments.append(key.split("$$$")[0]);
         }
 
-        experiments.removeDuplicates();
+        foreach (QString line , json.keys())
+        {
+            QString experiment = "All experiments";
+            QStringList list = line.split("$$$");
+            if (list.size()>=2)
+            {   QStringList propVal = QStringList() << list[1] << json[line].toString();
+                compacted.insertMulti(experiment, propVal);
+            }
+        }
 
         for (int i = 0; i < experiments.count(); i++)
             foreach (QString line , json.keys())
@@ -86,10 +94,11 @@ public:
                 QStringList list = line.split("$$$");
                 if (experiment == list[0])
                 {
-                    QStringList propVal = QStringList() << list[1] << list[2];
+                    QStringList propVal = QStringList() << list[1] << json[line].toString();
                     compacted.insertMulti(experiment, propVal);
                 }
             }
+
         experiments = compacted.keys();
         experiments.removeDuplicates();
 
@@ -108,6 +117,8 @@ public:
                 r.insert(experiment, propListItem);
             }
         }
+
+
         return r;
     }
 

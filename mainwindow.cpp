@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
     diagramview = new GraphWidget(this,"Aquifolium","",logwindow,this);
     ReadEntitiesJson();
     diagramview->mList->AppendEntities(&diagramview->jsondocentities);
-    diagramview->setObjectName(QStringLiteral("graphicsView_2"));
+    diagramview->setObjectName(QStringLiteral("DiagramView"));
     diagramview->tableProp = ui->tableView;
 
     projModel = new TreeModel(diagramview);
@@ -149,12 +149,21 @@ void MainWindow::on_action_Save_triggered()
 {
     QString fileName = (!diagramview->modelFilename.isEmpty()) ? diagramview->modelFilename : QFileDialog::getSaveFileName(this,
         tr("Save ").append(applicationName), diagramview->modelPathname(),
-        tr("Model (*.").append(fileExtension).append(");;All Files (*)"));
-    if (saveModel(fileName))
-    {
-        setModelFileName(fileName);
-        if (fileName.right(4) != "temp")
+        tr("Model (*.").append(fileExtension).append(");;All Files (*);; JSON (*.json)"));
+    if (fileName.right(4).toLower()!="json")
+    {   if (saveModel(fileName))
+        {
+            setModelFileName(fileName);
+            if (fileName.right(4) != "temp")
+                addToRecentFiles(fileName);
+        }
+    }
+    else {
+        if (saveModelJson(fileName))
+        {
+            setModelFileName(fileName);
             addToRecentFiles(fileName);
+        }
     }
 }
 
@@ -162,7 +171,7 @@ void MainWindow::on_actionSave_As_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
         tr("Save ").append(applicationName), diagramview->modelPathname(),
-        tr("Model (*.").append(fileExtension).append(");;All Files (*)"));
+        tr("Model (*.").append(fileExtension).append(");;JSON (*.json);;All Files (*)"));
     Entity *e = diagramview->entityByName("Project settings (1)");
 
     diagramview->Entities.removeOne(e);
@@ -170,11 +179,20 @@ void MainWindow::on_actionSave_As_triggered()
         fileName += "."+fileExtension;
     saveModel(fileName);
 
-    if (saveModel(fileName))
-    {
-        setModelFileName(fileName);
-        if (fileName.right(4) != "temp")
+    if (fileName.right(4).toLower()!="json")
+    {   if (saveModel(fileName))
+        {
+            setModelFileName(fileName);
+            if (fileName.right(4) != "temp")
+                addToRecentFiles(fileName);
+        }
+    }
+    else {
+        if (saveModelJson(fileName))
+        {
+            setModelFileName(fileName);
             addToRecentFiles(fileName);
+        }
     }
 }
 
@@ -183,9 +201,7 @@ void MainWindow::on_actionSave_As_JSON_triggered()
     QString fileName = QFileDialog::getSaveFileName(this,
         tr("Save ").append(applicationName), diagramview->modelPathname(),
         tr("JSON (*.").append("json").append(");;All Files (*)"));
-    Entity *e = diagramview->entityByName("Project settings (1)");
 
-    diagramview->Entities.removeOne(e);
     if (fileName.right(fileExtension.size()+1)!=".json")
         fileName += ".json";
 
@@ -322,21 +338,38 @@ void MainWindow::on_action_Open_triggered()
             return;
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Open ").append(applicationName), diagramview->modelPathname(),
-        tr("Model (*.").append(fileExtension).append(");;All Files (*)"));
+        tr("Model (*.").append(fileExtension).append(");;JSON (*.json);;All Files (*)"));
     diagramview->clear();
     if (fileName == "") return;
-    if (loadModel(fileName))
-    {
-        //diagramview->modelSet->load(diagramview, rtw); !Attention
-        on_actionZoom_All_triggered();
-        diagramview->updateNodeCoordinates();
-        addToRecentFiles(fileName);
+    if (fileName.right(4).toLower()!="json")
+    {   if (loadModel(fileName))
+        {
+            //diagramview->modelSet->load(diagramview, rtw); !Attention
+            on_actionZoom_All_triggered();
+            diagramview->updateNodeCoordinates();
+            addToRecentFiles(fileName);
+        }
+        else
+        {
+            QMessageBox::StandardButton reply;
+            reply = QMessageBox::information(this, "File Corrupted!", "The model file is corrupted.",
+                QMessageBox::Ok);
+        }
     }
-    else
-    {
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::information(this, "File Corrupted!", "The model file is corrupted.",
-            QMessageBox::Ok);
+    else {
+        if (loadModelJSON(fileName))
+        {
+            //diagramview->modelSet->load(diagramview, rtw); !Attention
+            on_actionZoom_All_triggered();
+            diagramview->updateNodeCoordinates();
+            addToRecentFiles(fileName);
+        }
+        else
+        {
+            QMessageBox::StandardButton reply;
+            reply = QMessageBox::information(this, "File Corrupted!", "The model file is corrupted.",
+                QMessageBox::Ok);
+        }
     }
 
 
@@ -382,6 +415,46 @@ bool MainWindow::loadModel(QString modelfilename)
     diagramview->trackingUndo = true;
     return true;
 }
+
+bool MainWindow::loadModelJSON(QString modelfilename)
+{
+    if (modelfilename.isEmpty())
+        return false;
+    else {
+        QFile file(modelfilename);
+        if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::information(this, tr("Unable to open file"),
+                file.errorString());
+            return false;
+        }
+        QByteArray saveData = file.readAll();
+        QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+        QJsonObject jsonobj = loadDoc.object();
+
+        file.close();
+
+        QString previousModelFilename = diagramview->modelFilename;
+        setModelFileName(modelfilename);
+
+
+        diagramview->trackingUndo = false;
+        diagramview->clear();
+        diagramview->unCompact(jsonobj);
+
+    }
+
+    foreach (Node *n , diagramview->Nodes())
+    {
+        n->setProp("x", n->x());
+        n->setProp("y", n->y());
+    }
+
+    //	updateInterface(NavigationMode);
+    diagramview->changedState = false;
+    diagramview->trackingUndo = true;
+    return true;
+}
+
 
 void MainWindow::on_actionZoom_In_triggered()
 {

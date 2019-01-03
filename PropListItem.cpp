@@ -139,11 +139,11 @@ XString PropListItem<Entity>::getProp(const QString &inpPropName, Entity* parent
 		mProp filter = parent->Filter();
 		filter.VariableName = propName;
 		mPropList mPL = parent->getmList(filter);
-		QList<XString> LX = mPL[0].DefaultValuesList(0, 0, parent->parent);
+        QList<XString> LX = mPL[0].DefaultValuesList(nullptr, nullptr, parent->parent);
 		XString r = (LX.count())? LX[0]:"Some predecessors not defined.";
 		return r;
 
-		return parent->getmList(filter)[0].DefaultValuesList(0, 0, parent->parent)[0];
+        return parent->getmList(filter)[0].DefaultValuesList(nullptr, nullptr, parent->parent)[0];
 	}
 }
 template<>

@@ -182,9 +182,12 @@ bool PropList<Entity>::setProp(const QString& propName, const XString& Value, co
 	if (experimentName == "All experiments")
 	{
 		bool r = list[experimentName].setProp(propName, Value, parent); 
-		for (int i = 1; i < parent->parent->experiments->count(); i++)
-			r |= setProp(propName, Value, parent->parent->experiments->itemText(i));
-		return r;
+        if (parent->parent->experiments)
+        {   for (int i = 1; i < parent->parent->experiments->count(); i++)
+                r |= setProp(propName, Value, parent->parent->experiments->itemText(i));
+        }
+
+        return r;
 	}
 	return list[experimentName].setProp(propName, Value, parent);
 }
