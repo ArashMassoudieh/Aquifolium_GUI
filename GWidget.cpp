@@ -34,6 +34,7 @@
 #include "qdesktopservices.h"
 #include "utility_funcs.h"
 #include "qjsonarray.h"
+#include "results.h"
 #ifdef GIFMOD
 #include "Medium.h"
 #include "mainwindow.h"
@@ -2808,7 +2809,8 @@ void GraphWidget::nodeContextMenuRequested(Node* n, QPointF pos, QMenu *menu)
 	{
 		if (selectedAction->text() == "Select")
 			n->setSelected(true);
-		if (selectedAction->text() == "Delete")
+        qDebug()<<selectedAction->text();
+        if (selectedAction->text().left(6) == "Delete")
 			treeModel->deleteNode(n);
 #ifdef GIFMOD
 		if (selectedAction->text() == "Make array of blocks")
@@ -3097,7 +3099,7 @@ void GraphWidget::nodeContextMenuRequested(Node* n, QPointF pos, QMenu *menu)
 									Edge *e = new Edge(row[columnIndex - 1], n1, this);
 									treeModel->add(e);
 									bool copyLength = true;
-									if (length > 0) {
+                                    if (length > 0) {
 										e->setProp(e->variableName("d"), length.list(), XStringEditRole);
 										copyLength = false;
 									}
@@ -3402,6 +3404,12 @@ void GraphWidget::edgeContextMenuRequested(Edge* e, QPointF pos, QMenu *menu)
 		called_by_clicking_on_graphical_object = true; 
 	}
 	QAction *markAction = menu->addAction("Select");
+
+    QAction *selectedAction;
+    if (called_by_clicking_on_graphical_object)
+        selectedAction = menu->exec(mapToGlobal(mapFromScene(pos.toPoint())));
+    else
+        selectedAction = menu->exec(pos.toPoint());
 #ifdef GIFMOD
 	model = (experimentID() == 0) ? 0 : &(modelSet->Medium[experimentID() - 1]);
 

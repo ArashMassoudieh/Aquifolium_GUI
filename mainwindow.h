@@ -45,10 +45,28 @@ private:
     QString fileExtension, metafilename, applicationShortName;
     void forwardRun(System *model, runtimeWindow* progress);
     void showHelp(int code, QString variableName);
-    void plotTimeSeries(QAction*, CBTC data = CBTC(), QString name = "", bool convertXtoTime = true, bool reset = false);
+
     QModelIndex addParameterIndex(const QModelIndex &index = QModelIndex());
     void addParameter(QAction* item = nullptr);
+    void addProjectExplorerTreeItem(TreeModel *model = nullptr, const QString name = "", const QModelIndex = QModelIndex());
 
+
+    //plots:
+    void plotObservationData(CBTC data = CBTC(), QString name = "");
+    void plotControllerData(CBTC data = CBTC(), QString name = "");
+    void plotModeledData(CBTC modeled = CBTC(), CBTC observed = CBTC(), QString name = "");
+    void plotModeledDataDot(CBTC modeled = CBTC(), CBTC observed = CBTC(), QString name = "");
+    void plotAgreementPlotData(CBTC observation = CBTC(), CBTC modeled = CBTC(), QString name = "");
+    void plotAgreementPlotDataforGroups(vector<CBTC> obs_modData = vector<CBTC>(), vector<QString> names = vector<QString>());
+    void plotPercentileData(percentileData data = percentileData(), QString name = "");
+    void plotAllPercentileData(vector<percentileData> data = vector<percentileData>(), QString name = "");
+    void plotPriorHistogram(CBTC histogram = CBTC(), QString name = "");
+    void plotPosteriorHistogram(CBTC histogram = CBTC(), QString name = "");
+    void plotRealization(CBTCSet data = CBTCSet(), QString name = "");
+    void plotNoiseRealization(CBTCSet data = CBTCSet(), QString name = "");
+    void plotRealizationPercentile(CBTCSet data = CBTCSet(), QString name = "");
+    void plotNoiseRealizationPercentile(CBTCSet data = CBTCSet(), QString name = "");
+    void plotTimeSeries(QAction*, CBTC data = CBTC(), QString name = "", bool convertXtoTime = true, bool reset = false);
 private slots:
     void onaddlink();
     void onaddblock();
@@ -64,6 +82,11 @@ private slots:
     void on_projectExplorer_clicked(const QModelIndex& index);
     void tablePropShowContextMenu(const QPoint&pos);
     void getNumber(double initial=-1);
+    void on_projectExplorer_customContextMenuRequested(const QPoint &pos);
+    void removeProjectExplorerNodeItem(QString name = "", const QModelIndex = QModelIndex());
+    void removeProjectExplorerEdgeItem(QString name = "", const QModelIndex = QModelIndex());
+    void removeProjectExplorerEntityItem(QString name = "", const QModelIndex = QModelIndex());
+
 };
 
 

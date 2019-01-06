@@ -296,3 +296,56 @@ string string2QString_nqt(string s)
     return s;
 }
 #endif // QT_version
+
+
+
+map<string, double> regression(vector<double> x, vector<double> y)
+{
+    map<string, double> reg;
+    double xbar = 0;
+    double ybar = 0;
+    double sumxerr = 0;
+    double sumyerr = 0;
+    double sumxerryerr = 0;
+    double sumxerr2 = 0;
+    double sumxy = 0;
+    double sumx = 0;
+    double sumy = 0;
+    double sumx2 = 0;
+    double sumy2 = 0;
+
+    unsigned long int n = x.size();
+    if (x.size() != y.size() || x.size() == 0 || y.size() == 0)
+    {
+        reg["error"] = 1;
+        return reg;
+    }
+
+    for (unsigned long int i = 0; i < n; i++)
+    {
+        sumx += x[i];
+        sumy += y[i];
+        sumxy += x[i] * y[i];
+        sumx2 += x[i] * x[i];
+        sumy2 += y[i] * y[i];
+    }
+    xbar += sumx / n;
+    ybar += sumy / n;
+
+    for (unsigned long int i = 0; i < n; i++)
+    {
+        sumxerryerr += (x[i] - xbar)*(y[i] - ybar);
+        sumxerr += x[i] - xbar;
+        sumyerr += y[i] - ybar;
+        sumxerr2 += (x[i] - xbar)*(x[i] - xbar);
+    }
+    double b = sumxerryerr / sumxerr2;
+    double a = ybar - b*xbar;
+    double r2 = (n*sumxy - sumx*sumy) *(n*sumxy - sumx*sumy) / ((n*sumx2 - (sumx*sumx))*(n*sumy2 - (sumy*sumy))); //coefficient of determination
+    string A = "a";
+    reg["a"] = a;
+    reg["b"] = b;
+    reg["r2"] = r2;
+    reg["error"] = 0;
+    return reg;
+}
