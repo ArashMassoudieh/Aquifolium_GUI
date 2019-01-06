@@ -110,6 +110,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(diagramview, SIGNAL(changed()),
         this, SLOT(gwidgetChanged()));
 
+    connect(diagramview, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(on_projectExplorer_customContextMenuRequested(const QPoint &)));
 
 }
 
