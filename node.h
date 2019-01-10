@@ -111,6 +111,7 @@ public:
 	QMap<QString, QVariant> compact() const;
     void compact(QJsonObject &json) const;
 	static Node* unCompact(QMap<QString, QVariant>, GraphWidget *gwidget, bool oldVersion = false);
+    static Node* unCompact(const QJsonObject &jsonobj, GraphWidget *gwidget, bool oldVersion=false);
 	static Node* unCompact10(QMap<QString, QVariant>, GraphWidget *gwidget);
 	QStringList codes() const;
 	QMap<QString, condition> variableNameConditions() const;

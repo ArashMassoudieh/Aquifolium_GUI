@@ -18,6 +18,7 @@ class TreeModel : public QAbstractItemModel
 
 public:
 	explicit TreeModel(GraphWidget *parent);
+    void Populate(GraphWidget *parent);
 //	explicit TreeModel(const QString &data, QObject *parent = 0);
 	~TreeModel();
 	GraphWidget *Parent;
@@ -55,9 +56,8 @@ public:
 //		return rootItem;
 //	}
 #ifdef Aquifolium
-    TreeItem *rootItem, *settings, *blocks, *connectors, *evapotranspiration, *waterQuality, *constituent, *buildUp, *extrenalFlux, *particle,
-         *projectSettings, *climateSettings, *solverSettings, *reactions, *reaction, *reactionNetwork, *reactionParameter, *GA, *MCMC, *inverseModeling, *control, *sensor, *objectiveFunction, *controller, *parameter,
-         *observed, *wells, *tracers;
+    TreeItem *rootItem, *settings, *blocks, *connectors;
+    QVector<TreeItem*> mainbranches;
 #endif
 #ifdef GIFMOD	
 	TreeItem *rootItem, *settings, *blocks, *connectors, *evapotranspiration, *waterQuality, *constituent, *buildUp, *extrenalFlux, *particle,

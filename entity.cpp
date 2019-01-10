@@ -19,11 +19,16 @@ Entity::Entity(const QString _type, QString _name, GraphWidget *_parent)
 
 	QList <mProp> QL;
     QL = (*parent->mList).GetList();
-	objectType.ObjectType = _type;
-	mProp filter;
+    objectType.ObjectType = "Settings";
+    objectType.SubType = _type;
+    mProp filter;
 	filter = objectType;
 	QStringList a = (*parent->mList).filter(filter).SubTypes();
-	objectType.SubType = (*parent->mList).filter(filter).SubTypes()[0];
+    if (a.size())
+        objectType.SubType = (*parent->mList).filter(filter).SubTypes()[0];
+    else {
+        objectType.SubType = "*";
+    }
 	static int ID;
 	if (_name == "No Name" || _name == "") 
 		_name = _type;
@@ -351,6 +356,21 @@ QMap<QString, QVariant> Entity::compact() const
 	return r;
 }
 
+void Entity::compact(QJsonObject &json) const
+{
+    QJsonObject nodejson;
+    nodejson["GUI"] = GUI;
+    nodejson["Name"] = name;
+    nodejson["Type"] = objectType.ObjectType;
+    nodejson["SubType"] = objectType.SubType;
+
+    props.compact(nodejson);;
+
+    json[name] = nodejson;
+
+}
+
+
 Entity* Entity::unCompact(QMap<QString, QVariant> n, GraphWidget *gwidget, bool oldVersion)
 {
 #ifdef GWA
@@ -472,6 +492,33 @@ Entity* Entity::unCompact(QMap<QString, QVariant> n, GraphWidget *gwidget, bool 
 
 	return entity;
 }
+
+Entity* Entity::unCompact(const QJsonObject &jsonobj, GraphWidget *gwidget, bool oldVersion)
+{
+#ifdef GWA
+    if (n["Name"] == "Solver setting") return 0;
+    QStringList subTypeConversionEntities;
+    subTypeConversionEntities << "Project Settings" << "Genetic Algorithm" << "Markov Chain Monte Carlo";
+
+    if (n["SubType"] == "*" && subTypeConversionEntities.contains(n["Name"].toString()))
+        n["SubType"] = n["Name"];
+#endif
+    QStringList list;
+
+
+    Entity *entity = new Entity(jsonobj["Type"].toString(), jsonobj["Name"].toString(), gwidget);
+
+    entity->objectType.SubType = jsonobj["SubType"].toString();
+
+    entity->props.list = PropList<Entity>::uncompact(jsonobj);
+
+    if (!entity->props.list.size() && oldVersion)
+        for (QString key : jsonobj.keys())
+            entity->props.setProp(key.toLower(), XString::unCompact(jsonobj[key].toString()), "experiment1");
+
+    return entity;
+}
+
 
 Entity* Entity::unCompact10(QMap<QString, QVariant> n, GraphWidget *gwidget)
 {

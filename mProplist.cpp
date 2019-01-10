@@ -196,6 +196,56 @@ mListReadStatus mPropList::GetFromMetaModel(MetaModel *m)
     }
 }
 
+mListReadStatus mPropList::AppendEntities(QJsonDocument *othertreeitems)
+{
+
+    QJsonObject jsonobj = othertreeitems->object();
+    foreach(QString key, jsonobj.keys()){
+        QJsonValue val = jsonobj[key].toObject()["properties"].toObject();
+        foreach (QString innerkey, jsonobj[key].toObject()["properties"].toObject().keys())
+        {
+            QJsonObject innerjsonobj = jsonobj[key].toObject()["properties"].toObject()[innerkey].toObject();
+            mProp mP;
+            mP.Model = "1";
+            mP.GuiObject = "Entity";
+
+            mP.ObjectType = "Settings";//jsonobj[key].toObject()["description"].toString();
+            mP.SubType = jsonobj[key].toObject()["description"].toString();
+            mP.Description = innerjsonobj["description"].toString();
+            mP.VariableName = innerjsonobj["description"].toString();
+            mP.VariableCode = innerkey;
+            mP.VariableUnit = innerjsonobj["unit"].toString();
+            mP.DefaultUnit = innerjsonobj["default_unit"].toString();
+            mP.VariableType = innerjsonobj["type"].toString();
+            mP.setDefaultValues (innerjsonobj["default"].toString(), mP.VariableUnit, mP.DefaultUnit);
+            mP.Delegate = innerjsonobj["delegate"].toString();
+            mP.Category = innerjsonobj["categoty"].toString();
+            mP.inputMethod = innerjsonobj["inputtype"].toString();
+            if (innerjsonobj["experiment_dependent"].toString().toLower() == "true" )
+                mP.ExperimentDependent = "Yes";
+            else
+                mP.ExperimentDependent = "No";
+
+
+            mP.DescriptionCode = innerjsonobj["description_code"].toString();
+            mP.Abbreviations = innerjsonobj["abbreviations"].toString().split(";");
+            mP.set_user_provided(true);
+            List.append(mP);
+
+        }
+
+    }
+
+
+    if (List.size() == 0)
+        return (mListReadStatus::errorInContents);
+    else
+    {
+        return (mListReadStatus::readSuccessfully);
+    }
+}
+
+
 
 QStringList mPropList::Models(const mProp& mP)const
 {

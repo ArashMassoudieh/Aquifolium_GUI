@@ -63,7 +63,6 @@ SOURCES += \
     PropList.cpp \
     PropListItem.cpp \
     PropModel.cpp \
-    logwindow.cpp \
     colorScheme.cpp \
     Command.cpp \
     treeitem.cpp \
@@ -83,7 +82,10 @@ SOURCES += \
     delegate.cpp \
     UnitTextBox3.cpp \
     runtimeWindow.cpp \
-    slndetailswindow.cpp
+    slndetailswindow.cpp \
+    csvEditor.cpp \
+    TableWidgetDateItem.cpp \
+    logwindow.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -155,7 +157,10 @@ HEADERS += \
     UnitTextBox3.h \
     folders.h \
     runtimeWindow.h \
-    slndetailswindow.h
+    slndetailswindow.h \
+    csvEditor.h \
+    helpWindow.h \
+    TableWidgetDateItem.h
 
 FORMS += \
         mainwindow.ui \
@@ -164,7 +169,9 @@ FORMS += \
     gridWindow.ui \
     helpWindow.ui \
     runtimeWindow.ui \
-    slndetailswindow.ui
+    slndetailswindow.ui \
+    csvEditor.ui \
+    helpWindow.ui
 
 # LAPACK — Linear Algebra PACKage lib and include locations
 

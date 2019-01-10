@@ -17,7 +17,7 @@ class Entity //: public QGraphicsItem
 {
 public:
     //Node(GraphWidget *Widget);
-	Entity(const QString _type, QString _name = "No Name", GraphWidget *_parent = 0);
+    Entity(const QString _type, QString _name = "No Name", GraphWidget *_parent = nullptr);
 	Entity(const Entity &);
 	~Entity() {
 		delete model;
@@ -29,8 +29,8 @@ public:
 	mPropList getmList(const mProp _filter = '*') const;
     void setName(const QString _name);
     void setObjectType(const mProp _type);
-	mProp ObjectType() const{ return objectType; };
-	mProp Filter() const { return ObjectType(); };
+    mProp ObjectType() const{ return objectType; }
+    mProp Filter() const { return ObjectType(); }
 
 	QVariant getProp(const QString &propName, const int role = Qt::DisplayRole) const;
 	XString getValue(const QString &propName) const;
@@ -41,7 +41,7 @@ public:
 //	mPropList propList;
 
 	QString Name() const {
-		return name;};
+        return name;}
 //	EntityType Type;
 	QString GUI;
 	mProp objectType;
@@ -53,7 +53,9 @@ public:
     QString newEntityName(const QString name, QStringList &existingNames) const;
 	QString name;
 	QMap<QString, QVariant> compact() const;
-	static Entity* unCompact(QMap<QString, QVariant>, GraphWidget *gwidget, bool oldVersionLoad = false);
+    void compact(QJsonObject &json) const;
+    static Entity* unCompact(QMap<QString, QVariant>, GraphWidget *gwidget, bool oldVersionLoad = false);
+    static Entity* unCompact(const QJsonObject &jsonobj, GraphWidget *gwidget, bool oldVersionLoad = false);
 	static Entity* unCompact10(QMap<QString, QVariant>, GraphWidget *gwidget);
 	QList<mProp> get_props();
 	QStringList codes() const;

@@ -20,7 +20,7 @@
 #include "Command.h"
 #include "plotWindow.h"
 #include <QJsonObject>
-
+#include <QJsonDocument>
 //class MainWindow;
 class helpWindow;
 class QCPGraph;
@@ -178,6 +178,7 @@ public:
 	QList<QMap<QString, QVariant>> compactRXN() const;
 	GraphWidget* unCompact(QList<QMap<QString, QVariant>>&, bool oldVersionLoad = false);//, QWidget *parent = 0);
     GraphWidget* unCompact(QDataStream &in);
+    GraphWidget* unCompact(const QJsonObject &jsonobj , bool oldVersion=false);
 	GraphWidget* unCompact12(QList<QMap<QString, QVariant>>&, bool oldVersionLoad = false);//, QWidget *parent = 0);
 	GraphWidget* unCompact10(QList<QMap<QString, QVariant>>);//, QWidget *parent = 0);
 	void clear();
@@ -205,6 +206,7 @@ public:
     bool wizard(QList<command>&commands);
     QVariant runCommand(CCommand command); //runs the commands submitted into script window
     QList<QVariant> runCommands(QList<CCommand> &command); //run commands sequentially
+    QJsonDocument jsondocentities;
 #endif
 
 #ifdef GIFMOD
