@@ -52,7 +52,10 @@
 			"flow": "flow",
 			"includeinoutput": "true",
 			"description": "Initial Storage",
-			"ask_user": "true"
+			"ask_user": "true",
+			"unit": "m~^3;ft~^3",
+			"delegate": "UnitBox",
+			"default_unit": "m~^3"
 		}
 	},
 "User_flow": {
