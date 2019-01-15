@@ -1,0 +1,68 @@
+{
+    "Edges": {
+        "Reservoir1 - User1": {
+            "All experiments$$$flow$$$": "/home/arash/Projects/Aquifolium_GUI/Test_case_1/demand.csv",
+            "Arrow Size": 10,
+            "Dest Node": "User1",
+            "GUI": "Connector",
+            "Name": "Reservoir1 - User1",
+            "Source Node": "Reservoir1",
+            "SubType": "*",
+            "Type": "User_flow"
+        }
+    },
+    "Entities": {
+        "General Parameters": {
+            "All experiments$$$simulation start time$$$": "1000",
+            "GUI": "Entity",
+            "Name": "General Parameters",
+            "SubType": "General Parameters",
+            "Type": "Settings"
+        },
+        "Solver Settings": {
+            "GUI": "Entity",
+            "Name": "Solver Settings",
+            "SubType": "Solver Settings",
+            "Type": "Settings"
+        }
+    },
+    "Experiments": "All experiments",
+    "GUI": "Graphic Widget",
+    "Inflow Filenames": "",
+    "Model Space": "1",
+    "Nodes": {
+        "Reservoir1": {
+            "All experiments$$$storage$$$": "%compacted%20000;m³;m³;m³;",
+            "All experiments$$$superficial height$$$": "100",
+            "All experiments$$$superficial width$$$": "100",
+            "All experiments$$$x$$$": "1000",
+            "All experiments$$$y$$$": "1000",
+            "Connector Names": "Reservoir1 - User1",
+            "GUI": "Block",
+            "Height": 100,
+            "Name": "Reservoir1",
+            "SubType": "*",
+            "Type": "Reservoir",
+            "Width": 100,
+            "X": 1000,
+            "Y": 1000
+        },
+        "User1": {
+            "All experiments$$$storage$$$": "%compacted%20000;m³;m³;ft³;m³;",
+            "All experiments$$$superficial height$$$": "100",
+            "All experiments$$$superficial width$$$": "100",
+            "All experiments$$$x$$$": "863",
+            "All experiments$$$y$$$": "842",
+            "Connector Names": "Reservoir1 - User1",
+            "GUI": "Block",
+            "Height": 100,
+            "Name": "User1",
+            "SubType": "*",
+            "Type": "User",
+            "Width": 100,
+            "X": 863,
+            "Y": 842
+        }
+    },
+    "hasResults": false
+}

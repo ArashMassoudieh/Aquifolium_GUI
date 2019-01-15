@@ -97,7 +97,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(on_action_Save_triggered()));
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(on_action_Open_triggered()));
     connect(ui->actionSave_as_JSON, SIGNAL(triggered()),this,SLOT(on_actionSave_As_JSON_triggered()));
-    connect(ui->actionSave_As, SIGNAL(triggered()),this,SLOT(on_actionSave_As_triggered()));
+    connect(ui->actionSave_As, SIGNAL(triggered()),this,SLOT(on_actionSave_As_triggered()),Qt::UniqueConnection);
     connect(ui->action_Zoom_All, SIGNAL(triggered()),this,SLOT(on_actionZoom_All_triggered()));
     connect(ui->actionRun, SIGNAL(triggered()),this, SLOT(on_actionRun_Model_triggered()));
     connect(ui->treeView,SIGNAL(clicked(const QModelIndex&)),this, SLOT(on_projectExplorer_clicked(const QModelIndex&)));
@@ -184,14 +184,24 @@ void MainWindow::on_action_Save_triggered()
 
 void MainWindow::on_actionSave_As_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this,
+    QFileDialog filedlg(this,"Save As ...");
+    QString selectedfilter;
+    QString fileName = filedlg.getSaveFileName(this,
         tr("Save ").append(applicationName), diagramview->modelPathname(),
-        tr("Model (*.").append(fileExtension).append(");;JSON (*.json);;All Files (*)"));
+        tr("Model (*.").append(fileExtension).append(");;JSON (*.json);;All Files (*)"),&selectedfilter);
+    qDebug() << filedlg.extension();
+    qDebug() << selectedfilter;
     Entity *e = diagramview->entityByName("Project settings (1)");
 
     diagramview->Entities.removeOne(e);
-    if (fileName.right(fileExtension.size()+1)!="."+fileExtension)
-        fileName += "."+fileExtension;
+    if (selectedfilter == tr("Model (*.").append(fileExtension))
+    {   if (fileName.right(fileExtension.size()+1)!="."+fileExtension)
+            fileName += "."+fileExtension;
+    }
+    if (selectedfilter == "JSON (*.json)")
+    {   if (fileName.right(5)!=".json")
+            fileName += ".json";
+    }
     saveModel(fileName);
 
     if (fileName.right(4).toLower()!="json")
