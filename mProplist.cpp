@@ -398,9 +398,8 @@ QStringList mPropList::inputMethods(const mProp& mP)const
 
 mPropList mPropList::filter(const mProp &mP) const
 {
-	static int counter = 0;
-	static mProp filter;
-	static mPropList r;
+    mProp filter;
+    mPropList r;
 	if (filter %= mP) return r;
 	filter = mP;
 	r = mPropList();
@@ -415,8 +414,7 @@ mPropList mPropList::filter(const mProp &mP) const
 
 mPropList mPropList::getaskables() const
 {
-    static int counter = 0;
-    static mPropList r;
+    mPropList r;
 
     r = mPropList();
     int n = List.size();

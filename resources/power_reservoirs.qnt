@@ -26,6 +26,15 @@
 			"default": "10",
 			"description": "Reservoir rating curve coefficient",
 			"ask_user": "true"
+		},
+		"inflow": {
+			"type": "timeseries",		
+			"includeinoutput": "true",
+			"applylimit": "true",
+			"description": "Inflow rate time series",
+			"ask_user": "true",
+			"inputtype": "Select",
+			"delegate": "Browser"
 		}
 	},
 "Reservoir_link": {
