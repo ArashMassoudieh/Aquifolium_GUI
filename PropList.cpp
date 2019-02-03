@@ -14,10 +14,12 @@ template<>
 XString PropList<Node>::getProp(const QString &propName, const QString &experimentName, Node* parentSub) const{
 	if (!parentSub)
 		parentSub = parent;
-	if (propName.contains("Particle initial"))
+#ifdef GIFMod
+    if (propName.contains("Particle initial"))
 		return parentSub->g(experimentName);
 	if (propName.contains("Constituent initial"))
 		return parentSub->cg(experimentName);
+#endif
 	if (propName == "Name")
 		return XString(parentSub->Name());
 	if (propName == "Type")

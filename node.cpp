@@ -19,7 +19,7 @@ Node::Node(GraphWidget *gwidget, QString _type, QString _name, int x, int y, int
 	//: graph(gwidget)
 {
 	model = new PropModel<Node>(this);
-
+    quans = *gwidget->metamodel()->GetItem(_type.toStdString());
 	setFlag(ItemIsMovable);
 	setFlag(ItemIsSelectable);
 	setFlag(ItemSendsGeometryChanges);
@@ -315,13 +315,13 @@ XString Node::getValue(const QString& propName) const
 	if (propName == "Name") return Name();
 	if (propName == "Type") return ObjectType().ObjectType;
 	if (propName == "SubType" || propName == "Distribution") return ObjectType().SubType;
-	if (propName.contains("Particle initial")) 
+#ifdef GIFMod
+    if (propName.contains("Particle initial"))
 		return QString ("%1 ...").arg(g());
 	if (propName.contains("Constituent initial")) 
 		return QString("%1 ...").arg(cg());
 	if (propName.contains("Limiting Nutrient"))
 		return QString("%1 ...").arg(planthsc());
-#ifdef GIFMOD
 	if (experimentName() == "All experiments" && !getProp(propName, differentValuesRole).toBool())
 		return props.getProp(propName, parent->experimentsList()[0]);
 #endif
@@ -580,10 +580,12 @@ Node::Node(const Node &E)
 	width = E.Width();
 	height = E.Height();
 	objectType = E.objectType;
-	particleInitialConditions = new QMap<QString, QList<ParticleInitialConditionItem>>(*E.particleInitialConditions);
+    quans = E.quans;
+#ifdef GIFMod
+    particleInitialConditions = new QMap<QString, QList<ParticleInitialConditionItem>>(*E.particleInitialConditions);
 	constituentInitialConditions = new QMap<QString, QList<ConstituentInitialConditionItem>>(*E.constituentInitialConditions);
 	NutrientHalfSaturationConstants = new QMap<QString, QList<NutrientHalfSaturationConstantItem>>(*E.NutrientHalfSaturationConstants);
-
+#endif
 	model = new PropModel<Node>(this);
 }
 
@@ -610,10 +612,13 @@ Node Node::operator=(const Node &E)
 	width = E.Width();
 	height = E.Height();
 	objectType = E.objectType;
-	particleInitialConditions = E.particleInitialConditions;
+    quans = E.quans;
+
+#ifdef GIFMod
+    particleInitialConditions = E.particleInitialConditions;
 	constituentInitialConditions = E.constituentInitialConditions;
 	NutrientHalfSaturationConstants = E.NutrientHalfSaturationConstants;
-
+#endif
 	model = new PropModel<Node>(this);
 /*	setPos(E.pos());
 	edgeList = E.edgeList;
@@ -639,6 +644,7 @@ bool Node::setName(const QString &Name){
 	return true;
 }
 
+#ifdef GIFMod
 QString Node::g(QString experimentName) const
 {
 	QString g;
@@ -820,7 +826,7 @@ QList<NutrientHalfSaturationConstantItem> &Node::NutrientHalfSaturationConstant(
 	////qDebug() << "constituentInitialCondition const exit";
 	return NutrientHalfSaturationConstants->operator[](experimentName);
 }
-
+#endif
 
 
 QStringList Node::codes() const
@@ -1150,10 +1156,12 @@ void Node::copyProps(QString sourceExperiment, QString destExperiment)
 {
 	if (props.list.keys().contains(sourceExperiment))
 		props.list[destExperiment] = props.list[sourceExperiment];
-	if (particleInitialConditions->keys().contains(sourceExperiment))
+#ifdef GIFMod
+    if (particleInitialConditions->keys().contains(sourceExperiment))
 		particleInitialConditions->insert(destExperiment, particleInitialConditions->operator[](sourceExperiment));
 	if (constituentInitialConditions->keys().contains(sourceExperiment))
 		constituentInitialConditions->insert(destExperiment, constituentInitialConditions->operator[](sourceExperiment));
 	if (NutrientHalfSaturationConstants->keys().contains(sourceExperiment))
 		NutrientHalfSaturationConstants->insert(destExperiment, NutrientHalfSaturationConstants->operator[](sourceExperiment));
+#endif
 }

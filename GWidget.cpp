@@ -115,6 +115,7 @@ GraphWidget::GraphWidget(QWidget *_parent, QString applicationShortName, QString
 	QObject::connect(MainGraphicsScene, SIGNAL(changed(const QList<QRectF>)), this, SLOT(sceneChanged()));
 	ModelSpace = mProp('*');
     mList = new mPropList;
+    _metamodel = *mainWindow->GetSystem()->GetMetaModel();
 #ifndef Aquifolium
     switch (mList->getconfigfromfile(metafilename))
 #else
@@ -2476,7 +2477,7 @@ void GraphWidget::nodeContextMenuRequested(Node* n, QPointF pos, QMenu *menu)
 #ifndef Aquifolium
         model = (experimentID() == 0 || modelSet->Medium.size() == 0) ? 0 : &(modelSet->Medium[experimentID() - 1]);
 #else
-        model = (experimentID() == 0 || modelSet->size() == 0) ? 0 : &((*modelSet)[experimentID() - 1]);
+        model = (experimentID() == 0 || modelSet->size() == 0) ? nullptr : &((*modelSet)[experimentID() - 1]);
 #endif
 	else
         model = nullptr;
