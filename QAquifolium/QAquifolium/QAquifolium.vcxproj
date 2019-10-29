@@ -141,8 +141,6 @@
     <ClCompile Include="..\..\..\jsoncpp\src\lib_json\json_reader.cpp" />
     <ClCompile Include="..\..\..\jsoncpp\src\lib_json\json_value.cpp" />
     <ClCompile Include="..\..\..\jsoncpp\src\lib_json\json_writer.cpp" />
-    <ClCompile Include="..\..\src\aqflmblockitem.cpp" />
-    <ClCompile Include="..\..\src\aqflmedgeitem.cpp" />
     <ClCompile Include="..\..\src\colorScheme.cpp" />
     <ClCompile Include="..\..\src\Command.cpp" />
     <ClCompile Include="..\..\src\csvEditor.cpp" />
@@ -226,8 +224,6 @@
     <ClInclude Include="..\..\..\jsoncpp\include\json\value.h" />
     <ClInclude Include="..\..\..\jsoncpp\include\json\version.h" />
     <ClInclude Include="..\..\..\jsoncpp\include\json\writer.h" />
-    <ClInclude Include="..\..\include\aqflmblockitem.h" />
-    <ClInclude Include="..\..\include\aqflmedgeitem.h" />
     <ClInclude Include="..\..\include\colorScheme.h" />
     <ClInclude Include="..\..\include\Command.h" />
     <ClInclude Include="..\..\include\edge.h" />
@@ -248,27 +244,81 @@
     <ClInclude Include="..\..\include\TableWidgetDateItem.h" />
     <ClInclude Include="..\..\include\texfonts.h" />
     <ClInclude Include="..\..\include\texToHtml.h" />
-    <ClInclude Include="..\..\include\treeitem.h" />
-    <ClInclude Include="..\..\include\UnitTextBox.h" />
+    <ClInclude Include="..\..\include\treeitem.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </ClInclude>
+    <QtMoc Include="..\..\include\UnitTextBox.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </QtMoc>
     <ClInclude Include="..\..\include\utility_funcs.h" />
     <ClInclude Include="..\..\include\variant.h" />
     <ClInclude Include="..\..\include\XString.h" />
-    <QtMoc Include="..\..\include\UnitTextBox3.h" />
-    <QtMoc Include="..\..\include\UnitTextBox2.h" />
-    <QtMoc Include="..\..\include\treemodel.h" />
-    <QtMoc Include="..\..\include\slndetailswindow.h" />
-    <QtMoc Include="..\..\include\runtimeWindow.h" />
-    <QtMoc Include="..\..\include\qcustomplot.h" />
-    <QtMoc Include="..\..\include\plotWindow.h" />
-    <QtMoc Include="..\..\include\mainwindow.h" />
-    <QtMoc Include="..\..\include\logwindow.h" />
-    <QtMoc Include="..\..\include\helpWindow.h" />
-    <QtMoc Include="..\..\include\GWidget.h" />
-    <QtMoc Include="..\..\include\gridWindow.h" />
-    <QtMoc Include="..\..\include\diagramviewer.h" />
-    <QtMoc Include="..\..\include\delegate.h" />
-    <QtMoc Include="..\..\include\CustomPlotZoom.h" />
-    <QtMoc Include="..\..\include\csvEditor.h" />
+    <QtMoc Include="..\..\include\UnitTextBox3.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </QtMoc>
+    <QtMoc Include="..\..\include\UnitTextBox2.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </QtMoc>
+    <QtMoc Include="..\..\include\treemodel.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </QtMoc>
+    <QtMoc Include="..\..\include\slndetailswindow.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </QtMoc>
+    <QtMoc Include="..\..\include\runtimeWindow.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </QtMoc>
+    <QtMoc Include="..\..\include\qcustomplot.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </QtMoc>
+    <QtMoc Include="..\..\include\plotWindow.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </QtMoc>
+    <QtMoc Include="..\..\include\mainwindow.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </QtMoc>
+    <QtMoc Include="..\..\include\logwindow.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </QtMoc>
+    <QtMoc Include="..\..\include\helpWindow.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </QtMoc>
+    <QtMoc Include="..\..\include\GWidget.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </QtMoc>
+    <QtMoc Include="..\..\include\gridWindow.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </QtMoc>
+    <QtMoc Include="..\..\include\diagramviewer.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </QtMoc>
+    <QtMoc Include="..\..\include\delegate.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </QtMoc>
+    <QtMoc Include="..\..\include\CustomPlotZoom.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </QtMoc>
+    <QtMoc Include="..\..\include\csvEditor.h">
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">\moc\%(RelativeDir)</QtMocDir>
+      <QtMocDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">\moc\%(RelativeDir)</QtMocDir>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="..\..\forms\csvEditor.ui" />
