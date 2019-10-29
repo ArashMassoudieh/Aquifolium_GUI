@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
+    <Keyword>QtVS_v301</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Condition="'$(QtMsBuild)'=='' or !Exists('$(QtMsBuild)\qt.targets')">
+    <QtMsBuild>$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
+    <Import Project="$(QtMsBuild)\qt_defaults.props" />
+  </ImportGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <QtInstall>5.12.5</QtInstall>
+    <QtModules>charts;core;gui;opengl;printsupport;svg;widgets</QtModules>
+  </PropertyGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <QtInstall>5.12.5</QtInstall>
+    <QtModules>charts;core;gui;opengl;printsupport;svg;widgets</QtModules>
+  </PropertyGroup>
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
+    <Import Project="$(QtMsBuild)\qt.props" />
+  </ImportGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <AdditionalIncludeDirectories>C:\Projects\jsoncpp\include;C:\Projects\Aquifolium\armadillo-header;C:\Projects\Aquifolium\include\GA;C:\Projects\Aquifolium\include;C:\Projects\Aquifolium_GUI\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ARMA_USE_LAPACK;ARMA_USE_BLAS;Aquifolium;QT_version;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Projects\Aquifolium\lapack-blas_lib_win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>blas_win64_MT.lib;lapack_win64_MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "C:\Projects\Aquifolium\lapack-blas_lib_win64\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat />
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <AdditionalIncludeDirectories>C:\Projects\jsoncpp\include;C:\Projects\Aquifolium\armadillo-header;C:\Projects\Aquifolium\include\GA;C:\Projects\Aquifolium\include;C:\Projects\Aquifolium_GUI\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ARMA_USE_LAPACK;ARMA_USE_BLAS;Aquifolium;QT_version;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Projects\Aquifolium\lapack-blas_lib_win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>blas_win64_MT.lib;lapack_win64_MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "C:\Projects\Aquifolium\lapack-blas_lib_win64\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <QtRcc Include="QAquifolium.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Aquifolium\src\Block.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\BTC.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\BTCSet.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Command.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Condition.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\DistributionNUnif.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\ErrorHandler.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Expression.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\GA\Binary.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\GA\Distribution.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\GA\DistributionNUnif.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\GA\Individual.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Link.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Matrix.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Matrix_arma.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\MetaModel.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\NormalDist.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Object.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Objective_Function.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Objective_Function_Set.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Parameter.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Parameter_Set.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Precipitation.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Quan.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\QuanSet.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\QuickSort.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Rule.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Script.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Source.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\StringOP.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\System.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Vector.cpp" />
+    <ClCompile Include="..\..\..\Aquifolium\src\Vector_arma.cpp" />
+    <ClCompile Include="..\..\..\jsoncpp\src\lib_json\json_reader.cpp" />
+    <ClCompile Include="..\..\..\jsoncpp\src\lib_json\json_value.cpp" />
+    <ClCompile Include="..\..\..\jsoncpp\src\lib_json\json_writer.cpp" />
+    <ClCompile Include="..\..\src\aqflmblockitem.cpp" />
+    <ClCompile Include="..\..\src\aqflmedgeitem.cpp" />
+    <ClCompile Include="..\..\src\colorScheme.cpp" />
+    <ClCompile Include="..\..\src\Command.cpp" />
+    <ClCompile Include="..\..\src\csvEditor.cpp" />
+    <ClCompile Include="..\..\src\CustomPlotZoom.cpp" />
+    <ClCompile Include="..\..\src\delegate.cpp" />
+    <ClCompile Include="..\..\src\diagramviewer.cpp" />
+    <ClCompile Include="..\..\src\edge.cpp" />
+    <ClCompile Include="..\..\src\entity.cpp" />
+    <ClCompile Include="..\..\src\gridWindow.cpp" />
+    <ClCompile Include="..\..\src\GWidget.cpp" />
+    <ClCompile Include="..\..\src\helpWindow.cpp" />
+    <ClCompile Include="..\..\src\logwindow.cpp" />
+    <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\mainwindow.cpp" />
+    <ClCompile Include="..\..\src\mProp.cpp" />
+    <ClCompile Include="..\..\src\mProplist.cpp" />
+    <ClCompile Include="..\..\src\node.cpp" />
+    <ClCompile Include="..\..\src\plotWindow.cpp" />
+    <ClCompile Include="..\..\src\process.cpp" />
+    <ClCompile Include="..\..\src\PropList.cpp" />
+    <ClCompile Include="..\..\src\PropListItem.cpp" />
+    <ClCompile Include="..\..\src\PropModel.cpp" />
+    <ClCompile Include="..\..\src\qcustomplot.cpp" />
+    <ClCompile Include="..\..\src\ray.cpp" />
+    <ClCompile Include="..\..\src\results.cpp" />
+    <ClCompile Include="..\..\src\runtimeWindow.cpp" />
+    <ClCompile Include="..\..\src\scriptExport.cpp" />
+    <ClCompile Include="..\..\src\slndetailswindow.cpp" />
+    <ClCompile Include="..\..\src\TableWidgetDateItem.cpp" />
+    <ClCompile Include="..\..\src\texToHtml.cpp" />
+    <ClCompile Include="..\..\src\treeitem.cpp" />
+    <ClCompile Include="..\..\src\treemodel.cpp" />
+    <ClCompile Include="..\..\src\UnitTextBox3.cpp" />
+    <ClCompile Include="..\..\src\utility_funcs.cpp" />
+    <ClCompile Include="..\..\src\XString.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Aquifolium\include\Block.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\BTC.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\BTCSet.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Command.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Condition.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\DistributionNUnif.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\ErrorHandler.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Expression.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\GA\Binary.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\GA\Distribution.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\GA\DistributionNUnif.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\GA\GA.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\GA\Individual.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Link.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Matrix.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Matrix_arma.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\MetaModel.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\NormalDist.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Object.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Objective_Function.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Objective_Function_Set.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Parameter.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Parameter_Set.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Precipitation.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Quan.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\QuanSet.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\QuickSort.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Rule.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Script.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Source.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\StringOP.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\System.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Vector.h" />
+    <ClInclude Include="..\..\..\Aquifolium\include\Vector_arma.h" />
+    <ClInclude Include="..\..\..\Aquifolium\src\GA\GA.hpp" />
+    <ClInclude Include="..\..\..\jsoncpp\include\json\allocator.h" />
+    <ClInclude Include="..\..\..\jsoncpp\include\json\assertions.h" />
+    <ClInclude Include="..\..\..\jsoncpp\include\json\autolink.h" />
+    <ClInclude Include="..\..\..\jsoncpp\include\json\config.h" />
+    <ClInclude Include="..\..\..\jsoncpp\include\json\features.h" />
+    <ClInclude Include="..\..\..\jsoncpp\include\json\forwards.h" />
+    <ClInclude Include="..\..\..\jsoncpp\include\json\json.h" />
+    <ClInclude Include="..\..\..\jsoncpp\include\json\reader.h" />
+    <ClInclude Include="..\..\..\jsoncpp\include\json\value.h" />
+    <ClInclude Include="..\..\..\jsoncpp\include\json\version.h" />
+    <ClInclude Include="..\..\..\jsoncpp\include\json\writer.h" />
+    <ClInclude Include="..\..\include\aqflmblockitem.h" />
+    <ClInclude Include="..\..\include\aqflmedgeitem.h" />
+    <ClInclude Include="..\..\include\colorScheme.h" />
+    <ClInclude Include="..\..\include\Command.h" />
+    <ClInclude Include="..\..\include\edge.h" />
+    <ClInclude Include="..\..\include\entity.h" />
+    <ClInclude Include="..\..\include\enums.h" />
+    <ClInclude Include="..\..\include\folders.h" />
+    <ClInclude Include="..\..\include\mProp.h" />
+    <ClInclude Include="..\..\include\mProplist.h" />
+    <ClInclude Include="..\..\include\multiValues.h" />
+    <ClInclude Include="..\..\include\navigationList.h" />
+    <ClInclude Include="..\..\include\node.h" />
+    <ClInclude Include="..\..\include\process.h" />
+    <ClInclude Include="..\..\include\PropList.h" />
+    <ClInclude Include="..\..\include\PropListItem.h" />
+    <ClInclude Include="..\..\include\PropModel.h" />
+    <ClInclude Include="..\..\include\ray.h" />
+    <ClInclude Include="..\..\include\results.h" />
+    <ClInclude Include="..\..\include\TableWidgetDateItem.h" />
+    <ClInclude Include="..\..\include\texfonts.h" />
+    <ClInclude Include="..\..\include\texToHtml.h" />
+    <ClInclude Include="..\..\include\treeitem.h" />
+    <ClInclude Include="..\..\include\UnitTextBox.h" />
+    <ClInclude Include="..\..\include\utility_funcs.h" />
+    <ClInclude Include="..\..\include\variant.h" />
+    <ClInclude Include="..\..\include\XString.h" />
+    <QtMoc Include="..\..\include\UnitTextBox3.h" />
+    <QtMoc Include="..\..\include\UnitTextBox2.h" />
+    <QtMoc Include="..\..\include\treemodel.h" />
+    <QtMoc Include="..\..\include\slndetailswindow.h" />
+    <QtMoc Include="..\..\include\runtimeWindow.h" />
+    <QtMoc Include="..\..\include\qcustomplot.h" />
+    <QtMoc Include="..\..\include\plotWindow.h" />
+    <QtMoc Include="..\..\include\mainwindow.h" />
+    <QtMoc Include="..\..\include\logwindow.h" />
+    <QtMoc Include="..\..\include\helpWindow.h" />
+    <QtMoc Include="..\..\include\GWidget.h" />
+    <QtMoc Include="..\..\include\gridWindow.h" />
+    <QtMoc Include="..\..\include\diagramviewer.h" />
+    <QtMoc Include="..\..\include\delegate.h" />
+    <QtMoc Include="..\..\include\CustomPlotZoom.h" />
+    <QtMoc Include="..\..\include\csvEditor.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="..\..\forms\csvEditor.ui" />
+    <QtUic Include="..\..\forms\gridWindow.ui" />
+    <QtUic Include="..\..\forms\helpWindow.ui" />
+    <QtUic Include="..\..\forms\logwindow.ui" />
+    <QtUic Include="..\..\forms\mainwindow.ui" />
+    <QtUic Include="..\..\forms\plotwindow.ui" />
+    <QtUic Include="..\..\forms\runtimeWindow.ui" />
+    <QtUic Include="..\..\forms\slndetailswindow.ui" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
