@@ -117,8 +117,8 @@ mProp Entity::Filter()
 }
 mPropList Entity::getmList(const mProp _filter) const
 {
-	static mProp filter;
-	static mPropList r;
+    static mProp filter;
+    static mPropList r;
 	if (filter %= _filter) return r;
 	r = mList()->filter(_filter);
 	filter = _filter;

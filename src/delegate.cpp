@@ -359,10 +359,12 @@ void Delegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 					model->setData(index, n->g(), Qt::EditRole);
 		}
 		if (index.data(DefaultValuesListRole).toStringList()[1].contains("Constituent"))
-			return;
+            return;
+#ifdef GIFMod
         foreach(Node *n , parent->Nodes())
 			if (n->isSelected())
 				model->setData(index, n->cg(), Qt::EditRole);
+#endif
 		return;
 	}
 	if (delegateType.contains("Memo"))

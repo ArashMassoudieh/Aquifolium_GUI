@@ -21,6 +21,7 @@
 #include "plotWindow.h"
 #include <QJsonObject>
 #include <QJsonDocument>
+#include "MetaModel.h"
 //class MainWindow;
 class helpWindow;
 class QCPGraph;
@@ -356,6 +357,7 @@ public:
 	//QComboBox* experiments;
     QString getselectedconnectfeature() {return connect_feature;} //returns the type of connector to be added.
     void setconnectfeature(QString cf) {connect_feature = cf;} //sets the type of connector to be used
+    MetaModel* metamodel() {return &_metamodel;}
 signals:
 	void Mouse_Pos(int, int, QString);
 	void changed();
@@ -376,6 +378,7 @@ protected:
 private:
 	int timerId;
 	Node *centerNode;
+    MetaModel _metamodel;
 	Operation_Modes Operation_Mode;
 	void draw_temp_edge(Node *source, QPoint point);
 	Node *resizenode;

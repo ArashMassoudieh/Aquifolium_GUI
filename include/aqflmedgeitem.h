@@ -3,6 +3,7 @@
 
 #include <QGraphicsItem>
 #include "aqflmblockitem.h"
+#include "qmath.h"
 
 
 

@@ -5,6 +5,7 @@
 #include "XString.h"
 #include "enums.h"
 #include <QJsonObject>
+#include "QuanSet.h"
 
 //#include "GWidget.h"
 //using namespace std;
@@ -17,6 +18,7 @@ class modelItem;
 class QGraphicsSceneMouseEvent;
 //QT_END_NAMESPACE
 
+#ifdef GIFMod
 struct ParticleInitialConditionItem
 {
 	QString Particle, Model, Value;
@@ -30,6 +32,7 @@ struct NutrientHalfSaturationConstantItem
 {
 	QString Constituent, Value;
 };
+#endif
 
 class Node : public QGraphicsItem
 {
@@ -102,12 +105,14 @@ public:
 	QString cg(QString experimentName = "") const;
 	QString planthsc(QString experimentName = "") const;
     QString newNodeName(const QString name, QList<Node*> &nodes) const;
-	QList<ParticleInitialConditionItem> &particleInitialCondition(QString experimentName = "") const;
+#ifdef GIFMod
+    QList<ParticleInitialConditionItem> &particleInitialCondition(QString experimentName = "") const;
 	QList<ParticleInitialConditionItem> &particleInitialCondition(QString experimentName = "");
 	QList<ConstituentInitialConditionItem> &constituentInitialCondition(QString experimentName = "") const;
 	QList<ConstituentInitialConditionItem> &constituentInitialCondition(QString experimentName = "");
 	QList<NutrientHalfSaturationConstantItem> &NutrientHalfSaturationConstant(QString experimentName = "") const;
 	QList<NutrientHalfSaturationConstantItem> &NutrientHalfSaturationConstant(QString experimentName = "");
+#endif
 	QMap<QString, QVariant> compact() const;
     void compact(QJsonObject &json) const;
 	static Node* unCompact(QMap<QString, QVariant>, GraphWidget *gwidget, bool oldVersion = false);
@@ -127,10 +132,12 @@ public:
 	GraphWidget *parent;
 	QString GUI;
 	Object_Types itemType;
-	QMap<QString, QList<ParticleInitialConditionItem>>* particleInitialConditions;
+#ifdef GIFMod
+    QMap<QString, QList<ParticleInitialConditionItem>>* particleInitialConditions;
 	QMap<QString, QList<NutrientHalfSaturationConstantItem>>* NutrientHalfSaturationConstants;
 	QMap<QString, QList<ConstituentInitialConditionItem>>* constituentInitialConditions;
-	PropList<Node> props;
+#endif
+    PropList<Node> props;
 	mProp objectType;
 	QList<Edge *> edgeList;
     PropModel<Node> *model; //contains the properties of the node
@@ -168,6 +175,7 @@ private:
 //	GraphWidget *graph;
 //	QMap<QString, QString> warnings, errors;
 	bool bold = false;
+    QuanSet quans;
 
 
 };
