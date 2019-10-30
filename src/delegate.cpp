@@ -240,15 +240,6 @@ void Delegate::setEditorData(QWidget *editor,
 	{
 		QPushButton *pushButton = static_cast<QPushButton*>(editor);
 		pushButton->setText(index.data().toString());
-		if (index.data(DefaultValuesListRole).toStringList()[1].contains("Particle"))
-			QObject::connect(pushButton, SIGNAL(clicked()), this, SLOT(openParticleInitialCondition()));
-		if (index.data(DefaultValuesListRole).toStringList()[1].contains("Constituent"))
-			QObject::connect(pushButton, SIGNAL(clicked()), this, SLOT(openConstituentInitialCondition()));
-		if (index.data(DefaultValuesListRole).toStringList()[1].contains("PlantHalfSaturation"))
-			QObject::connect(pushButton, SIGNAL(clicked()), this, SLOT(openHalfSaturationConstantsPlant()));
-		if (index.data(DefaultValuesListRole).toStringList()[1].contains("exchange parameters"))
-			QObject::connect(pushButton, SIGNAL(clicked()), this, SLOT(openAqueousExchangeParameters()));
-		
 		return;
 	}
 	if (delegateType.contains("Memo"))
@@ -352,6 +343,7 @@ void Delegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 	}	
 	if (delegateType.contains("PushButton"))
 	{
+#ifdef GIFMod
 		if (index.data(DefaultValuesListRole).toStringList()[1].contains("Particle")){
 			return;
             foreach(Node *n , parent->Nodes())
@@ -360,7 +352,7 @@ void Delegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 		}
 		if (index.data(DefaultValuesListRole).toStringList()[1].contains("Constituent"))
             return;
-#ifdef GIFMod
+
         foreach(Node *n , parent->Nodes())
 			if (n->isSelected())
 				model->setData(index, n->cg(), Qt::EditRole);
@@ -432,6 +424,7 @@ void Delegate::updateEditorGeometry(QWidget *editor,
 void Delegate::browserClicked()
 {
 	QString file;
+	QString x = parent->propModel()->data(QModelIndex(), loadIndexandInputMethodRole).toString();
 	if (parent->propModel()->data(QModelIndex(), loadIndexandInputMethodRole) == "Input")
 	{
 		QString a;

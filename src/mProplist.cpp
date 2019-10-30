@@ -112,10 +112,12 @@ mListReadStatus mPropList::GetFromMetaModel(MetaModel &m)
         {
             mProp mP;
             mP.Model = "1";
-            if (m[it->first]->BlockLink == blocklink::block)
-                mP.GuiObject = "Block";
-             else if (m[it->first]->BlockLink == blocklink::link)
-                mP.GuiObject = "Connector";
+			if (m[it->first]->BlockLink == blocklink::block)
+				mP.GuiObject = "Block";
+			else if (m[it->first]->BlockLink == blocklink::link)
+				mP.GuiObject = "Connector";
+			else
+				mP.GuiObject = "Entity";
 
             mP.ObjectType = QString::fromStdString(m[it->first]->Name());
             mP.SubType = "*";
@@ -156,35 +158,40 @@ mListReadStatus mPropList::GetFromMetaModel(MetaModel *m)
     {
         for (map<string,Quan>::iterator it1 = m->GetItem(it->first)->begin(); it1!=m->GetItem(it->first)->end(); it1++)
         {
-            mProp mP;
-            mP.Model = "1";
-            if (m->GetItem(it->first)->BlockLink == blocklink::block)
-                mP.GuiObject = "Block";
-             else if (m->GetItem(it->first)->BlockLink == blocklink::link)
-                mP.GuiObject = "Connector";
+			if (it1->second.AskFromUser())
+			{
+				mProp mP;
+				mP.Model = "1";
+				if (m->GetItem(it->first)->BlockLink == blocklink::block)
+					mP.GuiObject = "Block";
+				else if (m->GetItem(it->first)->BlockLink == blocklink::link)
+					mP.GuiObject = "Connector";
+				else
+					mP.GuiObject = "Entity";
 
-            mP.ObjectType = QString::fromStdString(m->GetItem(it->first)->Name());
-            mP.SubType = "*";
-            mP.Description = QString::fromStdString(it1->second.Description());
-            mP.VariableName = QString::fromStdString(it1->second.GetName());
-            mP.VariableCode = QString::fromStdString(it1->second.GetName());
-            mP.VariableUnit = QString::fromStdString(it1->second.Unit());
-            mP.DefaultUnit = QString::fromStdString(it1->second.DefaultUnit());
-            mP.VariableType = QString::fromStdString(it1->second.InputType());
-            mP.setDefaultValues (QString::fromStdString(it1->second.Default()), mP.VariableUnit, mP.DefaultUnit);
-            mP.Delegate = QString::fromStdString(it1->second.Delegate());
-            mP.Category = QString::fromStdString(it1->second.Category());
-            mP.inputMethod = QString::fromStdString(it1->second.InputType());
-            if (it1->second.ExperimentDependent())
-                mP.ExperimentDependent = "Yes";
-            else
-                mP.ExperimentDependent = "No";
+				mP.ObjectType = QString::fromStdString(m->GetItem(it->first)->Name());
+				mP.SubType = "*";
+				mP.Description = QString::fromStdString(it1->second.Description());
+				mP.VariableName = QString::fromStdString(it1->second.GetName());
+				mP.VariableCode = QString::fromStdString(it1->second.GetName());
+				mP.VariableUnit = QString::fromStdString(it1->second.Unit());
+				mP.DefaultUnit = QString::fromStdString(it1->second.DefaultUnit());
+				mP.VariableType = QString::fromStdString(it1->second.InputType());
+				mP.setDefaultValues(QString::fromStdString(it1->second.Default()), mP.VariableUnit, mP.DefaultUnit);
+				mP.Delegate = QString::fromStdString(it1->second.Delegate());
+				mP.Category = QString::fromStdString(it1->second.Category());
+				mP.inputMethod = "Input";
+				if (it1->second.ExperimentDependent())
+					mP.ExperimentDependent = "Yes";
+				else
+					mP.ExperimentDependent = "No";
 
 
-            mP.DescriptionCode = QString::fromStdString(it1->second.DescriptionCode());
-            mP.Abbreviations = QString::fromStdString(it1->second.Abbreviation()).split(";");
-            mP.set_user_provided(it1->second.AskFromUser());
-            List.append(mP);
+				mP.DescriptionCode = QString::fromStdString(it1->second.DescriptionCode());
+				mP.Abbreviations = QString::fromStdString(it1->second.Abbreviation()).split(";");
+				mP.set_user_provided(it1->second.AskFromUser());
+				List.append(mP);
+			}
         }
     }
 
@@ -195,6 +202,7 @@ mListReadStatus mPropList::GetFromMetaModel(MetaModel *m)
         return (mListReadStatus::readSuccessfully);
     }
 }
+
 
 mListReadStatus mPropList::AppendEntities(QJsonDocument *othertreeitems)
 {
@@ -220,7 +228,7 @@ mListReadStatus mPropList::AppendEntities(QJsonDocument *othertreeitems)
             mP.setDefaultValues (innerjsonobj["default"].toString(), mP.VariableUnit, mP.DefaultUnit);
             mP.Delegate = innerjsonobj["delegate"].toString();
             mP.Category = innerjsonobj["categoty"].toString();
-            mP.inputMethod = innerjsonobj["inputtype"].toString();
+            mP.inputMethod = "Input";
             if (innerjsonobj["experiment_dependent"].toString().toLower() == "true" )
                 mP.ExperimentDependent = "Yes";
             else

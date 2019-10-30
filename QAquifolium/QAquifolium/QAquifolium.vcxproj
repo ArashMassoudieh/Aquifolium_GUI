@@ -68,7 +68,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <AdditionalIncludeDirectories>C:\Projects\jsoncpp\include;C:\Projects\Aquifolium\armadillo-header;C:\Projects\Aquifolium\include\GA;C:\Projects\Aquifolium\include;C:\Projects\Aquifolium_GUI\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ARMA_USE_LAPACK;ARMA_USE_BLAS;Aquifolium;QT_version;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARMA_USE_LAPACK;ARMA_USE_BLAS;Aquifolium;QT_version;Win_Version;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -78,7 +78,11 @@
       <AdditionalDependencies>blas_win64_MT.lib;lapack_win64_MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "C:\Projects\Aquifolium\lapack-blas_lib_win64\*.dll" "$(OutDir)"</Command>
+      <Command>copy "C:\Projects\Aquifolium\lapack-blas_lib_win64\*.dll" "$(OutDir)"
+if not exist "$(OutDir)resources" mkdir $(OutDir)resources
+if not exist "$(OutDir)resources\icons" mkdir $(OutDir)resources\icons
+copy "C:\Projects\Aquifolium_GUI\resources\*.*" "$(OutDir)resources\"
+copy "C:\Projects\Aquifolium_GUI\resources\icons\*.*" "$(OutDir)resources\icons"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -88,7 +92,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <AdditionalIncludeDirectories>C:\Projects\jsoncpp\include;C:\Projects\Aquifolium\armadillo-header;C:\Projects\Aquifolium\include\GA;C:\Projects\Aquifolium\include;C:\Projects\Aquifolium_GUI\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ARMA_USE_LAPACK;ARMA_USE_BLAS;Aquifolium;QT_version;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARMA_USE_LAPACK;ARMA_USE_BLAS;Aquifolium;QT_version;Win_Version;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -98,7 +102,11 @@
       <AdditionalDependencies>blas_win64_MT.lib;lapack_win64_MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "C:\Projects\Aquifolium\lapack-blas_lib_win64\*.dll" "$(OutDir)"</Command>
+      <Command>copy "C:\Projects\Aquifolium\lapack-blas_lib_win64\*.dll" "$(OutDir)"
+if not exist "$(OutDir)resources" mkdir $(OutDir)resources
+if not exist "$(OutDir)resources\icons" mkdir $(OutDir)resources\icons
+copy "C:\Projects\Aquifolium_GUI\resources\*.*" "$(OutDir)resources\"
+copy "C:\Projects\Aquifolium_GUI\resources\icons\*.*" "$(OutDir)resources\icons"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -142,7 +150,7 @@
     <ClCompile Include="..\..\..\jsoncpp\src\lib_json\json_value.cpp" />
     <ClCompile Include="..\..\..\jsoncpp\src\lib_json\json_writer.cpp" />
     <ClCompile Include="..\..\src\colorScheme.cpp" />
-    <ClCompile Include="..\..\src\Command.cpp" />
+    <ClCompile Include="..\..\src\CCommand.cpp" />
     <ClCompile Include="..\..\src\csvEditor.cpp" />
     <ClCompile Include="..\..\src\CustomPlotZoom.cpp" />
     <ClCompile Include="..\..\src\delegate.cpp" />
@@ -173,6 +181,7 @@
     <ClCompile Include="..\..\src\texToHtml.cpp" />
     <ClCompile Include="..\..\src\treeitem.cpp" />
     <ClCompile Include="..\..\src\treemodel.cpp" />
+    <ClCompile Include="..\..\src\tth_source.c" />
     <ClCompile Include="..\..\src\UnitTextBox3.cpp" />
     <ClCompile Include="..\..\src\utility_funcs.cpp" />
     <ClCompile Include="..\..\src\XString.cpp" />
@@ -225,7 +234,7 @@
     <ClInclude Include="..\..\..\jsoncpp\include\json\version.h" />
     <ClInclude Include="..\..\..\jsoncpp\include\json\writer.h" />
     <ClInclude Include="..\..\include\colorScheme.h" />
-    <ClInclude Include="..\..\include\Command.h" />
+    <ClInclude Include="..\..\include\CCommand.h" />
     <ClInclude Include="..\..\include\edge.h" />
     <ClInclude Include="..\..\include\entity.h" />
     <ClInclude Include="..\..\include\enums.h" />

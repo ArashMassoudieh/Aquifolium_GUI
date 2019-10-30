@@ -17,7 +17,7 @@
 #include "XString.h"
 //#include "helpWindow.h"
 #include "colorScheme.h"
-#include "Command.h"
+#include "CCommand.h"
 #include "plotWindow.h"
 #include <QJsonObject>
 #include <QJsonDocument>

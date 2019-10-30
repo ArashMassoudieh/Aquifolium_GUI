@@ -1,5 +1,5 @@
 
-#include "Command.h"
+#include "CCommand.h"
 #include "utility_funcs.h"
 #include "node.h"
 #include "edge.h"

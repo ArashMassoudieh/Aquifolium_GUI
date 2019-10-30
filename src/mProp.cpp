@@ -53,7 +53,9 @@ bool mProp::operator==(const mProp &mP) const
 		return false;
 	for (int i = 0; i < QL.size(); ++i)
 		if ((QL[i] != "*") && (mPQL[i] != "*") && (QL[i].toLower() != mPQL[i].toLower()))
+		{
 			return false;
+		}
 	return r;
 }
 

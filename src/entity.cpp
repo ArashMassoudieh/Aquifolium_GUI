@@ -8,10 +8,11 @@
 #include "PropList.h"
 #include "utility_funcs.h"
 
-Entity::Entity(const QString _type, QString _name, GraphWidget *_parent)
+Entity::Entity(const QString _type, QString _name, GraphWidget *_parent, const QString &ObjectType)
 {
  	parent = _parent;
-	
+	if (parent->metamodel()->GetItem(_type.toStdString()))
+		quans = *parent->metamodel()->GetItem(_type.toStdString());
 	objectType = parent->ModelSpace;//'*';
 	objectType.GuiObject = "Entity";
 	GUI = "Entity";
@@ -19,8 +20,8 @@ Entity::Entity(const QString _type, QString _name, GraphWidget *_parent)
 
 	QList <mProp> QL;
     QL = (*parent->mList).GetList();
-    objectType.ObjectType = "Settings";
-    objectType.SubType = _type;
+    objectType.ObjectType = _type;
+    objectType.SubType = _name;
     mProp filter;
 	filter = objectType;
 	QStringList a = (*parent->mList).filter(filter).SubTypes();
@@ -52,7 +53,7 @@ Entity::Entity(const QString _type, QString _name, GraphWidget *_parent)
 	props.parent = this;
 	model = new PropModel<Entity>(this);
 	parent->Entities.append(this);
-	parent->treeModel->add(this);
+	parent->treeModel->add(this, ObjectType);
 	changed();
 	parent->log(QString("One %1 created, name:%2.").arg(_type).arg(_name));
 }

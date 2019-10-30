@@ -49,6 +49,7 @@ public:
 	void addTracer(Node *node);
 	void add(Edge *edge);
 	void add(Entity *entity);
+	void add(Entity* entity, const QString& Branch);
 	void refresh(QString part = "All");
 //	void collapsAll(const TreeItem *);
 //	TreeItem *root() const 
@@ -56,7 +57,7 @@ public:
 //		return rootItem;
 //	}
 #ifdef Aquifolium
-    TreeItem *rootItem, *settings, *blocks, *connectors;
+    TreeItem *rootItem, *settings, *blocks, *connectors, *sources;
     QVector<TreeItem*> mainbranches;
 #endif
 #ifdef GIFMOD	

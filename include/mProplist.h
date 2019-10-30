@@ -32,6 +32,7 @@ public:
     mListReadStatus GetFromMetaModel(MetaModel &m);
     mListReadStatus GetFromMetaModel(MetaModel *m);
     mListReadStatus AppendEntities(QJsonDocument *othertreeitems);
+	QString delegate(const string type);
     mListReadStatus getconfigfromfile(QString filename, GraphWidget *GW);
     QStringList Models(const mProp &mP = '*') const;
 	QStringList GuiObjects(const mProp &mP = '*') const;

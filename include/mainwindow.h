@@ -49,7 +49,7 @@ private:
     QModelIndex addParameterIndex(const QModelIndex &index = QModelIndex());
     void addParameter(QAction* item = nullptr);
     void addProjectExplorerTreeItem(TreeModel *model = nullptr, const QString name = "", const QModelIndex = QModelIndex());
-
+	bool BuildObjectsToolBar(); 
 
     //plots:
     void plotObservationData(CBTC data = CBTC(), QString name = "");
@@ -70,6 +70,7 @@ private:
 private slots:
     void onaddlink();
     void onaddblock();
+	void onaddsource(); 
     void on_action_Save_triggered();
     void on_actionZoom_In_triggered();
     void on_actionZoom_Out_triggered();

@@ -28,8 +28,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     fileExtension = "aqfm";
-    modelfilename = qApp->applicationDirPath().toStdString() + "/resources/power_reservoirs.qnt";
-    entitiesfilename = qApp->applicationDirPath().toStdString() + "/resources/entities.json";
+#ifndef Win_Version
+	modelfilename = qApp->applicationDirPath().toStdString() + "/resources/power_reservoirs.qnt";
+	entitiesfilename = qApp->applicationDirPath().toStdString() + "/resources/entities.json";
+#else
+	modelfilename = qApp->applicationDirPath().toStdString() + "/resources/power_reservoirs_rules_source.json";
+	entitiesfilename = qApp->applicationDirPath().toStdString() + "/resources/entities.json";
+#endif // !Win_Version
+
+	
 
     system.GetQuanTemplate(modelfilename);
     ui->setupUi(this);
@@ -67,32 +74,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
 
     ui->verticalLayout_3->addWidget(diagramview);
-    for (unsigned int i=0; i<system.GetAllBlockTypes().size(); i++)
-    {
-        qDebug()<<QString::fromStdString(system.GetAllBlockTypes()[i]);
-        QAction* action = new QAction(this);
-        action->setObjectName(QString::fromStdString(system.GetAllBlockTypes()[i]));
-        QIcon icon;
-        icon.addFile(QString::fromStdString(qApp->applicationDirPath().toStdString()+"/resources/Icons/"+system.GetModel(system.GetAllBlockTypes()[i])->IconFileName()), QSize(), QIcon::Normal, QIcon::Off);
-        action->setIcon(icon);
-        ui->mainToolBar->addAction(action);
-        action->setText(QString::fromStdString(system.GetAllBlockTypes()[i]));
-        connect(action,SIGNAL(triggered()),this,SLOT(onaddblock()));
-    }
-    ui->mainToolBar->addSeparator();
-    for (unsigned int i=0; i<system.GetAllLinkTypes().size(); i++)
-    {
-        qDebug()<<QString::fromStdString(system.GetAllLinkTypes()[i]);
-        QAction* action = new QAction(this);
-        action->setCheckable(true);
-        action->setObjectName(QString::fromStdString(system.GetAllLinkTypes()[i]));
-        QIcon icon;
-        icon.addFile(QString::fromStdString(qApp->applicationDirPath().toStdString()+"/resources/Icons/"+system.GetModel(system.GetAllLinkTypes()[i])->IconFileName()), QSize(), QIcon::Normal, QIcon::Off);
-        action->setIcon(icon);
-        ui->mainToolBar->addAction(action);
-        action->setText(QString::fromStdString(system.GetAllLinkTypes()[i]));
-        connect(action,SIGNAL(triggered()),this,SLOT(onaddlink()));
-    }
+    
+	BuildObjectsToolBar();
 
     connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(on_action_Save_triggered()));
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(on_action_Open_triggered()));
@@ -112,6 +95,52 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(diagramview, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(on_projectExplorer_customContextMenuRequested(const QPoint &)));
 
+}
+
+bool MainWindow::BuildObjectsToolBar()
+{
+	for (unsigned int i = 0; i < system.GetAllBlockTypes().size(); i++)
+	{
+		qDebug() << QString::fromStdString(system.GetAllBlockTypes()[i]);
+		QAction* action = new QAction(this);
+		action->setObjectName(QString::fromStdString(system.GetAllBlockTypes()[i]));
+		QIcon icon;
+		icon.addFile(QString::fromStdString(qApp->applicationDirPath().toStdString() + "/resources/Icons/" + system.GetModel(system.GetAllBlockTypes()[i])->IconFileName()), QSize(), QIcon::Normal, QIcon::Off);
+		action->setIcon(icon);
+		ui->mainToolBar->addAction(action);
+		action->setText(QString::fromStdString(system.GetAllBlockTypes()[i]));
+		connect(action, SIGNAL(triggered()), this, SLOT(onaddblock()));
+	}
+	ui->mainToolBar->addSeparator();
+	for (unsigned int i = 0; i < system.GetAllLinkTypes().size(); i++)
+	{
+		qDebug() << QString::fromStdString(system.GetAllLinkTypes()[i]);
+		QAction* action = new QAction(this);
+		action->setCheckable(true);
+		action->setObjectName(QString::fromStdString(system.GetAllLinkTypes()[i]));
+		QIcon icon;
+		icon.addFile(QString::fromStdString(qApp->applicationDirPath().toStdString() + "/resources/Icons/" + system.GetModel(system.GetAllLinkTypes()[i])->IconFileName()), QSize(), QIcon::Normal, QIcon::Off);
+		action->setIcon(icon);
+		ui->mainToolBar->addAction(action);
+		action->setText(QString::fromStdString(system.GetAllLinkTypes()[i]));
+		connect(action, SIGNAL(triggered()), this, SLOT(onaddlink()));
+	}
+	ui->mainToolBar->addSeparator();
+	for (unsigned int i = 0; i < system.GetAllSourceTypes().size(); i++)
+	{
+		qDebug() << QString::fromStdString(system.GetAllSourceTypes()[i]);
+		QAction* action = new QAction(this);
+		action->setCheckable(true);
+		action->setObjectName(QString::fromStdString(system.GetAllSourceTypes()[i]));
+		QIcon icon;
+		icon.addFile(QString::fromStdString(qApp->applicationDirPath().toStdString() + "/resources/Icons/" + system.GetModel(system.GetAllSourceTypes()[i])->IconFileName()), QSize(), QIcon::Normal, QIcon::Off);
+		action->setIcon(icon);
+		ui->mainToolBar->addAction(action);
+		action->setText(QString::fromStdString(system.GetAllSourceTypes()[i]));
+		connect(action, SIGNAL(triggered()), this, SLOT(onaddsource()));
+	}
+
+	return true; 
 }
 
 bool MainWindow::ReadEntitiesJson() {
@@ -154,9 +183,17 @@ void MainWindow::onaddblock()
     QObject* obj = sender();
     counts[obj->objectName()]=counts[obj->objectName()]+1;
     qDebug()<<"block added! " << obj->objectName();
-    qDebug()<<"creating new AqflmBlockItem";
     Node* item = new Node(diagramview,obj->objectName(),obj->objectName() + QString::number(counts[obj->objectName()]),int(diagramview->scene()->width()/2), int(diagramview->scene()->height()/2));
     item->seticonfilename(qApp->applicationDirPath()+"/resources/Icons/"+QString::fromStdString(system.GetModel(obj->objectName().toStdString())->IconFileName()));
+
+}
+
+void MainWindow::onaddsource()
+{
+	QObject* obj = sender();
+	counts[obj->objectName()] = counts[obj->objectName()] + 1;
+	qDebug() << "source added! " << obj->objectName();
+	Entity* item = new Entity(obj->objectName(), obj->objectName() + QString::number(counts[obj->objectName()]), diagramview,"Sources");
 
 }
 

@@ -4,6 +4,7 @@
 #include "PropList.h"
 #include "PropModel.h"
 #include "GWidget.h"
+#include "QuanSet.h"
 //class mPropList;
 
 //enum EntityType {Precipitation, Inflow, Buildup, Environmental, ExternalFlux, Observation, Parameters, Constituents};
@@ -17,7 +18,7 @@ class Entity //: public QGraphicsItem
 {
 public:
     //Node(GraphWidget *Widget);
-    Entity(const QString _type, QString _name = "No Name", GraphWidget *_parent = nullptr);
+    Entity(const QString _type, QString _name = "No Name", GraphWidget *_parent = nullptr, const QString &ObjectType="Settings");
 	Entity(const Entity &);
 	~Entity() {
 		delete model;
@@ -162,4 +163,5 @@ signals :
 	void changed();
 
 private:
+	QuanSet quans;
 };
