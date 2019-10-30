@@ -8,6 +8,7 @@ QT       += core gui opengl printsupport
 CONFIG += c++14
 INCLUDEPATH += ../Aquifolium/include
 INCLUDEPATH += ../jsoncpp/include/
+INCLUDEPATH += include/
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -29,8 +30,7 @@ DEFINES += QT_DEPRECATED_WARNINGS QT_version Aquifolium DEBUG
 
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
+    src/mainwindow.cpp \
     ../Aquifolium/src/Block.cpp \
     ../Aquifolium/src/BTC.cpp \
     ../Aquifolium/src/BTCSet.cpp \
@@ -52,43 +52,53 @@ SOURCES += \
     ../jsoncpp/src/lib_json/json_value.cpp \
     ../jsoncpp/src/lib_json/json_valueiterator.inl \
     ../jsoncpp/src/lib_json/json_writer.cpp \
-    diagramviewer.cpp \
-    edge.cpp \
-    GWidget.cpp \
-    node.cpp \
-    utility_funcs.cpp \
-    XString.cpp \
-    mProp.cpp \
-    mProplist.cpp \
-    PropList.cpp \
-    PropListItem.cpp \
-    PropModel.cpp \
-    colorScheme.cpp \
-    Command.cpp \
-    treeitem.cpp \
-    treemodel.cpp \
-    ray.cpp \
-    entity.cpp \
-    plotWindow.cpp \
-    process.cpp \
-    gridWindow.cpp \
-    results.cpp \
-    helpWindow.cpp \
-    CustomPlotZoom.cpp \
-    qcustomplot.cpp \
-    texToHtml.cpp \
-    tth_source.c \
-    scriptExport.cpp \
-    delegate.cpp \
-    UnitTextBox3.cpp \
-    runtimeWindow.cpp \
-    slndetailswindow.cpp \
-    csvEditor.cpp \
-    TableWidgetDateItem.cpp \
-    logwindow.cpp
+    src/diagramviewer.cpp \
+    src/edge.cpp \
+    src/GWidget.cpp \
+    src/node.cpp \
+    src/utility_funcs.cpp \
+    src/XString.cpp \
+    src/mProp.cpp \
+    src/mProplist.cpp \
+    src/PropList.cpp \
+    src/PropListItem.cpp \
+    src/PropModel.cpp \
+    src/colorScheme.cpp \
+    src/Command.cpp \
+    src/treeitem.cpp \
+    src/treemodel.cpp \
+    src/ray.cpp \
+    src/entity.cpp \
+    src/plotWindow.cpp \
+    src/process.cpp \
+    src/gridWindow.cpp \
+    src/results.cpp \
+    src/helpWindow.cpp \
+    src/CustomPlotZoom.cpp \
+    src/qcustomplot.cpp \
+    src/texToHtml.cpp \
+    src/tth_source.c \
+    src/scriptExport.cpp \
+    src/delegate.cpp \
+    src/UnitTextBox3.cpp \
+    src/runtimeWindow.cpp \
+    src/slndetailswindow.cpp \
+    src/csvEditor.cpp \
+    src/TableWidgetDateItem.cpp \
+    src/logwindow.cpp \
+    src/main.cpp \
+    ../Aquifolium/src/Source.cpp \
+    ../Aquifolium/src/Rule.cpp \
+    ../Aquifolium/src/Objective_Function_Set.cpp \
+    ../Aquifolium/src/Objective_Function.cpp \
+    ../Aquifolium/src/Precipitation.cpp \
+    ../Aquifolium/src/Condition.cpp \
+    ../Aquifolium/src/Parameter_Set.cpp \
+    ../Aquifolium/src/Parameter.cpp \
+    ../Aquifolium/src/ErrorHandler.cpp
 
 HEADERS += \
-        mainwindow.h \
+    include/mainwindow.h \
     ../Aquifolium/include/Block.h \
     ../Aquifolium/include/BTC.h \
     ../Aquifolium/include/BTCSet.h \
@@ -120,58 +130,58 @@ HEADERS += \
     ../jsoncpp/include/json/writer.h \
     ../jsoncpp/src/lib_json/json_tool.h \
     ../jsoncpp/src/lib_json/version.h.in \
-    diagramviewer.h \
-    edge.h \
-    enums.h \
-    GWidget.h \
-    mProp.h \
-    mProplist.h \
-    node.h \
-    utility_funcs.h \
-    XString.h \
-    PropList.h \
-    PropListItem.h \
-    PropModel.h \
-    multiValues.h \
-    logwindow.h \
-    colorScheme.h \
-    Command.h \
-    treeitem.h \
-    treemodel.h \
-    ray.h \
-    entity.h \
-    plotWindow.h \
-    process.h \
-    gridWindow.h \
-    results.h \
-    helpWindow.h \
-    CustomPlotZoom.h \
-    qcustomplot.h \
-    navigationList.h \
-    variant.h \
-    texfonts.h \
-    texToHtml.h \
-    delegate.h \
-    UnitTextBox.h \
-    UnitTextBox2.h \
-    UnitTextBox3.h \
-    folders.h \
-    runtimeWindow.h \
-    slndetailswindow.h \
-    csvEditor.h \
-    helpWindow.h \
-    TableWidgetDateItem.h
+    include/diagramviewer.h \
+    include/edge.h \
+    include/enums.h \
+    include/GWidget.h \
+    include/mProp.h \
+    include/mProplist.h \
+    include/node.h \
+    include/utility_funcs.h \
+    include/XString.h \
+    include/PropList.h \
+    include/PropListItem.h \
+    include/PropModel.h \
+    include/multiValues.h \
+    include/logwindow.h \
+    include/colorScheme.h \
+    include/Command.h \
+    include/treeitem.h \
+    include/treemodel.h \
+    include/ray.h \
+    include/entity.h \
+    include/plotWindow.h \
+    include/process.h \
+    include/gridWindow.h \
+    include/results.h \
+    include/helpWindow.h \
+    include/CustomPlotZoom.h \
+    include/qcustomplot.h \
+    include/navigationList.h \
+    include/variant.h \
+    include/texfonts.h \
+    include/texToHtml.h \
+    include/delegate.h \
+    include/UnitTextBox.h \
+    include/UnitTextBox2.h \
+    include/UnitTextBox3.h \
+    include/folders.h \
+    include/runtimeWindow.h \
+    include/slndetailswindow.h \
+    include/csvEditor.h \
+    include/helpWindow.h \
+    include/TableWidgetDateItem.h
 
 FORMS += \
-        mainwindow.ui \
-    logwindow.ui \
-    plotwindow.ui \
-    gridWindow.ui \
-    helpWindow.ui \
-    runtimeWindow.ui \
-    slndetailswindow.ui \
-    csvEditor.ui \
-    helpWindow.ui
+    forms/mainwindow.ui \
+    forms/logwindow.ui \
+    forms/plotwindow.ui \
+    forms/gridWindow.ui \
+    forms/helpWindow.ui \
+    forms/runtimeWindow.ui \
+    forms/slndetailswindow.ui \
+    forms/csvEditor.ui \
+    forms/helpWindow.ui
 
 # LAPACK — Linear Algebra PACKage lib and include locations
 
