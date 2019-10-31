@@ -36,7 +36,6 @@ SOURCES += \
     ../Aquifolium/src/BTCSet.cpp \
     ../Aquifolium/src/DistributionNUnif.cpp \
     ../Aquifolium/src/Expression.cpp \
-    ../Aquifolium/src/Link.cpp \
     ../Aquifolium/src/Matrix.cpp \
     ../Aquifolium/src/Matrix_arma.cpp \
     ../Aquifolium/src/MetaModel.cpp \
@@ -64,7 +63,6 @@ SOURCES += \
     src/PropListItem.cpp \
     src/PropModel.cpp \
     src/colorScheme.cpp \
-    src/Command.cpp \
     src/treeitem.cpp \
     src/treemodel.cpp \
     src/ray.cpp \
@@ -95,7 +93,12 @@ SOURCES += \
     ../Aquifolium/src/Condition.cpp \
     ../Aquifolium/src/Parameter_Set.cpp \
     ../Aquifolium/src/Parameter.cpp \
-    ../Aquifolium/src/ErrorHandler.cpp
+    ../Aquifolium/src/ErrorHandler.cpp \
+    src/CCommand.cpp \
+    ../Aquifolium/src/Link.cpp \
+    src/expEditor.cpp \
+    src/statusviewer.cpp \
+    src/expressioneditor.cpp
 
 HEADERS += \
     include/mainwindow.h \
@@ -170,7 +173,10 @@ HEADERS += \
     include/slndetailswindow.h \
     include/csvEditor.h \
     include/helpWindow.h \
-    include/TableWidgetDateItem.h
+    include/TableWidgetDateItem.h \
+    include/expEditor.h \
+    include/statusviewer.h \
+    include/expressioneditor.h
 
 FORMS += \
     forms/mainwindow.ui \

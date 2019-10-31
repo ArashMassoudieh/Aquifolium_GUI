@@ -6,6 +6,7 @@
 #include "node.h"
 #include <QJsonObject>
 
+
 class GraphWidget;
 class Node;
 
@@ -90,6 +91,7 @@ private:
 //	PropList<Edge> props;
 	bool intersects(double x, double y);
     QString connector_type = "";
+    QuanSet quans;
 };
 /*
 bool twoLineIntersect(QPoint p1, QPoint p2, QLine l2){

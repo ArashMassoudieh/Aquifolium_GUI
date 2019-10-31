@@ -15,11 +15,10 @@
 //#include "logwindow.h"
 #include "qtextedit.h"
 #include <utility_funcs.h>
+#include "expEditor.h"
+#include "node.h"
 
 #ifdef GIFMOD
-#include "expEditor.h"
-
-#include "node.h"
 #include "ParticleWindow.h"
 #include "ConstituentWindow.h"
 #include "ConstituentWindowPlant.h"
@@ -251,11 +250,8 @@ void Delegate::setEditorData(QWidget *editor,
 	if (delegateType.contains("expressionEditor"))
 	{   
 
-#ifdef GIFMOD
 		expEditor* expressionEditor = static_cast<expEditor*>(editor);
-		
 		expressionEditor->setText(index.model()->data(index, Qt::EditRole).toString());
-#endif
 		return;
 	}
 

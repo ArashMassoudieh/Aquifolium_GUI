@@ -89,7 +89,7 @@ public:
 			}
 		}
 		return r;
-	};
+    }
 	/*QMap<QString, QList<SolidAqueousExchangeParameterItem>>* solidAqueousExchangeParameters;
 	QList<SolidAqueousExchangeParameterItem> &solidAqueousExchangeParameter(QString experimentName = "") const;
 	QList<SolidAqueousExchangeParameterItem> &solidAqueousExchangeParameter(QString experimentName = "");

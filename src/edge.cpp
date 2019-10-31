@@ -19,6 +19,7 @@ Edge::Edge(Node *sourceNode, Node *destNode, QString ctr_type, GraphWidget *_par
     : arrowSize(10)
 {
     setAcceptedMouseButtons(nullptr);
+    quans = *_parent->metamodel()->GetItem(ctr_type.toStdString());
     source = sourceNode;
     dest = destNode;
     connector_type = ctr_type;
