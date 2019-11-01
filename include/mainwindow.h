@@ -71,6 +71,7 @@ private slots:
     void onaddlink();
     void onaddblock();
 	void onaddsource(); 
+	void onaddentity();
     void on_action_Save_triggered();
     void on_actionZoom_In_triggered();
     void on_actionZoom_Out_triggered();

@@ -47,7 +47,8 @@ MainWindow::MainWindow(QWidget *parent) :
     logwindow->append("Program started");
     diagramview = new GraphWidget(this,"Aquifolium","",logwindow,this);
     ReadEntitiesJson();
-    diagramview->mList->AppendEntities(&diagramview->jsondocentities);
+	
+	diagramview->mList->AppendEntities(&diagramview->jsondocentities);
     diagramview->setObjectName(QStringLiteral("DiagramView"));
     diagramview->tableProp = ui->tableView;
 
@@ -126,18 +127,24 @@ bool MainWindow::BuildObjectsToolBar()
 		connect(action, SIGNAL(triggered()), this, SLOT(onaddlink()));
 	}
 	ui->mainToolBar->addSeparator();
-	for (unsigned int i = 0; i < system.GetAllSourceTypes().size(); i++)
+	for (unsigned int j = 0; j < system.QGetAllCategoryTypes().size(); j++)
 	{
-		qDebug() << QString::fromStdString(system.GetAllSourceTypes()[i]);
-		QAction* action = new QAction(this);
-		action->setCheckable(true);
-		action->setObjectName(QString::fromStdString(system.GetAllSourceTypes()[i]));
-		QIcon icon;
-		icon.addFile(QString::fromStdString(qApp->applicationDirPath().toStdString() + "/resources/Icons/" + system.GetModel(system.GetAllSourceTypes()[i])->IconFileName()), QSize(), QIcon::Normal, QIcon::Off);
-		action->setIcon(icon);
-		ui->mainToolBar->addAction(action);
-		action->setText(QString::fromStdString(system.GetAllSourceTypes()[i]));
-		connect(action, SIGNAL(triggered()), this, SLOT(onaddsource()));
+		string typecategory = system.QGetAllCategoryTypes()[j].toStdString();
+		if (typecategory!="Blocks" && typecategory !="Connectors")
+			for (unsigned int i = 0; i < system.GetAllTypesOf(typecategory).size(); i++)
+			{
+				string type = system.GetAllTypesOf(typecategory)[i];
+				QAction* action = new QAction(this);
+				action->setCheckable(true);
+				action->setObjectName(QString::fromStdString(type));
+				QIcon icon;
+				icon.addFile(QString::fromStdString(qApp->applicationDirPath().toStdString() + "/resources/Icons/" + system.GetModel(type)->IconFileName()), QSize(), QIcon::Normal, QIcon::Off);
+				action->setIcon(icon);
+				ui->mainToolBar->addAction(action);
+				action->setText(QString::fromStdString(type));
+				connect(action, SIGNAL(triggered()), this, SLOT(onaddentity()));
+			}
+		ui->mainToolBar->addSeparator();
 	}
 
 	return true; 
@@ -194,6 +201,15 @@ void MainWindow::onaddsource()
 	counts[obj->objectName()] = counts[obj->objectName()] + 1;
 	qDebug() << "source added! " << obj->objectName();
 	Entity* item = new Entity(obj->objectName(), obj->objectName() + QString::number(counts[obj->objectName()]), diagramview,"Sources");
+
+}
+
+void MainWindow::onaddentity()
+{
+	QObject* obj = sender();
+	counts[obj->objectName()] = counts[obj->objectName()] + 1;
+	qDebug() << "entity added! " << obj->objectName();
+	Entity* item = new Entity(obj->objectName(), obj->objectName() + QString::number(counts[obj->objectName()]), diagramview, QString::fromStdString(system.GetMetaModel()->GetItem(obj->objectName().toStdString())->CategoryType()));
 
 }
 

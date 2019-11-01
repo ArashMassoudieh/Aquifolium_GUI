@@ -51,6 +51,7 @@ public:
 	void add(Entity *entity);
 	void add(Entity* entity, const QString& Branch);
 	void refresh(QString part = "All");
+	bool rootContains(QString s);
 //	void collapsAll(const TreeItem *);
 //	TreeItem *root() const 
 //	{

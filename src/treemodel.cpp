@@ -22,94 +22,27 @@ TreeModel::TreeModel(GraphWidget *parent ) : QAbstractItemModel(parent)
         //sources = new TreeItem("Sources", parent, TreeItem::Type::Sources);//, rootItem);
         rootNodes << settings << blocks << connectors;// << sources;
         rootItem->addChild(rootNodes);
-        TreeItem* source = entityParentItemfromType("Sources");
-        treeItems.insert(QString("Sources"), source);
-            rootItem->addChild(source);
-
-#endif
-#ifdef GIFMOD
-		if (parent->applicationShortName == "GIFMod")
+		for (int i = 0; i < Parent->mainWindow->GetSystem()->QGetAllCategoryTypes().size(); i++)
 		{
-            settings = new TreeItem("Settings", parent, TreeItem::Type::SettingsBranch);//, rootItem);
-			projectSettings = new TreeItem("Project settings", parent, TreeItem::Type::Item);//, settings);
-			climateSettings = new TreeItem("Climate settings", parent, TreeItem::Type::Item);//, settings);
-			solverSettings = new TreeItem("Solver settings", parent, TreeItem::Type::Item);//, settings);
-			blocks = new TreeItem("Blocks", parent, TreeItem::Type::NodesBranch);//, rootItem);
-			connectors = new TreeItem("Connectors", parent, TreeItem::Type::EdgesBranch);//, rootItem);
-			waterQuality = new TreeItem("Water quality", parent, TreeItem::Type::WaterQualityBranch);//, rootItem);
-			particle = new TreeItem("Particles", parent, TreeItem::Type::Branch);//, waterQuality);
-			constituent = new TreeItem("Constituents", parent, TreeItem::Type::Branch);//, waterQuality);
-			evapotranspiration = new TreeItem("Evapotranspirations", parent, TreeItem::Type::Branch);//, waterQuality);
-			buildUp = new TreeItem("Build-ups", parent, TreeItem::Type::Branch);//, waterQuality);
-            extrenalFlux = new
-                    TreeItem("External fluxes", parent, TreeItem::Type::Branch);//, waterQuality);
-			reactions = new TreeItem("Reactions", parent, TreeItem::Type::ReactionsBranch);//, waterQuality);
-			reactionParameter = new TreeItem("Reaction parameters", parent, TreeItem::Type::Branch);//, reactions);
-			//				reaction = new TreeItem("Reaction", parent, TreeItem::Type::Branch, reactions);
-			reactionNetwork = new TreeItem("Reaction network", parent, TreeItem::Type::ReactionNetworkItem);//, reactions);
-			inverseModeling = new TreeItem("Inverse modeling", parent, TreeItem::Type::InverseModelingBranch);//, rootItem);
-			GA = new TreeItem("Genetic algorithm", parent, TreeItem::Type::Item);//, inverseModeling);
-			MCMC = new TreeItem("Markov chain Monte Carlo", parent, TreeItem::Type::Item);//, inverseModeling);
-			parameter = new TreeItem("Parameters", parent, TreeItem::Type::Branch);//, inverseModeling);
-			observed = new TreeItem("Observations", parent, TreeItem::Type::Branch);//, inverseModeling);
-			control = new TreeItem("Control", parent, TreeItem::Type::ControlBranch);//, rootItem);
-			sensor = new TreeItem("Sensors", parent, TreeItem::Type::Branch);
-			objectiveFunction = new TreeItem("Objective functions", parent, TreeItem::Type::Branch);
-			controller = new TreeItem("Controllers", parent, TreeItem::Type::Branch);
-
-			QList<TreeItem*> rootNodes, settingsNodes, waterQualityNodes, reactionsNodes, inverseModelingNodes, controlNodes;
-			rootNodes << settings << blocks << connectors << evapotranspiration << waterQuality << inverseModeling << control;
-			settingsNodes << projectSettings << climateSettings << solverSettings;
-			waterQualityNodes << particle << constituent << buildUp << extrenalFlux << reactions;
-			reactionsNodes << reactionParameter << reactionNetwork;
-			inverseModelingNodes << GA << MCMC << parameter << observed;
-			controlNodes << objectiveFunction << sensor << controller;
-			rootItem->addChild(rootNodes);
-			settings->addChild(settingsNodes);
-			waterQuality->addChild(waterQualityNodes);
-			reactions->addChild(reactionsNodes);
-			inverseModeling->addChild(inverseModelingNodes);
-			control->addChild(controlNodes);
-
+			if (!rootContains(Parent->mainWindow->GetSystem()->QGetAllCategoryTypes()[i]))
+			{
+				TreeItem* treeitem = entityParentItemfromType(Parent->mainWindow->GetSystem()->QGetAllCategoryTypes()[i]);
+				treeItems.insert(Parent->mainWindow->GetSystem()->QGetAllCategoryTypes()[i], treeitem);
+				rootItem->addChild(treeitem);
+			}
 		}
-#endif
-#ifdef GWA
-		if (parent->applicationShortName == "GWA")
-		{
-			rootItem = new TreeItem("Root", parent, TreeItem::Type::Root);// , 0);
-			settings = new TreeItem("Settings", parent, TreeItem::Type::SettingsBranch);//, rootItem);
-			projectSettings = new TreeItem("Project settings", parent, TreeItem::Type::Item);//, settings);
-		//	solver = new TreeItem("Solver", parent, TreeItem::Type::Item);//, settings);
-			wells = new TreeItem("Wells", parent, TreeItem::Type::WellsBranch);//, rootItem);
-			tracers = new TreeItem("Tracers", parent, TreeItem::Type::TracersBranch);//, rootItem);
-/*			waterQuality = new TreeItem("Water Quality", parent, TreeItem::Type::WaterQualityBranch, rootItem);
-			particle = new TreeItem("Particles", parent, TreeItem::Type::Branch, waterQuality);
-			constituent = new TreeItem("Constituents", parent, TreeItem::Type::Branch, waterQuality);
-			buildUp = new TreeItem("Build-ups", parent, TreeItem::Type::Branch, waterQuality);
-			extrenalFlux = new TreeItem("External fluxes", parent, TreeItem::Type::Branch, waterQuality);
-			reactions = new TreeItem("Reactions", parent, TreeItem::Type::ReactionsBranch, waterQuality);
-			reactionParameter = new TreeItem("Reaction parameters", parent, TreeItem::Type::Branch, reactions);
-			//				reaction = new TreeItem("Reaction", parent, TreeItem::Type::Branch, reactions);
-			reactionNetwork = new TreeItem("Reaction Network", parent, TreeItem::Type::ReactionNetworkItem, reactions);
-			*/			inverseModeling = new TreeItem("Inverse modeling", parent, TreeItem::Type::InverseModelingBranch);//, rootItem);
-			GA = new TreeItem("Genetic algorithm", parent, TreeItem::Type::Item);//, inverseModeling);
-			MCMC = new TreeItem("Markov chain Monte Carlo", parent, TreeItem::Type::Item);//, inverseModeling);
-			parameter = new TreeItem("Parameters", parent, TreeItem::Type::Branch);//, inverseModeling);
-			observed = new TreeItem("Observations", parent, TreeItem::Type::Branch);//, inverseModeling);
 
-			QList<TreeItem*> rootNodes, settingsNodes, inverseModelingNodes;
-			rootNodes << settings << wells << tracers << inverseModeling;
-			settingsNodes << projectSettings;// << solver;
-			inverseModelingNodes << GA << MCMC << parameter << observed;
-			rootItem->addChild(rootNodes);
-			settings->addChild(settingsNodes);
-			inverseModeling->addChild(inverseModelingNodes);
-
-		}
 #endif
 
         if (Parent->logW)
             Parent->log("Tree model created.");
+}
+
+bool TreeModel::rootContains(QString s)
+{
+	for (int i = 0; i < rootItem->childCount(); i++)
+		if (rootItem->child(i)->Name() == s) return true; 
+	return false; 
 }
 
 void TreeModel::refresh(QString part)
