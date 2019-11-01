@@ -19,9 +19,12 @@ TreeModel::TreeModel(GraphWidget *parent ) : QAbstractItemModel(parent)
         QList<TreeItem*> rootNodes, settingsNodes;
         QJsonObject jsonobj = parent->jsondocentities.object();
         settings = new TreeItem("Settings", parent, TreeItem::Type::SettingsBranch);//, rootItem);
-		sources = new TreeItem("Sources", parent, TreeItem::Type::Sources);//, rootItem);
-        rootNodes << settings << blocks << connectors << sources;
+        //sources = new TreeItem("Sources", parent, TreeItem::Type::Sources);//, rootItem);
+        rootNodes << settings << blocks << connectors;// << sources;
         rootItem->addChild(rootNodes);
+        TreeItem* source = entityParentItemfromType("Sources");
+        treeItems.insert(QString("Sources"), source);
+            rootItem->addChild(source);
 
 #endif
 #ifdef GIFMOD
@@ -38,7 +41,8 @@ TreeModel::TreeModel(GraphWidget *parent ) : QAbstractItemModel(parent)
 			constituent = new TreeItem("Constituents", parent, TreeItem::Type::Branch);//, waterQuality);
 			evapotranspiration = new TreeItem("Evapotranspirations", parent, TreeItem::Type::Branch);//, waterQuality);
 			buildUp = new TreeItem("Build-ups", parent, TreeItem::Type::Branch);//, waterQuality);
-			extrenalFlux = new TreeItem("External fluxes", parent, TreeItem::Type::Branch);//, waterQuality);
+            extrenalFlux = new
+                    TreeItem("External fluxes", parent, TreeItem::Type::Branch);//, waterQuality);
 			reactions = new TreeItem("Reactions", parent, TreeItem::Type::ReactionsBranch);//, waterQuality);
 			reactionParameter = new TreeItem("Reaction parameters", parent, TreeItem::Type::Branch);//, reactions);
 			//				reaction = new TreeItem("Reaction", parent, TreeItem::Type::Branch, reactions);
@@ -535,8 +539,13 @@ TreeItem * TreeModel::entityParentItemfromType(QString type) const
 #ifdef Aquifolium
     if (type == "Settings")
         parent = settings;
-	if (type == "Sources")
-		parent = sources; 
+    else if (treeItems.count(type)==0)
+        parent = new TreeItem(type,Parent,TreeItem::Type::Branch);
+
+    else
+        parent = treeItems[type];
+
+
 #endif
 #ifdef GIFMOD
 	if (type == "Sensor")
@@ -580,7 +589,12 @@ void TreeModel::add(Entity *entity)
 void TreeModel::add(Entity* entity, const QString &Branch)
 {
 	TreeItem* parent = entityParentItemfromType(Branch);
-	if (parent) parent->addChild(new TreeItem(entity));
+    if (treeItems.count(Branch)==0 && Branch!="Connectors" && Branch!="Blocks" && Branch !="Settings")
+    {   treeItems.insert(Branch, parent);
+        rootItem->addChild(parent);
+    }
+    if (parent)
+        parent->addChild(new TreeItem(entity));
 }
 
 

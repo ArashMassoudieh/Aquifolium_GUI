@@ -29,8 +29,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     fileExtension = "aqfm";
 #ifndef Win_Version
-	modelfilename = qApp->applicationDirPath().toStdString() + "/resources/power_reservoirs.qnt";
-	entitiesfilename = qApp->applicationDirPath().toStdString() + "/resources/entities.json";
+    modelfilename = qApp->applicationDirPath().toStdString() + "/resources/power_reservoirs_rules_source.json";
+    entitiesfilename = qApp->applicationDirPath().toStdString() + "/resources/entities.json";
 #else
 	modelfilename = qApp->applicationDirPath().toStdString() + "/resources/power_reservoirs_rules_source.json";
 	entitiesfilename = qApp->applicationDirPath().toStdString() + "/resources/entities.json";

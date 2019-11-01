@@ -57,7 +57,8 @@ public:
 //		return rootItem;
 //	}
 #ifdef Aquifolium
-    TreeItem *rootItem, *settings, *blocks, *connectors, *sources;
+    TreeItem *rootItem, *settings, *blocks, *connectors;
+    QMap<QString, TreeItem*> treeItems;
     QVector<TreeItem*> mainbranches;
 #endif
 #ifdef GIFMOD	
