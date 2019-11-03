@@ -112,7 +112,7 @@ public:
 	bool trackingUndo = false;
 	void deselectAll(QString items = "Nodes Edges Entities (Entity)") const;
 	void deleteSelected();
-
+	System* GetSystem(); 
 	//names of selected Items
 	QStringList selectedItems()const;
 	QString typeOfSelecetedItems()const;
@@ -208,6 +208,7 @@ public:
     QVariant runCommand(CCommand command); //runs the commands submitted into script window
     QList<QVariant> runCommands(QList<CCommand> &command); //run commands sequentially
     QJsonDocument jsondocentities;
+	QStringList QGetAllObjectsofTypeCategory(QString _type);
 #endif
 
 #ifdef GIFMOD

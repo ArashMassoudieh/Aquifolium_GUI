@@ -41,20 +41,22 @@
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="Dirs.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="Dirs.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <QtInstall>5.12.5</QtInstall>
+    <QtInstall>msvc2017_64</QtInstall>
     <QtModules>charts;core;gui;opengl;printsupport;svg;widgets</QtModules>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <QtInstall>5.12.5</QtInstall>
+    <QtInstall>msvc2017_64</QtInstall>
     <QtModules>charts;core;gui;opengl;printsupport;svg;widgets</QtModules>
   </PropertyGroup>
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
@@ -67,22 +69,22 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <AdditionalIncludeDirectories>C:\Projects\jsoncpp\include;C:\Projects\Aquifolium\armadillo-header;C:\Projects\Aquifolium\include\GA;C:\Projects\Aquifolium\include;C:\Projects\Aquifolium_GUI\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectsDir)\jsoncpp\include;$(ProjectsDir)\Aquifolium\armadillo-header;$(ProjectsDir)\Aquifolium\include\GA;$(ProjectsDir)\Aquifolium\include;$(ProjectsDir)\Aquifolium_GUI\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ARMA_USE_LAPACK;ARMA_USE_BLAS;Aquifolium;QT_version;Win_Version;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Projects\Aquifolium\lapack-blas_lib_win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectsDir)\Aquifolium\lapack-blas_lib_win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>blas_win64_MT.lib;lapack_win64_MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "C:\Projects\Aquifolium\lapack-blas_lib_win64\*.dll" "$(OutDir)"
+      <Command>copy "$(ProjectsDir)\Aquifolium\lapack-blas_lib_win64\*.dll" "$(OutDir)"
 if not exist "$(OutDir)resources" mkdir $(OutDir)resources
 if not exist "$(OutDir)resources\icons" mkdir $(OutDir)resources\icons
-copy "C:\Projects\Aquifolium_GUI\resources\*.*" "$(OutDir)resources\"
-copy "C:\Projects\Aquifolium_GUI\resources\icons\*.*" "$(OutDir)resources\icons"</Command>
+copy "$(ProjectsDir)\Aquifolium_GUI\resources\*.*" "$(OutDir)resources\"
+copy "$(ProjectsDir)\Aquifolium_GUI\resources\icons\*.*" "$(OutDir)resources\icons"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -91,22 +93,22 @@ copy "C:\Projects\Aquifolium_GUI\resources\icons\*.*" "$(OutDir)resources\icons"
       <DebugInformationFormat />
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <AdditionalIncludeDirectories>C:\Projects\jsoncpp\include;C:\Projects\Aquifolium\armadillo-header;C:\Projects\Aquifolium\include\GA;C:\Projects\Aquifolium\include;C:\Projects\Aquifolium_GUI\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectsDir)\jsoncpp\include;$(ProjectsDir)\Aquifolium\armadillo-header;$(ProjectsDir)\Aquifolium\include\GA;$(ProjectsDir)\Aquifolium\include;$(ProjectsDir)\Aquifolium_GUI\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ARMA_USE_LAPACK;ARMA_USE_BLAS;Aquifolium;QT_version;Win_Version;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Projects\Aquifolium\lapack-blas_lib_win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectsDir)\Aquifolium\lapack-blas_lib_win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>blas_win64_MT.lib;lapack_win64_MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "C:\Projects\Aquifolium\lapack-blas_lib_win64\*.dll" "$(OutDir)"
+      <Command>copy "$(ProjectsDir)\Aquifolium\lapack-blas_lib_win64\*.dll" "$(OutDir)"
 if not exist "$(OutDir)resources" mkdir $(OutDir)resources
 if not exist "$(OutDir)resources\icons" mkdir $(OutDir)resources\icons
-copy "C:\Projects\Aquifolium_GUI\resources\*.*" "$(OutDir)resources\"
-copy "C:\Projects\Aquifolium_GUI\resources\icons\*.*" "$(OutDir)resources\icons"</Command>
+copy "$(ProjectsDir)\Aquifolium_GUI\resources\*.*" "$(OutDir)resources\"
+copy "$(ProjectsDir)\Aquifolium_GUI\resources\icons\*.*" "$(OutDir)resources\icons"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -118,7 +120,6 @@ copy "C:\Projects\Aquifolium_GUI\resources\icons\*.*" "$(OutDir)resources\icons"
     <ClCompile Include="..\..\..\Aquifolium\src\BTCSet.cpp" />
     <ClCompile Include="..\..\..\Aquifolium\src\Command.cpp" />
     <ClCompile Include="..\..\..\Aquifolium\src\Condition.cpp" />
-    <ClCompile Include="..\..\..\Aquifolium\src\DistributionNUnif.cpp" />
     <ClCompile Include="..\..\..\Aquifolium\src\ErrorHandler.cpp" />
     <ClCompile Include="..\..\..\Aquifolium\src\Expression.cpp" />
     <ClCompile Include="..\..\..\Aquifolium\src\GA\Binary.cpp" />
@@ -197,7 +198,6 @@ copy "C:\Projects\Aquifolium_GUI\resources\icons\*.*" "$(OutDir)resources\icons"
     <ClInclude Include="..\..\..\Aquifolium\include\Expression.h" />
     <ClInclude Include="..\..\..\Aquifolium\include\GA\Binary.h" />
     <ClInclude Include="..\..\..\Aquifolium\include\GA\Distribution.h" />
-    <ClInclude Include="..\..\..\Aquifolium\include\GA\DistributionNUnif.h" />
     <ClInclude Include="..\..\..\Aquifolium\include\GA\GA.h" />
     <ClInclude Include="..\..\..\Aquifolium\include\GA\Individual.h" />
     <ClInclude Include="..\..\..\Aquifolium\include\Link.h" />

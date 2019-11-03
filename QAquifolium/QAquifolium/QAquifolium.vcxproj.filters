@@ -159,9 +159,6 @@
     <ClCompile Include="..\..\..\Aquifolium\src\Condition.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Aquifolium\src\DistributionNUnif.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Aquifolium\src\ErrorHandler.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
@@ -417,9 +414,6 @@
       <Filter>Header Files\core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Aquifolium\include\GA\Distribution.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Aquifolium\include\GA\DistributionNUnif.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Aquifolium\include\GA\GA.h">

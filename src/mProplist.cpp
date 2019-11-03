@@ -223,12 +223,12 @@ mListReadStatus mPropList::AppendEntities(QJsonDocument *othertreeitems)
             mP.VariableName = innerjsonobj["description"].toString();
             mP.VariableCode = innerkey;
             mP.VariableUnit = innerjsonobj["unit"].toString();
-            mP.DefaultUnit = innerjsonobj["default_unit"].toString();
+			mP.DefaultUnit = innerjsonobj["default_unit"].toString();
             mP.VariableType = innerjsonobj["type"].toString();
             mP.setDefaultValues (innerjsonobj["default"].toString(), mP.VariableUnit, mP.DefaultUnit);
-            mP.Delegate = innerjsonobj["delegate"].toString();
+			mP.Delegate = innerjsonobj["delegate"].toString();
             mP.Category = innerjsonobj["categoty"].toString();
-            mP.inputMethod = "Input";
+			mP.inputMethod = "Input";
             if (innerjsonobj["experiment_dependent"].toString().toLower() == "true" )
                 mP.ExperimentDependent = "Yes";
             else

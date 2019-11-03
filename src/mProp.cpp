@@ -177,34 +177,15 @@ QStringList mProp::getList() const
 QList<XString> mProp::DefaultValuesList(mPropList *mPL, mProp* filter, GraphWidget *gWidget) const
 {
 	
-	if (DefaultValues.toLower().contains("add at runtime"))
+	if (DefaultValues.toLower().contains("components"))
 	{
 		QList<XString> r;
-        for (QString s : DefaultValues.split(';'))
-		{
-			if (s.toLower().contains("add at runtime"))
-			{
-				if (s.toLower().contains("particle phases"))
-				{
-                    for (Entity* p : gWidget->entitiesByType("Particle"))
-                        for (QString phase : p->phases())
-							r.append(QString("%1:%2").arg(p->Name()).arg(phase));
-				}
-				else if (s.toLower().contains("constituent phases"))
-				{
-                    for (Entity* c : gWidget->entitiesByType("Constituent"))
-					{
-						r.append(QString("%1:%2").arg(c->Name()).arg("Aqueous"));
-						r.append(QString("%1:%2").arg(c->Name()).arg("Soil"));
-                        for (Entity* p : gWidget->entitiesByType("Particle"))
-                            for (QString phase : p->phases())
-								r.append(QString("%1:%2:%3").arg(c->Name()).arg(p->Name()).arg(phase));
-					}
-				}
-			}
-			else
-				r.append(XString(s, VariableUnit.split(';')[0], VariableUnit.split(';'), DefaultUnit));
-		}
+		r.append("");
+       	QList<XString> list; 
+		for (unsigned int i = 0; i < gWidget->QGetAllObjectsofTypeCategory(DefaultValues.toQString().split(";")[1]).size(); i++)
+			list.append(XString(gWidget->QGetAllObjectsofTypeCategory(DefaultValues.toQString().split(";")[1])[i]));
+		r.append(list);
+		
 		return r;
 	}
 	else if (!DefaultValues.toLower().contains("populate at runtime"))

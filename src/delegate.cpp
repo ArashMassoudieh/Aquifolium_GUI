@@ -172,6 +172,7 @@ void Delegate::setEditorData(QWidget *editor,
 	{
 		UnitTextBox *textBox = static_cast<UnitTextBox*>(editor);
 		textBox->setXString(index.model()->data(index, XStringEditRole).toStringList());
+		textBox->setUnitsList(index.model()->data(index, UnitRole).toStringList());
 		textBox->show();
 		return;
 	}

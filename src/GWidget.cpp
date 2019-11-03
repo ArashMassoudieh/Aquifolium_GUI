@@ -213,6 +213,11 @@ void GraphWidget::deleteSelected()
 	deselectAll();
 }
 
+System* GraphWidget::GetSystem()
+{
+	return mainWindow->GetSystem();
+}
+
 QStringList GraphWidget::selectedItems()const
 {
 	QStringList names;
@@ -4007,6 +4012,24 @@ QString GraphWidget::experimentName()
         return "All experiments";
 }
 
+
+QStringList GraphWidget::QGetAllObjectsofTypeCategory(QString _type)
+{
+	if (_type == "Blocks")
+		return nodeNames();
+	if (_type == "Connectors")
+		return edgeNames();
+	else
+	{
+		QStringList out; 
+		for (unsigned int i = 0; i < Entities.size(); i++)
+			if (QString::fromStdString(Entities[i]->Quans()->CategoryType()) == _type)
+				out.append(Entities[i]->Name());
+		return out; 
+	}
+
+}
+
 #ifdef GIFMOD
 bool GraphWidget::wizard(QList<command> &commands)
 {
@@ -4045,6 +4068,7 @@ QList<QVariant> GraphWidget::runCommands(QList<CCommand> &commands)
 
 	return results; 
 }
+
 
 QVariant GraphWidget::runCommand(CCommand command)
 {

@@ -17,59 +17,60 @@ struct SolidAqueousExchangeParameterItem
 class Entity //: public QGraphicsItem
 {
 public:
-    //Node(GraphWidget *Widget);
-    Entity(const QString _type, QString _name = "No Name", GraphWidget *_parent = nullptr, const QString &ObjectType="Settings");
-	Entity(const Entity &);
+	//Node(GraphWidget *Widget);
+	Entity(const QString _type, QString _name = "No Name", GraphWidget* _parent = nullptr, const QString& ObjectType = "Settings");
+	Entity(const Entity&);
 	~Entity() {
 		delete model;
 	}
 
-    Entity operator=(const Entity &);
-//	*Entity *Entity::operator=(const Entity *);
-	//void setProp(const QString _Property, const QString _Value);
+	Entity operator=(const Entity&);
+	//	*Entity *Entity::operator=(const Entity *);
+		//void setProp(const QString _Property, const QString _Value);
 	mPropList getmList(const mProp _filter = '*') const;
-    void setName(const QString _name);
-    void setObjectType(const mProp _type);
-    mProp ObjectType() const{ return objectType; }
-    mProp Filter() const { return ObjectType(); }
+	void setName(const QString _name);
+	void setObjectType(const mProp _type);
+	mProp ObjectType() const { return objectType; }
+	mProp Filter() const { return ObjectType(); }
 
-	QVariant getProp(const QString &propName, const int role = Qt::DisplayRole) const;
-	XString getValue(const QString &propName) const;
-	bool setProp(const QString &propName, const QVariant &Value, const int role = Qt::EditRole);
-	bool setValue(const QString &propName, const XString &Value);
-	mPropList *mList() const;
+	QVariant getProp(const QString& propName, const int role = Qt::DisplayRole) const;
+	XString getValue(const QString& propName) const;
+	bool setProp(const QString& propName, const QVariant& Value, const int role = Qt::EditRole);
+	bool setValue(const QString& propName, const XString& Value);
+	mPropList* mList() const;
 
-//	mPropList propList;
+	//	mPropList propList;
 
 	QString Name() const {
-        return name;}
-//	EntityType Type;
+		return name;
+	}
+	//	EntityType Type;
 	QString GUI;
 	mProp objectType;
-	GraphWidget *parent;
+	GraphWidget* parent;
 	mProp Filter();
-	PropModel<Entity> *model;
+	PropModel<Entity>* model;
 	PropList<Entity> props;
-    QString newEntityName(const QString &type, const QString name, QList<Entity*> *entities) const;
-    QString newEntityName(const QString name, QStringList &existingNames) const;
+	QString newEntityName(const QString& type, const QString name, QList<Entity*>* entities) const;
+	QString newEntityName(const QString name, QStringList& existingNames) const;
 	QString name;
 	QMap<QString, QVariant> compact() const;
-    void compact(QJsonObject &json) const;
-    static Entity* unCompact(QMap<QString, QVariant>, GraphWidget *gwidget, bool oldVersionLoad = false);
-    static Entity* unCompact(const QJsonObject &jsonobj, GraphWidget *gwidget, bool oldVersionLoad = false);
-	static Entity* unCompact10(QMap<QString, QVariant>, GraphWidget *gwidget);
+	void compact(QJsonObject& json) const;
+	static Entity* unCompact(QMap<QString, QVariant>, GraphWidget* gwidget, bool oldVersionLoad = false);
+	static Entity* unCompact(const QJsonObject& jsonobj, GraphWidget* gwidget, bool oldVersionLoad = false);
+	static Entity* unCompact10(QMap<QString, QVariant>, GraphWidget* gwidget);
 	QList<mProp> get_props();
 	QStringList codes() const;
 	QMap<QString, condition> variableNameConditions() const;
 	void update(bool fast = false);
-	bool setObjectSubType(const QString &subType);
-	XString val(const QString & code) const;
+	bool setObjectSubType(const QString& subType);
+	XString val(const QString& code) const;
 
 	QMap<QString, QString> warnings, errors;
 	bool errorDetected() const { return (errors.count()) ? true : false; }
 	QStringList variableNames() const;
 	QString experimentName() const;
-	QStringList phases(QString model = "") const{
+	QStringList phases(QString model = "") const {
 		QStringList r;
 		if (model == "")
 			model = objectType.SubType;
@@ -89,7 +90,8 @@ public:
 			}
 		}
 		return r;
-    }
+	}
+	QuanSet* Quans() { return &quans; }
 	/*QMap<QString, QList<SolidAqueousExchangeParameterItem>>* solidAqueousExchangeParameters;
 	QList<SolidAqueousExchangeParameterItem> &solidAqueousExchangeParameter(QString experimentName = "") const;
 	QList<SolidAqueousExchangeParameterItem> &solidAqueousExchangeParameter(QString experimentName = "");

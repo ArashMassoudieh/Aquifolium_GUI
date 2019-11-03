@@ -16,7 +16,7 @@ Entity::Entity(const QString _type, QString _name, GraphWidget *_parent, const Q
 	objectType = parent->ModelSpace;//'*';
 	objectType.GuiObject = "Entity";
 	GUI = "Entity";
-
+	
 
 	QList <mProp> QL;
     QL = (*parent->mList).GetList();
