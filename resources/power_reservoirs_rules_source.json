@@ -149,7 +149,7 @@
       "expression": "(Width.s/ManningCoeff.s)*(Slope.s^0.5)*(Storage.s/Area.s^(1.666667))*86400",
       "includeinoutput": "true",
       "applylimit": "true",
-      "ask_user": "true"
+      "ask_user": "false"
     }
   },
   "Reservoir_link_rule": {
