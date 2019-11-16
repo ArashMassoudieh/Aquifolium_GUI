@@ -54,7 +54,7 @@ public:
 	objectColor color;
 	Node operator=(const Node &);
 	void addEdge(Edge *edge);
-
+    QString toCommand();
     QList<Edge *> edges() const { return edgeList; }
 
 	mPropList getmList(const mProp &_filter) const;

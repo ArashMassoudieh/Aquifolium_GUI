@@ -1165,3 +1165,17 @@ void Node::copyProps(QString sourceExperiment, QString destExperiment)
 		NutrientHalfSaturationConstants->insert(destExperiment, NutrientHalfSaturationConstants->operator[](sourceExperiment));
 #endif
 }
+
+
+QString Node::toCommand()
+{
+    QString cmd;
+    cmd += QString("create block;");
+    for (map<string,Quan>::iterator it=quans.begin(); it!=quans.end(); it++)
+    {
+        if (it!=quans.begin()) cmd += ", ";
+        cmd += QString::fromStdString(it->first) + "=" + QString::fromStdString(it->second.GetProperty());
+
+    }
+
+}
