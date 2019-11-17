@@ -1177,5 +1177,5 @@ QString Node::toCommand()
         cmd += QString::fromStdString(it->first) + "=" + QString::fromStdString(it->second.GetProperty());
 
     }
-
+	return cmd; 
 }
