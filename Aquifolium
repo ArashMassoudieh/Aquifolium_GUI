@@ -1,3 +1,2 @@
 create block;Area=0, ManningCoeff=0, Name=Catchment1, Precipitation=, Slope=0, Storage=0, Width=0
 create block;Name=Reservoir1, Storage=0, inflow=, reservoir_coeff=0, reservoir_power=0
-create link;from = Reservoir1,to = Catchment1, Name=Reservoir1 - Catchment1, flow=

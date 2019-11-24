@@ -64,6 +64,7 @@ Edge::Edge(Node *sourceNode, Node *destNode, QString ctr_type, GraphWidget *_par
 
 	parent->MainGraphicsScene->addItem(this);
 	name = QString("%1 - %2").arg(sourceNode->Name()).arg(destNode->Name());
+    setName(name);
     if (parent->treeModel)
         parent->treeModel->add(this);
 	parent->log(QString("One %3 connector from %1 to %2 created.").arg(sourceNode->Name()).arg(destNode->Name()).arg(objectType.SubType));
