@@ -34,7 +34,6 @@ SOURCES += \
     ../Aquifolium/src/Block.cpp \
     ../Aquifolium/src/BTC.cpp \
     ../Aquifolium/src/BTCSet.cpp \
-    ../Aquifolium/src/DistributionNUnif.cpp \
     ../Aquifolium/src/Expression.cpp \
     ../Aquifolium/src/Matrix.cpp \
     ../Aquifolium/src/Matrix_arma.cpp \
@@ -98,14 +97,14 @@ SOURCES += \
     ../Aquifolium/src/Link.cpp \
     src/expEditor.cpp \
     src/statusviewer.cpp \
-    src/expressioneditor.cpp
+    src/expressioneditor.cpp \
+    ../Aquifolium/src/GA/DistributionNUnif.cpp
 
 HEADERS += \
     include/mainwindow.h \
     ../Aquifolium/include/Block.h \
     ../Aquifolium/include/BTC.h \
     ../Aquifolium/include/BTCSet.h \
-    ../Aquifolium/include/DistributionNUnif.h \
     ../Aquifolium/include/Expression.h \
     ../Aquifolium/include/Link.h \
     ../Aquifolium/include/Matrix.h \

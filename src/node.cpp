@@ -640,6 +640,7 @@ bool Node::setName(const QString &Name){
     foreach (Node *N , parent->Nodes())
 		if (N->Name() == Name) return false;
 	name = Name;
+
 	changed();
 	return true;
 }

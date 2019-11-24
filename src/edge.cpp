@@ -751,3 +751,19 @@ void Edge::copyProps(QString sourceExperiment, QString destExperiment)
 	if (props.list.keys().contains(sourceExperiment))
 		props.list[destExperiment] = props.list[sourceExperiment];
 }
+
+QString Edge::toCommand()
+{
+    QString cmd;
+    cmd += QString("create link;");
+    cmd += "from = " + source->Name();
+    cmd += ",";
+    cmd += "to = " + dest->Name();
+    for (map<string,Quan>::iterator it=quans.begin(); it!=quans.end(); it++)
+    {
+        cmd += ", ";
+        cmd += QString::fromStdString(it->first) + "=" + QString::fromStdString(it->second.GetProperty());
+
+    }
+    return cmd;
+}

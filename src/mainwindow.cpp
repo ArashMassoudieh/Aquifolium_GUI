@@ -343,6 +343,10 @@ bool MainWindow::saveModel_to_script(QString& fileName)
 	{
 		str<<n->toCommand();
 	}
+    for (Edge* e : diagramview->Edges())
+    {
+        str<<e->toCommand();
+    }
 	for (QStringList::Iterator it = str.begin(); it != str.end(); ++it)
 		out << *it << "\n";
 	fOut.flush();
