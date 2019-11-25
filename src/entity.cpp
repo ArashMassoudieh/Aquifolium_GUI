@@ -50,6 +50,7 @@ Entity::Entity(const QString _type, QString _name, GraphWidget *_parent, const Q
 	}
 	else
 		name = newEntityName(_type, _name, &parent->Entities);
+    setName(name);
 	props.parent = this;
 	model = new PropModel<Entity>(this);
 	parent->Entities.append(this);
@@ -59,8 +60,9 @@ Entity::Entity(const QString _type, QString _name, GraphWidget *_parent, const Q
 }
 void Entity::setName(const QString _name)
 {
-	if (name == _name) return;
-	name = _name;
+    quans["Name"].SetProperty(_name.toStdString());
+    if (name == _name) return;
+    name = _name;
 	changed();
 }
 QString Entity::newEntityName(const QString &type, const QString name, QList<Entity*> *entities) const
@@ -647,3 +649,17 @@ void Entity::copyProps(QString sourceExperiment, QString destExperiment)
 	if (props.list.keys().contains(sourceExperiment))
 		props.list[destExperiment] = props.list[sourceExperiment];
 }
+
+QString Entity::toCommand()
+{
+    QString cmd;
+    cmd += QString("create ") + ObjectType().ObjectType + ";";
+    for (map<string,Quan>::iterator it=quans.begin(); it!=quans.end(); it++)
+    {
+        if (it!=quans.begin()) cmd += ", ";
+        cmd += QString::fromStdString(it->first) + "=" + QString::fromStdString(it->second.GetProperty());
+
+    }
+    return cmd;
+}
+

@@ -136,7 +136,7 @@ bool MainWindow::BuildObjectsToolBar()
 			{
 				string type = system.GetAllTypesOf(typecategory)[i];
 				QAction* action = new QAction(this);
-				action->setCheckable(true);
+                action->setCheckable(false);
 				action->setObjectName(QString::fromStdString(type));
 				QIcon icon;
 				icon.addFile(QString::fromStdString(qApp->applicationDirPath().toStdString() + "/resources/Icons/" + system.GetModel(type)->IconFileName()), QSize(), QIcon::Normal, QIcon::Off);
@@ -346,6 +346,10 @@ bool MainWindow::saveModel_to_script(QString& fileName)
     for (Edge* e : diagramview->Edges())
     {
         str<<e->toCommand();
+    }
+    for (Entity* en: diagramview->Entities)
+    {
+        str<<en->toCommand();
     }
 	for (QStringList::Iterator it = str.begin(); it != str.end(); ++it)
 		out << *it << "\n";
