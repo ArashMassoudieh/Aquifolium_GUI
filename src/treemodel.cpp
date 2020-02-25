@@ -536,7 +536,14 @@ void TreeModel::Populate(GraphWidget *parent)
     QJsonObject jsonobj = parent->jsondocentities.object();
     foreach (QString key, jsonobj.keys()){
         QJsonValue val = jsonobj[key];
-        new Entity("Settings", val.toObject()["description"].toString(), parent);
+		QJsonObject valobj = val.toObject(); 
+		new Entity("Settings", val.toObject()["description"].toString(), parent);
+		for (QJsonObject::Iterator it = valobj.begin(); it != valobj.end(); it++)
+		{
+			QuanSet quanset(valobj);
+			qDebug() << it.key(); 
+			parent->entity("Settings")->Quans()->Append(quanset);
+		}
     }
 
 }

@@ -6,11 +6,11 @@
     "icon": {
       "filename": "catchment.png"
     },
-   "Name": {
+    "Name": {
       "type": "string",
       "ask_user": "true"
-    }, 
-   "Storage": {
+    },
+    "Storage": {
       "type": "balance",
       "massbalance": "true",
       "flow": "flow",
@@ -26,14 +26,14 @@
       "description": "precipitation time series",
       "ask_user": "true",
       "delegate": "ComboBox",
-	  "default": "components;Sources"
+      "default": "components;Sources"
     },
     "Area": {
       "type": "value",
       "description": "Catchment area",
       "ask_user": "true",
       "delegate": "UnitBox",
-	  "unit": "m~^2"
+      "unit": "m~^2"
     },
     "Slope": {
       "type": "value",
@@ -83,11 +83,50 @@
     "icon": {
       "filename": "reservoir.png"
     },
-   "Name": {
+    "Name": {
       "type": "string",
       "ask_user": "true"
-    }, 
-   "Storage": {
+    },
+    "Storage": {
+      "type": "balance",
+      "massbalance": "true",
+      "flow": "flow",
+      "inflow": "inflow",
+      "includeinoutput": "true",
+      "description": "Initial Storage",
+      "ask_user": "true"
+    },
+    "reservoir_power": {
+      "type": "value",
+      "default": "2",
+      "description": "Reservoir rating curve power",
+      "ask_user": "true"
+    },
+    "reservoir_coeff": {
+      "type": "value",
+      "default": "10",
+      "description": "Reservoir rating curve coefficient",
+      "ask_user": "true"
+    },
+    "inflow": {
+      "type": "timeseries",
+      "includeinoutput": "true",
+      "applylimit": "true",
+      "description": "Flow rate time series",
+      "ask_user": "true"
+    }
+  },
+  "Special_Reservoir": {
+    "type": "block",
+    "typecategory": "Blocks",
+    "icon": {
+      "filename": "reservoir.png"
+    },
+    "Name": {
+      "type": "string",
+      "ask_user": "true"
+    },
+    "Storage": {
       "type": "balance",
       "massbalance": "true",
       "flow": "flow",
@@ -226,7 +265,7 @@
     "Name": {
       "type": "string",
       "ask_user": "true"
-    }, 
+    },
     "flow": {
       "type": "timeseries",
       "includeinoutput": "true",

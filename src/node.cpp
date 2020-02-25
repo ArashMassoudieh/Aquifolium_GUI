@@ -639,6 +639,7 @@ bool Node::setName(const QString &Name){
 	if (Name == "") return false;
     foreach (Node *N , parent->Nodes())
 		if (N->Name() == Name) return false;
+	quans["Name"].SetProperty(Name.toStdString()); 
 	name = Name;
     quans["Name"].SetProperty(Name.toStdString());
 	changed();

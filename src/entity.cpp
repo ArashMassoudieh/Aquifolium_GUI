@@ -13,6 +13,11 @@ Entity::Entity(const QString _type, QString _name, GraphWidget *_parent, const Q
  	parent = _parent;
 	if (parent->metamodel()->GetItem(_type.toStdString()))
 		quans = *parent->metamodel()->GetItem(_type.toStdString());
+
+	if (_type == "Settings")
+	{
+	
+	}
 	objectType = parent->ModelSpace;//'*';
 	objectType.GuiObject = "Entity";
 	GUI = "Entity";

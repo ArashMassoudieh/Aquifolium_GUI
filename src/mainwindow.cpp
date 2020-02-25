@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	
 
     system.GetQuanTemplate(modelfilename);
+	
     ui->setupUi(this);
     qDebug()<<qApp->applicationDirPath();
     logWindow* logwindow = new logWindow(this);
