@@ -540,12 +540,17 @@ void TreeModel::Populate(GraphWidget *parent)
 		new Entity("Settings", val.toObject()["description"].toString(), parent);
 		QJsonObject properties = val.toObject()["properties"].toObject(); 
 		QStringList keys = properties.keys(); 
+		Quan NameQuan;
+		NameQuan.SetType(Quan::_type::string);
+		NameQuan.SetProperty(val.toObject()["description"].toString().toStdString());
+		parent->entity(val.toObject()["description"].toString())->Quans()->Append("Name", NameQuan);
 		for (int i=0; i<properties.keys().count(); i++)
 		{
 			Quan quan(properties.value(properties.keys()[i]).toObject());
 			quan.SetName(properties.keys()[i].toStdString());
-			//take it from here: 
+			parent->entity(val.toObject()["description"].toString())->Quans()->Append(quan.GetName(), quan);
 		}
+		
     }
 
 }

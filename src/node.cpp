@@ -589,6 +589,67 @@ Node::Node(const Node &E)
 	model = new PropModel<Node>(this);
 }
 
+Node::Node(const QString& command)
+{
+	QStringList Props = command.split(",");
+	model = new PropModel<Node>(this);
+	quans = *gwidget->metamodel()->GetItem(_type.toStdString());
+	setFlag(ItemIsMovable);
+	setFlag(ItemIsSelectable);
+	setFlag(ItemSendsGeometryChanges);
+	setAcceptHoverEvents(true);
+	setCacheMode(DeviceCoordinateCache);
+	setZValue(1);
+	parent = gwidget;
+
+	itemType = Object_Types::Block;
+	setX(x);
+	setY(y);
+
+	width = max(minW, _width);
+	height = max(minH, _height);
+	objectType = parent->ModelSpace;//'*';
+	objectType.GuiObject = "Block";
+	GUI = "Block";
+
+	QString type = (_type == "") ?
+		(*parent->mList).filter(objectType).ObjectTypes()[0] :
+		_type;
+	objectType.ObjectType = type;
+	mProp filter;
+	filter = objectType;
+	if ((*parent->mList).filter(filter).SubTypes().size())
+		objectType.SubType = (*parent->mList).filter(filter).SubTypes()[0];
+	props.parent = this;
+	setProp("x", x);
+	setProp("y", y);
+	setProp("Superficial height", height);
+	setProp("Superficial width", width);
+	parent->MainGraphicsScene->addItem(this);
+	QList<Node*> nodenames = parent->Nodes();
+	setName(newNodeName((_name == "No Name") ? ObjectType().SubType : _name, nodenames));
+#ifdef GWA
+	if (_type == "Tracer")
+		parent->treeModel->addTracer(this);
+	else if (_type == "Well")
+		parent->treeModel->addWell(this);
+	else
+#endif
+		if (parent->treeModel)
+			parent->treeModel->add(this);
+	parent->log(QString("One block created, type:%1, name:%2.").arg(_type).arg(_name));
+	//QObject::connect(this, SIGNAL(changed()), this, SLOT(sendChange()));
+
+
+
+	if (Props[0] == "create block")
+	{
+		for (int i = 1; i < Props.count());
+
+
+	}
+}
+
 Node Node::operator=(const Node &E)
 {
 	setFlags(E.flags());

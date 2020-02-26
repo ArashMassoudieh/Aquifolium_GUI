@@ -84,6 +84,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSave_as_JSON, SIGNAL(triggered()),this,SLOT(on_actionSave_As_JSON_triggered()));
     connect(ui->actionSave_As, SIGNAL(triggered()),this,SLOT(on_actionSave_As_triggered()),Qt::UniqueConnection);
 	connect(ui->actionSave_as_Script, SIGNAL(triggered()), this, SLOT(on_actionSave_As_Script_triggered()), Qt::UniqueConnection);
+	connect(ui->actionLoad_Script, SIGNAL(triggered()), this, SLOT(on_actionLoad_Script_triggered()), Qt::UniqueConnection);
     connect(ui->action_Zoom_All, SIGNAL(triggered()),this,SLOT(on_actionZoom_All_triggered()));
     connect(ui->actionRun, SIGNAL(triggered()),this, SLOT(on_actionRun_Model_triggered()));
     connect(ui->treeView,SIGNAL(clicked(const QModelIndex&)),this, SLOT(on_projectExplorer_clicked(const QModelIndex&)));
@@ -249,6 +250,17 @@ void MainWindow::on_actionSave_As_Script_triggered()
 	saveModel_to_script(fileName);
 }
 
+void MainWindow::on_actionLoad_Script_triggered()
+{
+	QFileDialog filedlg(this, "Load Script ...");
+	QString selectedfilter;
+	QString fileName = filedlg.getOpenFileName(this,
+		tr("Load ").append(""), diagramview->modelPathname(),
+		tr("Script (*.scr);;All Files (*)"), &selectedfilter);
+
+	loadModel_from_script(fileName);
+}
+
 void MainWindow::on_actionSave_As_triggered()
 {
     QFileDialog filedlg(this,"Save As ...");
@@ -357,6 +369,12 @@ bool MainWindow::saveModel_to_script(QString& fileName)
 	fOut.flush();
 	fOut.close(); 
 	return true;
+}
+
+
+bool MainWindow::loadModel_from_script(QString &fileName)
+{
+	return true; 
 }
 
 bool MainWindow::saveModel(QString &fileName)

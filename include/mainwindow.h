@@ -34,7 +34,8 @@ private:
     string entitiesfilename;//the name of the JSON containing general properities of the system
     TreeModel *projModel;
     QStringList recentFiles;
-    bool saveModel(QString &fileName);
+	bool loadModel_from_script(QString &fileName);
+	bool saveModel(QString &fileName);
 	bool saveModel_to_script(QString& fileName);
     bool saveModelJson(QString &fileName);
     void setModelFileName(const QString &fileName);
@@ -81,6 +82,7 @@ private slots:
     void on_action_Open_triggered();
     void on_actionSave_As_triggered();
 	void on_actionSave_As_Script_triggered();
+	void on_actionLoad_Script_triggered();
     void on_actionSave_As_JSON_triggered();
     void on_actionRun_Model_triggered();
     void on_projectExplorer_clicked(const QModelIndex& index);
