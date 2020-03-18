@@ -589,16 +589,18 @@ Node::Node(const Node &E)
 	model = new PropModel<Node>(this);
 }
 
-Node::Node(GraphWidget* gwidget, const QString& command)
+Node::Node(GraphWidget* gwidget, const QString& command, bool dummy)
 {
-	QStringList Props = command.split(",");
-	if (Props[0] == "create block")
+    QStringList cmdsplit = command.split(";");
+    if (cmdsplit[0] == "create block")
 	{
-		QMap<QString, QString> propsmap;
-		for (int i = 1; i < Props.count(); i++)
+        QStringList Props = cmdsplit[1].split(",");
+        QMap<QString, QString> propsmap;
+        for (int i = 0; i < Props.count(); i++)
 		{
 			QStringList Prop = Props[i].split("=");
-			propsmap[Prop[0]] = Prop[1];
+            if (Prop.size()>1)
+                propsmap[Prop[0].trimmed()] = Prop[1].trimmed();
 		}
 		model = new PropModel<Node>(this);
 		QString _type = propsmap["Type"];
@@ -607,7 +609,7 @@ Node::Node(GraphWidget* gwidget, const QString& command)
 		int _width = propsmap["width"].toShort();
 		int _height = propsmap["height"].toShort();
 		QString _name = propsmap["Name"];
-		quans = *gwidget->metamodel()->GetItem(_type);
+        quans = *gwidget->metamodel()->GetItem(_type.toStdString());
 		setFlag(ItemIsMovable);
 		setFlag(ItemIsSelectable);
 		setFlag(ItemSendsGeometryChanges);
@@ -1265,3 +1267,4 @@ QString Node::toCommand()
     }
 	return cmd; 
 }
+

@@ -374,7 +374,30 @@ bool MainWindow::saveModel_to_script(QString& fileName)
 
 bool MainWindow::loadModel_from_script(QString &fileName)
 {
-	return true; 
+    QFile fIn(fileName);
+    if (!fIn.open(QIODevice::ReadOnly)) {
+        QMessageBox::information(this, tr("Unable to open file"),
+            fIn.errorString());
+        return false;
+    }
+
+    QTextStream stream( &fIn );
+    QString line;
+    int i = 1;
+    while ( !stream.atEnd() ) {
+        line = stream.readLine(); // line of text excluding '\n'
+        if (line.split(";").size()>1)
+        {
+            if (line.split(";")[0] == "create block")
+            {
+                Node* item = new Node(diagramview,line, true);
+                //item->seticonfilename(qApp->applicationDirPath()+"/resources/Icons/"+QString::fromStdString(system.GetModel(obj->objectName().toStdString())->IconFileName()));
+            }
+        }
+    }
+    fIn.close();
+
+    return true;
 }
 
 bool MainWindow::saveModel(QString &fileName)
