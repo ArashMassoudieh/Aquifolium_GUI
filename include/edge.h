@@ -15,6 +15,7 @@ class Edge : public QGraphicsItem
 public:
     Edge(Node *sourceNode, Node *destNode, QString connect_type, GraphWidget *_parent = nullptr);
 	Edge(const Edge &);
+    Edge(const QString &cmd, GraphWidget *_parent);
     Edge operator=(const Edge &);
 	~Edge() {
 		delete model;

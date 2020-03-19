@@ -382,20 +382,32 @@ bool MainWindow::loadModel_from_script(QString &fileName)
     }
 
     QTextStream stream( &fIn );
-    QString line;
+    QStringList Lines;
+    while(!fIn.atEnd())
+        Lines.append(fIn.readLine());
     int i = 1;
-    while ( !stream.atEnd() ) {
-        line = stream.readLine(); // line of text excluding '\n'
-        if (line.split(";").size()>1)
+    for (int i=0; i<Lines.count(); i++ ) {
+        if (Lines[i].split(";").size()>1)
         {
-            if (line.split(";")[0] == "create block")
+            if (Lines[i].split(";")[0] == "create block")
             {
-                Node* item = new Node(diagramview,line, true);
+                Node* item = new Node(diagramview,Lines[i], true);
+                //item->seticonfilename(qApp->applicationDirPath()+"/resources/Icons/"+QString::fromStdString(system.GetModel(obj->objectName().toStdString())->IconFileName()));
+            }
+        }
+    }
+     for (int i=0; i<Lines.count(); i++ ) {
+        if (Lines[i].split(";").size()>1)
+        {
+            if (Lines[i].split(";")[0] == "create link")
+            {
+                Edge* item = new Edge(Lines[i],diagramview);
                 //item->seticonfilename(qApp->applicationDirPath()+"/resources/Icons/"+QString::fromStdString(system.GetModel(obj->objectName().toStdString())->IconFileName()));
             }
         }
     }
     fIn.close();
+
 
     return true;
 }

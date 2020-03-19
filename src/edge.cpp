@@ -757,6 +757,7 @@ QString Edge::toCommand()
 {
     QString cmd;
     cmd += QString("create link;");
+    cmd += "Type = " + this->GetObjectType() + ",";
     cmd += "from = " + source->Name();
     cmd += ",";
     cmd += "to = " + dest->Name();
@@ -768,3 +769,94 @@ QString Edge::toCommand()
     }
     return cmd;
 }
+
+Edge::Edge(const QString &command, GraphWidget *_parent)
+    : arrowSize(10)
+{
+    setAcceptedMouseButtons(nullptr);
+
+    QStringList cmdsplit = command.split(";");
+    if (cmdsplit[0] == "create link")
+    {
+        QStringList Props = cmdsplit[1].split(",");
+        QMap<QString, QString> propsmap;
+        for (int i = 0; i < Props.count(); i++)
+        {
+            QStringList Prop = Props[i].split("=");
+            if (Prop.size()>1)
+                propsmap[Prop[0].trimmed()] = Prop[1].trimmed();
+        }
+        parent = _parent;
+        Node* sourceNode = parent->node(propsmap["from"]);
+        Node* destNode = parent->node(propsmap["to"]);
+        if (sourceNode==nullptr)
+        {
+            qDebug() << "Node [" + propsmap["from"] + "] does not exist!";
+            return;
+        }
+        if (destNode==nullptr)
+        {
+            qDebug() << "Node [" + propsmap["to"] + "] does not exist!";
+            return;
+        }
+        string _type = propsmap["Type"].toStdString();
+        if (_type=="")
+        {
+            qDebug() << "Type has not been specified!";
+            return;
+        }
+        quans = *_parent->metamodel()->GetItem(_type);
+        source = sourceNode;
+        dest = destNode;
+        connector_type = QString::fromStdString(_type);
+        model = new PropModel<Edge>(this);
+        QList<Node*> list;
+        foreach (Edge *e , source->edgeList)
+        {
+            if (e->sourceNode() == source) list.append(e->destNode());
+            if (e->destNode() == source) list.append(e->sourceNode());
+        }
+        if (list.contains(dest))
+        {
+            _parent->log(QString("Duplicate connector from %1 to %2.").arg(source->Name()).arg(dest->Name()));
+            delete this;
+            return;
+        }
+        source->addEdge(this);
+        dest->addEdge(this);
+        adjust();
+        GUI = "Connector";
+        itemType = Object_Types::Connector;
+    //	sourceID = source->ID;
+    //	destID = dest->ID;
+
+        setFlag(ItemIsSelectable);
+        setFlag(ItemSendsGeometryChanges);
+
+        setCacheMode(DeviceCoordinateCache);
+        setZValue(1);
+
+        objectType = parent->ModelSpace; // mProp('*');
+        objectType.GuiObject = "Connector";
+        objectType.ObjectType = connector_type;
+        QList <mProp> QL;
+        QL = (*parent->mList).GetList();
+        if ((*parent->mList).filter(objectType).ObjectTypes().size())
+            objectType.ObjectType = (*parent->mList).filter(objectType).ObjectTypes()[0];
+
+        updateSubType();
+
+        props.parent = this;
+        for (QMap<QString, QString>::iterator i = propsmap.begin(); i != propsmap.end(); ++i)
+            setProp(i.key(), i.value());
+
+        parent->MainGraphicsScene->addItem(this);
+        name = QString("%1 - %2").arg(sourceNode->Name()).arg(destNode->Name());
+        setName(name);
+        if (parent->treeModel)
+            parent->treeModel->add(this);
+        parent->log(QString("One %3 connector from %1 to %2 created.").arg(sourceNode->Name()).arg(destNode->Name()).arg(objectType.SubType));
+        changed();
+    }
+}
+

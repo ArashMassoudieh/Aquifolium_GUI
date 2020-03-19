@@ -649,15 +649,7 @@ Node::Node(GraphWidget* gwidget, const QString& command, bool dummy)
 
 		parent->MainGraphicsScene->addItem(this);
 		QList<Node*> nodenames = parent->Nodes();
-		setName(newNodeName((_name == "No Name") ? ObjectType().SubType : _name, nodenames));
-#ifdef GWA
-		if (_type == "Tracer")
-			parent->treeModel->addTracer(this);
-		else if (_type == "Well")
-			parent->treeModel->addWell(this);
-		else
-#endif
-
+        setName(_name);
 
 		if (parent->treeModel)
 			parent->treeModel->add(this);
