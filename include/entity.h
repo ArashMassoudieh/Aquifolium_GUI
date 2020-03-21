@@ -20,6 +20,7 @@ public:
 	//Node(GraphWidget *Widget);
 	Entity(const QString _type, QString _name = "No Name", GraphWidget* _parent = nullptr, const QString& ObjectType = "Settings");
 	Entity(const Entity&);
+    Entity(const QString cmd, GraphWidget* _parent);
 	~Entity() {
 		delete model;
 	}
